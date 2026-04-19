@@ -1,3 +1,39 @@
+const ZEME = [
+  {title: '🇦🇹 Rakousko', value: 'AT'},
+  {title: '🇧🇪 Belgie', value: 'BE'},
+  {title: '🇧🇬 Bulharsko', value: 'BG'},
+  {title: '🇭🇷 Chorvatsko', value: 'HR'},
+  {title: '🇨🇾 Kypr', value: 'CY'},
+  {title: '🇨🇿 Česko', value: 'CZ'},
+  {title: '🇩🇰 Dánsko', value: 'DK'},
+  {title: '🇪🇪 Estonsko', value: 'EE'},
+  {title: '🇫🇮 Finsko', value: 'FI'},
+  {title: '🇫🇷 Francie', value: 'FR'},
+  {title: '🇩🇪 Německo', value: 'DE'},
+  {title: '🇬🇷 Řecko', value: 'GR'},
+  {title: '🇭🇺 Maďarsko', value: 'HU'},
+  {title: '🇮🇸 Island', value: 'IS'},
+  {title: '🇮🇪 Irsko', value: 'IE'},
+  {title: '🇮🇹 Itálie', value: 'IT'},
+  {title: '🇱🇻 Lotyšsko', value: 'LV'},
+  {title: '🇱🇮 Lichtenštejnsko', value: 'LI'},
+  {title: '🇱🇹 Litva', value: 'LT'},
+  {title: '🇱🇺 Lucembursko', value: 'LU'},
+  {title: '🇲🇹 Malta', value: 'MT'},
+  {title: '🇳🇱 Nizozemsko', value: 'NL'},
+  {title: '🇲🇰 Severní Makedonie', value: 'MK'},
+  {title: '🇳🇴 Norsko', value: 'NO'},
+  {title: '🇵🇱 Polsko', value: 'PL'},
+  {title: '🇵🇹 Portugalsko', value: 'PT'},
+  {title: '🇷🇴 Rumunsko', value: 'RO'},
+  {title: '🇷🇸 Srbsko', value: 'RS'},
+  {title: '🇸🇰 Slovensko', value: 'SK'},
+  {title: '🇸🇮 Slovinsko', value: 'SI'},
+  {title: '🇪🇸 Španělsko', value: 'ES'},
+  {title: '🇸🇪 Švédsko', value: 'SE'},
+  {title: '🇹🇷 Turecko', value: 'TR'},
+]
+
 export default {
   name: 'realizovanyProjekt',
   title: 'Realizovaný projekt',
@@ -10,6 +46,16 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'slug',
+      title: 'URL adresa projektu',
+      type: 'slug',
+      options: {
+        source: 'nazev',
+        maxLength: 96,
+      },
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: 'typ',
       title: 'Typ projektu',
       type: 'string',
@@ -17,13 +63,18 @@ export default {
         list: [
           {title: 'Výměna mládeže', value: 'vymena'},
           {title: 'Tréninkový kurz', value: 'trening'},
+          {title: 'Lokální akce', value: 'lokalni'},
+          {title: 'Jiné', value: 'jine'},
         ],
       },
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'zeme',
       title: 'Země',
       type: 'string',
+      options: {list: ZEME},
+      description: 'Kde projekt proběhl (pouze u zahraničních projektů)',
     },
     {
       name: 'mesto',
@@ -31,15 +82,10 @@ export default {
       type: 'string',
     },
     {
-      name: 'vlajka',
-      title: 'Vlajka (emoji)',
-      type: 'string',
-    },
-    {
       name: 'datum',
-      title: 'Datum (text)',
+      title: 'Kdy projekt proběhl',
       type: 'string',
-      description: 'Např. "3.–13. března 2026"',
+      description: 'Např. "září 2025" nebo "14.–24. září 2025"',
     },
     {
       name: 'pocetUcastniku',
@@ -47,10 +93,24 @@ export default {
       type: 'number',
     },
     {
-      name: 'popis',
-      title: 'Popis / Report',
+      name: 'hlavniFotka',
+      title: 'Hlavní fotka (pro kartu)',
+      type: 'image',
+      options: {hotspot: true},
+    },
+    {
+      name: 'kratkyPopis',
+      title: 'Krátký popis',
       type: 'text',
-      rows: 6,
+      rows: 3,
+      description: 'Stručně, co se tam dělo (zobrazí se na kartě)',
+    },
+    {
+      name: 'dlouhyPopis',
+      title: 'Podrobný popis',
+      type: 'array',
+      of: [{type: 'block'}],
+      description: 'Dlouhý popis projektu pro detail stránku',
     },
     {
       name: 'fotoalbum',
@@ -63,46 +123,50 @@ export default {
           fields: [
             {
               name: 'popisek',
-              title: 'Popisek fotky',
+              title: 'Popisek fotky (volitelné)',
               type: 'string',
             },
           ],
         },
       ],
-      options: {
-        layout: 'grid',
-      },
+      options: {layout: 'grid'},
+      description: 'Fotky z akce',
     },
     {
       name: 'feedbacky',
-      title: 'Feedback účastníků',
+      title: 'Zpětné vazby účastníků',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
             {
+              name: 'jmeno',
+              title: 'Jméno účastníka',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'vek',
+              title: 'Věk (volitelné)',
+              type: 'number',
+            },
+            {
               name: 'text',
               title: 'Text feedbacku',
               type: 'text',
               rows: 3,
+              validation: (Rule) => Rule.required(),
             },
             {
-              name: 'jmeno',
-              title: 'Jméno účastníka',
-              type: 'string',
-            },
-            {
-              name: 'vek',
-              title: 'Věk',
-              type: 'number',
+              name: 'fotka',
+              title: 'Fotka účastníka (volitelné)',
+              type: 'image',
+              options: {hotspot: true},
             },
           ],
           preview: {
-            select: {
-              title: 'jmeno',
-              subtitle: 'text',
-            },
+            select: {title: 'jmeno', subtitle: 'text'},
           },
         },
       ],
@@ -111,8 +175,8 @@ export default {
   preview: {
     select: {
       title: 'nazev',
-      subtitle: 'mesto',
-      media: 'fotoalbum.0',
+      subtitle: 'datum',
+      media: 'hlavniFotka',
     },
   },
 }

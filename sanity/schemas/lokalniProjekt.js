@@ -28,6 +28,18 @@ export default {
       description: 'Jedna věta o projektu',
     },
     {
+      name: 'obdobiOd',
+      title: 'Období — od',
+      type: 'string',
+      description: 'Např. "březen 2026" nebo "jaro 2026"',
+    },
+    {
+      name: 'obdobiDo',
+      title: 'Období — do',
+      type: 'string',
+      description: 'Např. "listopad 2026" (volitelné — pokud projekt stále pokračuje, nech prázdné)',
+    },
+    {
       name: 'hlavniFotka',
       title: 'Hlavní fotka',
       type: 'image',
@@ -82,6 +94,28 @@ export default {
         ],
       },
       initialValue: 'probihajici',
+    },
+    {
+      name: 'galerie',
+      title: 'Fotogalerie',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: {hotspot: true},
+          fields: [
+            {
+              name: 'popisek',
+              title: 'Popisek fotky (volitelné)',
+              type: 'string',
+            },
+          ],
+        },
+      ],
+      options: {
+        layout: 'grid',
+      },
+      description: 'Nahraj fotky z projektu — zobrazí se na detail stránce jako galerie',
     },
   ],
   preview: {

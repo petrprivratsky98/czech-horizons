@@ -5,15 +5,16 @@ export default {
   fields: [
     {
       name: 'jmeno',
-      title: 'Jméno',
+      title: 'Jméno a příjmení',
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
     {
       name: 'role',
-      title: 'Role v týmu',
+      title: 'Role ve spolku',
       type: 'string',
-      description: 'Např. Předseda, Projekty, Komunikace',
+      description: 'Např. "Předseda", "Projektová koordinátorka", "Group leader"',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'fotka',
@@ -23,26 +24,29 @@ export default {
     },
     {
       name: 'bio',
-      title: 'Krátké bio',
+      title: 'Krátký popis / bio',
       type: 'text',
-      rows: 4,
+      rows: 3,
+      description: 'Pár vět o osobě (volitelné)',
     },
     {
       name: 'instagram',
-      title: 'Instagram handle',
-      type: 'string',
-      description: 'Bez @ — např. "petr.prague"',
+      title: 'Instagram',
+      type: 'url',
+      description: 'Odkaz na IG profil (volitelné)',
     },
     {
       name: 'linkedin',
-      title: 'LinkedIn URL',
+      title: 'LinkedIn',
       type: 'url',
+      description: 'Odkaz na LinkedIn profil (volitelné)',
     },
     {
       name: 'poradi',
-      title: 'Pořadí v týmu',
+      title: 'Pořadí zobrazení',
       type: 'number',
-      description: '1, 2, 3... určuje pořadí zobrazení',
+      description: 'Menší číslo = zobrazí se dřív',
+      initialValue: 100,
     },
   ],
   orderings: [

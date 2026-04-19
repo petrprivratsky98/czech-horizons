@@ -49,6 +49,12 @@ export default {
       type: 'string',
       description: 'Např. "Sraz u hlavní brány"',
     },
+      {
+      name: 'odkazMapa',
+      title: 'Odkaz na mapu',
+      type: 'url',
+      description: 'Vlož URL z Google Maps (Sdílet → Kopírovat odkaz) nebo jiné mapové služby',
+    },
     {
       name: 'kapacita',
       title: 'Kapacita',
