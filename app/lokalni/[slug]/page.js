@@ -1,51 +1,46 @@
-import {C} from '../../components/Colors'
+import {C} from '@/app/components/Colors'
 import {client} from '@/sanity/client'
 import {lokalniProjektDetailQuery} from '@/sanity/queries'
 import {urlFor} from '@/sanity/imageUrl'
-import {PortableText} from 'next-sanity'
-import Nav from '../../components/Nav'
+import {PortableText} from '@portabletext/react'
+import Nav from '@/app/components/Nav'
+import Footer from '@/app/components/Footer'
 import Link from 'next/link'
-import {notFound} from 'next/navigation'
 
-const STATUS_NAZVY = {
-  probihajici: 'Probíhající',
-  ukonceny: 'Ukončený',
-  pripravovany: 'Připravovaný',
-}
-
-const STATUS_BARVY = {
-  probihajici: C.green,
-  ukonceny: C.teal,
-  pripravovany: C.yellow,
-}
-
-const MESICE_CZ = ['leden','únor','březen','duben','květen','červen','červenec','srpen','září','říjen','listopad','prosinec']
-
-function formatDatum(isoDatum) {
-  if (!isoDatum) return null
-  const d = new Date(isoDatum)
-  return `${d.getDate()}. ${MESICE_CZ[d.getMonth()]} ${d.getFullYear()}`
-}
+export const revalidate = 0
 
 export default async function LokalniProjektDetail({params}) {
   const {slug} = await params
-  const p = await client.fetch(lokalniProjektDetailQuery, {slug})
+  const projekt = await client.fetch(lokalniProjektDetailQuery, {slug})
 
-  if (!p) {
-    notFound()
+  if (!projekt) {
+    return (
+      <main>
+        <Nav />
+        <section style={{minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px 24px', background: C.cream}}>
+          <div style={{textAlign: 'center'}}>
+            <h1 style={{fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 800, color: C.dark, marginBottom: 16}}>Projekt nenalezen</h1>
+            <p style={{fontSize: 18, color: `${C.ink}aa`, marginBottom: 32}}>Tento lokální projekt neexistuje nebo byl smazán.</p>
+            <Link href="/#lokalni" style={{
+              display: 'inline-block', padding: '16px 32px', background: C.orange,
+              color: C.cream, borderRadius: 100, textDecoration: 'none', fontWeight: 700,
+            }}>← Zpět na homepage</Link>
+          </div>
+        </section>
+      </main>
+    )
   }
 
-  const barvaStatus = STATUS_BARVY[p.status] || C.green
-  const nazevStatus = STATUS_NAZVY[p.status] || p.status
-  const fotkaUrl = p.hlavniFotka ? urlFor(p.hlavniFotka).width(1600).height(700).url() : null
+  const hlavniFotkaUrl = projekt.hlavniFotka ? urlFor(projekt.hlavniFotka).width(1600).height(900).url() : null
 
-  const akce = (p.akce || []).slice().sort((a, b) => {
-    const dA = a.datum ? new Date(a.datum).getTime() : 0
-    const dB = b.datum ? new Date(b.datum).getTime() : 0
-    return dA - dB
-  })
+  const formatDate = (dateStr) => {
+    if (!dateStr) return ''
+    const d = new Date(dateStr)
+    const mesice = ['leden', 'únor', 'březen', 'duben', 'květen', 'červen', 'červenec', 'srpen', 'září', 'říjen', 'listopad', 'prosinec']
+    return `${mesice[d.getMonth()]} ${d.getFullYear()}`
+  }
 
-  const galerie = p.galerie || []
+  const obdobi = `${formatDate(projekt.obdobiOd)} — ${formatDate(projekt.obdobiDo)}`
 
   return (
     <main>
@@ -54,201 +49,128 @@ export default async function LokalniProjektDetail({params}) {
       {/* Hero */}
       <section style={{
         background: C.cream, color: C.ink,
-        padding: 'clamp(120px, 13vw, 180px) clamp(24px, 5vw, 80px) clamp(32px, 4vw, 56px)',
-        position: 'relative',
+        padding: 'clamp(100px, 12vw, 180px) clamp(24px, 5vw, 80px) clamp(40px, 5vw, 80px)',
       }}>
         <div style={{maxWidth: 1400, margin: '0 auto'}}>
           <Link href="/#lokalni" style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
-            color: C.teal, fontSize: 'clamp(13px, 1vw, 16px)',
-            fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-            textDecoration: 'none', marginBottom: 'clamp(20px, 2.5vw, 36px)',
-          }}>← Zpět na lokální projekty</Link>
+            fontSize: 14, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+            color: C.teal, textDecoration: 'none', marginBottom: 32,
+          }}>← Zpět na projekty</Link>
 
-          <div style={{display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, flexWrap: 'wrap'}}>
-            <div style={{
-              padding: 'clamp(8px, 0.7vw, 12px) clamp(18px, 1.4vw, 24px)', borderRadius: 100,
-              background: `${barvaStatus}18`, color: barvaStatus,
-              fontSize: 'clamp(12px, 0.9vw, 15px)', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase',
-            }}>{nazevStatus}</div>
-            {(p.obdobiOd || p.obdobiDo) && (
-              <div style={{
-                padding: 'clamp(8px, 0.7vw, 12px) clamp(18px, 1.4vw, 24px)', borderRadius: 100,
-                background: `${C.teal}15`, color: C.teal,
-                fontSize: 'clamp(12px, 0.9vw, 15px)', fontWeight: 700, letterSpacing: '0.06em',
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-              }}>
-                <span>📅</span>
-                {p.obdobiOd && p.obdobiDo
-                  ? `${p.obdobiOd} — ${p.obdobiDo}`
-                  : p.obdobiOd ? `Od ${p.obdobiOd}` : `Do ${p.obdobiDo}`}
-              </div>
-            )}
+          <div style={{fontSize: 'clamp(12px, 0.9vw, 15px)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 20, color: C.orange}}>
+            ❋ Lokální projekt
           </div>
 
           <h1 style={{
-            fontSize: 'clamp(38px, 5vw, 92px)',
-            fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em',
-            margin: '0 0 clamp(14px, 1.6vw, 24px)',
-            wordBreak: 'break-word', overflowWrap: 'break-word',
-            color: C.dark,
-          }}>{p.nazev}</h1>
+            fontSize: 'clamp(40px, 5.5vw, 88px)', fontWeight: 800, lineHeight: 0.95,
+            letterSpacing: '-0.03em', margin: '0 0 24px', color: C.dark,
+          }}>{projekt.nazev}</h1>
 
-          {p.podnadpis && (
-            <p style={{
-              fontSize: 'clamp(16px, 1.3vw, 22px)', lineHeight: 1.5,
-              maxWidth: 800, color: `${C.ink}cc`, fontWeight: 400, margin: 0,
-            }}>{p.podnadpis}</p>
+          {projekt.podnadpis && (
+            <p style={{fontSize: 'clamp(18px, 1.5vw, 26px)', color: `${C.ink}bb`, margin: '0 0 32px', maxWidth: 900, lineHeight: 1.5}}>
+              {projekt.podnadpis}
+            </p>
           )}
+
+          <div style={{display: 'inline-block', padding: '8px 20px', borderRadius: 100, background: `${C.teal}15`, color: C.teal, fontSize: 14, fontWeight: 700, letterSpacing: '0.05em'}}>
+            📅 {obdobi}
+          </div>
         </div>
       </section>
 
-      {/* Featured image — menší */}
-      {fotkaUrl && (
-        <section style={{padding: '0 clamp(24px, 5vw, 80px)', background: C.cream}}>
-          <div style={{
-            maxWidth: 1400, margin: '0 auto',
-            height: 'clamp(220px, 30vw, 420px)',
-            borderRadius: 24,
-            backgroundImage: `url(${fotkaUrl})`,
-            backgroundSize: 'cover', backgroundPosition: 'center',
-            overflow: 'hidden',
-          }} />
-        </section>
-      )}
-
-      {/* Stats */}
-      {(p.statPocetAkci || p.statPocetUcastniku) && (
-        <section style={{
-          background: C.cream,
-          padding: 'clamp(32px, 5vw, 64px) clamp(24px, 5vw, 80px)',
-        }}>
-          <div style={{
-            maxWidth: 1400, margin: '0 auto',
-            display: 'grid', gridTemplateColumns: p.statPocetAkci && p.statPocetUcastniku ? '1fr 1fr' : '1fr',
-            gap: 'clamp(24px, 3vw, 48px)',
-            paddingTop: 'clamp(28px, 3.5vw, 48px)',
-            borderTop: `2px solid ${C.ink}15`,
-          }}>
-            {p.statPocetAkci && (
-              <div>
-                <div style={{fontSize: 'clamp(12px, 0.9vw, 15px)', color: C.teal, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 12, fontWeight: 700}}>Akcí celkem</div>
-                <div style={{fontWeight: 800, fontSize: 'clamp(48px, 5vw, 96px)', color: C.green, lineHeight: 1, letterSpacing: '-0.03em'}}>{p.statPocetAkci}</div>
-              </div>
-            )}
-            {p.statPocetUcastniku && (
-              <div>
-                <div style={{fontSize: 'clamp(12px, 0.9vw, 15px)', color: C.teal, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 12, fontWeight: 700}}>Účastníků</div>
-                <div style={{fontWeight: 800, fontSize: 'clamp(48px, 5vw, 96px)', color: C.orange, lineHeight: 1, letterSpacing: '-0.03em'}}>{p.statPocetUcastniku}</div>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* Long description (Portable Text) */}
-      {p.popis && p.popis.length > 0 && (
-        <section style={{
-          background: C.cream,
-          padding: 'clamp(32px, 5vw, 64px) clamp(24px, 5vw, 80px) clamp(60px, 8vw, 120px)',
-        }}>
-          <div style={{maxWidth: 900, margin: '0 auto'}}>
-            <div style={{fontSize: 'clamp(12px, 0.9vw, 16px)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 24, color: C.teal}}>
-              <span style={{color: C.orange}}>❋</span> O projektu
-            </div>
-            <div style={{
-              fontSize: 'clamp(17px, 1.35vw, 22px)', lineHeight: 1.7, color: `${C.ink}dd`,
-            }}>
-              <PortableText
-                value={p.popis}
-                components={{
-                  block: {
-                    normal: ({children}) => <p style={{margin: '0 0 clamp(16px, 1.5vw, 28px)'}}>{children}</p>,
-                    h2: ({children}) => <h2 style={{fontSize: 'clamp(28px, 2.6vw, 44px)', fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.02em', margin: 'clamp(32px, 4vw, 56px) 0 clamp(16px, 1.5vw, 24px)', color: C.dark}}>{children}</h2>,
-                    h3: ({children}) => <h3 style={{fontSize: 'clamp(22px, 2vw, 32px)', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.01em', margin: 'clamp(24px, 3vw, 40px) 0 clamp(12px, 1.2vw, 20px)', color: C.dark}}>{children}</h3>,
-                  },
-                  marks: {
-                    strong: ({children}) => <strong style={{fontWeight: 700, color: C.dark}}>{children}</strong>,
-                    em: ({children}) => <em style={{fontStyle: 'italic', color: C.teal}}>{children}</em>,
-                    link: ({children, value}) => <a href={value.href} style={{color: C.orange, textDecoration: 'underline'}}>{children}</a>,
-                  },
-                  types: {
-                    image: ({value}) => value?.asset ? (
-                      <img
-                        src={urlFor(value).width(1600).url()}
-                        alt=""
-                        style={{width: '100%', borderRadius: 20, margin: 'clamp(24px, 3vw, 40px) 0'}}
-                      />
-                    ) : null,
-                  },
-                }}
-              />
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Akce v rámci projektu */}
-      {akce.length > 0 && (
-        <section style={{
-          background: C.dark, color: C.cream,
-          padding: 'clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)',
-        }}>
+      {/* Fotka */}
+      {hlavniFotkaUrl && (
+        <div style={{padding: '0 clamp(24px, 5vw, 80px)', background: C.cream}}>
           <div style={{maxWidth: 1400, margin: '0 auto'}}>
-            <div style={{marginBottom: 'clamp(32px, 4vw, 64px)'}}>
-              <div style={{fontSize: 'clamp(12px, 0.9vw, 16px)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 20, color: C.yellow}}>
-                <span style={{color: C.orange}}>❋</span> Akce v rámci projektu
-              </div>
-              <h2 style={{
-                fontSize: 'clamp(36px, 5vw, 80px)', fontWeight: 800, lineHeight: 0.95,
-                letterSpacing: '-0.03em', margin: 0, color: C.cream,
-              }}>
-                {akce.length} {akce.length === 1 ? 'akce' : akce.length < 5 ? 'akce' : 'akcí'}
-              </h2>
-            </div>
+            <div style={{
+              height: 'clamp(220px, 30vw, 420px)',
+              backgroundImage: `url(${hlavniFotkaUrl})`,
+              backgroundSize: 'cover', backgroundPosition: 'center',
+              borderRadius: 24,
+            }} />
+          </div>
+        </div>
+      )}
 
-            <div style={{display: 'grid', gap: 'clamp(12px, 1.5vw, 20px)'}}>
-              {akce.map((a, i) => {
-                const datum = formatDatum(a.datum)
-                const jeProsle = a.status === 'proběhlo' || (a.datum && new Date(a.datum) < new Date())
+      {/* Staty */}
+      <section style={{background: C.cream, padding: 'clamp(40px, 5vw, 80px) clamp(24px, 5vw, 80px)'}}>
+        <div style={{maxWidth: 1400, margin: '0 auto'}}>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24}}>
+            {projekt.statPocetAkci !== undefined && (
+              <div style={{padding: 'clamp(24px, 2.5vw, 40px)', background: C.creamDark, borderRadius: 20}}>
+                <div style={{fontSize: 'clamp(11px, 0.85vw, 14px)', letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 700, color: C.teal, marginBottom: 8}}>Akcí celkem</div>
+                <div style={{fontSize: 'clamp(40px, 4vw, 72px)', fontWeight: 800, lineHeight: 1, color: C.orange}}>{projekt.statPocetAkci}</div>
+              </div>
+            )}
+            {projekt.statPocetUcastniku !== undefined && (
+              <div style={{padding: 'clamp(24px, 2.5vw, 40px)', background: C.creamDark, borderRadius: 20}}>
+                <div style={{fontSize: 'clamp(11px, 0.85vw, 14px)', letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 700, color: C.teal, marginBottom: 8}}>Účastníků</div>
+                <div style={{fontSize: 'clamp(40px, 4vw, 72px)', fontWeight: 800, lineHeight: 1, color: C.green}}>{projekt.statPocetUcastniku}</div>
+              </div>
+            )}
+            {projekt.status && (
+              <div style={{padding: 'clamp(24px, 2.5vw, 40px)', background: C.creamDark, borderRadius: 20}}>
+                <div style={{fontSize: 'clamp(11px, 0.85vw, 14px)', letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 700, color: C.teal, marginBottom: 8}}>Stav</div>
+                <div style={{fontSize: 'clamp(20px, 1.8vw, 28px)', fontWeight: 800, lineHeight: 1.2, color: C.dark}}>{projekt.status}</div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Popis */}
+      {projekt.popis && (
+        <section style={{background: C.cream, padding: 'clamp(40px, 5vw, 80px) clamp(24px, 5vw, 80px)'}}>
+          <div style={{maxWidth: 900, margin: '0 auto'}}>
+            <div style={{fontSize: 'clamp(16px, 1.25vw, 20px)', lineHeight: 1.7, color: `${C.ink}cc`}}>
+              <PortableText value={projekt.popis} />
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Akce */}
+      {projekt.akce && projekt.akce.length > 0 && (
+        <section style={{background: C.dark, color: C.cream, padding: 'clamp(60px, 8vw, 120px) clamp(24px, 5vw, 80px)'}}>
+          <div style={{maxWidth: 1400, margin: '0 auto'}}>
+            <div style={{fontSize: 'clamp(12px, 0.9vw, 16px)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 20, color: C.yellow}}>
+              <span style={{color: C.orange}}>❋</span> Akce v rámci projektu
+            </div>
+            <h2 style={{fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.03em', margin: '0 0 48px', color: C.cream}}>
+              {projekt.akce.length} {projekt.akce.length === 1 ? 'akce' : projekt.akce.length < 5 ? 'akce' : 'akcí'}<span style={{color: C.orange}}>.</span>
+            </h2>
+
+            <div style={{display: 'grid', gap: 16}}>
+              {projekt.akce.map((a, i) => {
+                const d = new Date(a.datum)
+                const den = d.getDate()
+                const mesic = ['LED', 'ÚN', 'BŘE', 'DUB', 'KVĚ', 'ČVN', 'ČVC', 'SRP', 'ZÁŘ', 'ŘÍJ', 'LIS', 'PRO'][d.getMonth()]
+                const rok = d.getFullYear()
+                const status = new Date(a.datum) < new Date() ? 'Proběhlo' : 'Nadcházející'
 
                 return (
                   <div key={a._id} style={{
-                    background: `${C.cream}08`,
+                    background: `${C.cream}06`,
                     border: `1.5px solid ${C.cream}15`,
                     borderRadius: 20,
-                    padding: 'clamp(20px, 2vw, 32px) clamp(24px, 2.5vw, 40px)',
-                    display: 'grid',
-                    gridTemplateColumns: 'auto 1fr auto',
-                    gap: 'clamp(16px, 2vw, 32px)',
+                    padding: 'clamp(24px, 2.5vw, 36px)',
+                    display: 'grid', gridTemplateColumns: 'auto auto 1fr auto', gap: 'clamp(20px, 2.5vw, 40px)',
                     alignItems: 'center',
                   }}>
-                    <div style={{
-                      fontSize: 'clamp(32px, 3vw, 56px)', fontWeight: 800,
-                      color: jeProsle ? C.teal : C.orange,
-                      lineHeight: 1, letterSpacing: '-0.03em',
-                      minWidth: 'clamp(48px, 4vw, 80px)',
-                    }}>{String(i + 1).padStart(2, '0')}</div>
-
+                    <div style={{fontSize: 'clamp(16px, 1.5vw, 22px)', fontWeight: 800, color: C.yellow, fontFamily: 'monospace'}}>
+                      {String(i + 1).padStart(2, '0')}
+                    </div>
+                    <div style={{textAlign: 'center', minWidth: 72}}>
+                      <div style={{fontSize: 'clamp(32px, 3vw, 48px)', fontWeight: 800, lineHeight: 1, color: C.orange}}>{den}</div>
+                      <div style={{fontSize: 11, letterSpacing: '0.15em', fontWeight: 700, color: C.yellow}}>{mesic} {rok}</div>
+                    </div>
                     <div>
-                      <h3 style={{
-                        fontSize: 'clamp(18px, 1.5vw, 26px)', fontWeight: 700,
-                        margin: '0 0 6px', color: C.cream, letterSpacing: '-0.01em',
-                      }}>{a.nazev}</h3>
-                      {datum && (
-                        <div style={{fontSize: 'clamp(13px, 1vw, 16px)', color: `${C.cream}88`, fontWeight: 500}}>
-                          {datum}
-                        </div>
-                      )}
+                      <h3 style={{fontSize: 'clamp(20px, 1.8vw, 28px)', fontWeight: 800, lineHeight: 1.2, margin: '0 0 6px', color: C.cream}}>{a.nazev}</h3>
+                      {a.misto && <div style={{fontSize: 14, color: `${C.cream}99`}}>📍 {a.misto}</div>}
                     </div>
-
-                    <div style={{
-                      padding: 'clamp(6px, 0.6vw, 10px) clamp(14px, 1.2vw, 18px)', borderRadius: 100,
-                      background: jeProsle ? `${C.teal}22` : `${C.orange}22`,
-                      color: jeProsle ? C.teal : C.orange,
-                      fontSize: 'clamp(10px, 0.8vw, 13px)', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase',
-                    }}>
-                      {jeProsle ? 'Proběhlo' : 'Nadcházející'}
+                    <div style={{fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, color: status === 'Proběhlo' ? `${C.cream}66` : C.green}}>
+                      {status}
                     </div>
                   </div>
                 )
@@ -258,86 +180,31 @@ export default async function LokalniProjektDetail({params}) {
         </section>
       )}
 
-      {/* Fotogalerie */}
-      {galerie.length > 0 && (
-        <section style={{
-          background: C.cream,
-          padding: 'clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)',
-        }}>
+      {/* Galerie */}
+      {projekt.galerie && projekt.galerie.length > 0 && (
+        <section style={{background: C.cream, padding: 'clamp(60px, 8vw, 120px) clamp(24px, 5vw, 80px)'}}>
           <div style={{maxWidth: 1400, margin: '0 auto'}}>
-            <div style={{marginBottom: 'clamp(32px, 4vw, 64px)'}}>
-              <div style={{fontSize: 'clamp(12px, 0.9vw, 16px)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 20, color: C.teal}}>
-                <span style={{color: C.orange}}>❋</span> Fotogalerie
-              </div>
-              <h2 style={{
-                fontSize: 'clamp(36px, 5vw, 80px)', fontWeight: 800, lineHeight: 0.95,
-                letterSpacing: '-0.03em', margin: 0, color: C.dark,
-              }}>
-                {galerie.length} {galerie.length === 1 ? 'fotka' : galerie.length < 5 ? 'fotky' : 'fotek'}
-              </h2>
+            <div style={{fontSize: 'clamp(12px, 0.9vw, 16px)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 20, color: C.orange}}>
+              ❋ Fotogalerie
             </div>
-
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(260px, 22vw, 360px), 1fr))',
-              gap: 'clamp(12px, 1.5vw, 20px)',
-            }}>
-              {galerie.map((fotka, i) => {
-                const url = fotka?.asset ? urlFor(fotka).width(900).height(900).url() : null
-                if (!url) return null
-                return (
-                  <div key={fotka._key || i} style={{
-                    aspectRatio: '1 / 1',
-                    borderRadius: 20,
-                    overflow: 'hidden',
-                    position: 'relative',
-                    backgroundImage: `url(${url})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }}>
-                    {fotka.popisek && (
-                      <div style={{
-                        position: 'absolute', bottom: 0, left: 0, right: 0,
-                        padding: 'clamp(16px, 1.5vw, 24px)',
-                        background: `linear-gradient(to top, ${C.dark}dd, transparent)`,
-                        color: C.cream,
-                        fontSize: 'clamp(13px, 1vw, 16px)', fontWeight: 600,
-                      }}>
-                        {fotka.popisek}
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
+            <h2 style={{fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.02em', margin: '0 0 40px', color: C.dark}}>
+              Jak to vypadá<span style={{color: C.orange}}>.</span>
+            </h2>
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16}}>
+              {projekt.galerie.map((obr, i) => (
+                <div key={i} style={{
+                  aspectRatio: '4 / 3',
+                  backgroundImage: `url(${urlFor(obr).width(800).url()})`,
+                  backgroundSize: 'cover', backgroundPosition: 'center',
+                  borderRadius: 16,
+                }} />
+              ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* Call to action back */}
-      <section style={{
-        background: C.cream,
-        padding: 'clamp(40px, 6vw, 80px) clamp(24px, 5vw, 80px) clamp(80px, 10vw, 140px)',
-        textAlign: 'center',
-        borderTop: `2px solid ${C.ink}10`,
-      }}>
-        <Link href="/#lokalni" style={{
-          display: 'inline-flex', alignItems: 'center', gap: 10,
-          padding: 'clamp(14px, 1.2vw, 18px) clamp(28px, 2.2vw, 40px)',
-          borderRadius: 100, background: C.dark, color: C.cream,
-          fontSize: 'clamp(13px, 1vw, 16px)', fontWeight: 800, letterSpacing: '0.08em',
-          textTransform: 'uppercase', textDecoration: 'none',
-        }}>← Zpět na všechny lokální projekty</Link>
-      </section>
+      <Footer />
     </main>
   )
-  
 }
-import {createClient} from 'next-sanity'
-
-export const client = createClient({
-  projectId: 'pndtlsza',
-  dataset: 'production',
-  apiVersion: '2024-01-01',
-  useCdn: false,
-})
