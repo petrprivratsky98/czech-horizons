@@ -1,9 +1,9 @@
+export const revalidate = 10
 import {C} from './Colors'
 import {client} from '@/sanity/client'
 import {clenoveTimuQuery} from '@/sanity/queries'
 import {urlFor} from '@/sanity/imageUrl'
 import AnimateIn from './AnimateIn'
-export const revalidate = 0
 
 export default async function About() {
   const tym = await client.fetch(clenoveTimuQuery)

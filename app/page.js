@@ -12,6 +12,9 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 import ScrollProgress from './components/ScrollProgress'
 
+export const revalidate = 10
+export const dynamic = 'force-dynamic'
+
 export default function Home() {
   return (
     <main>

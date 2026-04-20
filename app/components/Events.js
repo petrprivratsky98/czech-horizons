@@ -1,9 +1,10 @@
+export const revalidate = 10
 import {C} from './Colors'
 import {client} from '@/sanity/client'
 import {nadchazejiciAkceQuery} from '@/sanity/queries'
 import {urlFor} from '@/sanity/imageUrl'
 import AnimateIn from './AnimateIn'
-export const revalidate = 0
+
 
 const KATEGORIE_BARVY = {
   uklid: C.green,

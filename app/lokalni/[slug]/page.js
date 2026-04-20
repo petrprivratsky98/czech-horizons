@@ -1,3 +1,4 @@
+export const revalidate = 10
 import {C} from '@/app/components/Colors'
 import {client} from '@/sanity/client'
 import {lokalniProjektDetailQuery} from '@/sanity/queries'
@@ -6,8 +7,6 @@ import {PortableText} from '@portabletext/react'
 import Nav from '@/app/components/Nav'
 import Footer from '@/app/components/Footer'
 import Link from 'next/link'
-
-export const revalidate = 0
 
 export default async function LokalniProjektDetail({params}) {
   const {slug} = await params

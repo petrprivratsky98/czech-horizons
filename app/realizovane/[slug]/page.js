@@ -1,3 +1,4 @@
+export const revalidate = 10
 import {C} from '../../components/Colors'
 import {client} from '@/sanity/client'
 import {realizovanyProjektDetailQuery} from '@/sanity/queries'

@@ -1,7 +1,7 @@
+export const revalidate = 10
 import {C} from './Colors'
 import {client} from '@/sanity/client'
 import WorldMap from './WorldMap'
-export const revalidate = 0
 
 const navstiveneZemeQuery = `*[_type == "realizovanyProjekt" && defined(zeme)] {
   zeme,
