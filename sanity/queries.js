@@ -78,7 +78,9 @@ export const clenoveTimuQuery = `*[_type == "clenTymu"] | order(poradi asc) {
   fotka,
   bio,
   instagram,
-  linkedin
+  linkedin,
+  email,
+  telefon
 }`
 
 // Detail jednoho lokálního projektu podle URL (slug)

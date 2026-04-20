@@ -130,12 +130,45 @@ export default async function About() {
                         {c.bio && (
                           <p style={{
                             fontSize: 'clamp(14px, 1.1vw, 17px)', lineHeight: 1.6,
-                            color: `${C.cream}aa`, margin: '0 0 20px', flex: 1,
+                            color: `${C.cream}aa`, margin: '0 0 20px',
                           }}>{c.bio}</p>
                         )}
 
+                        {(c.email || c.telefon) && (
+                          <div style={{
+                            display: 'flex', flexDirection: 'column', gap: 8,
+                            marginBottom: 16,
+                            paddingTop: 16,
+                            borderTop: `1px dashed ${C.cream}20`,
+                          }}>
+                            {c.email && (
+                              <a href={`mailto:${c.email}`} style={{
+                                fontSize: 'clamp(12px, 0.9vw, 14px)',
+                                color: `${C.cream}cc`,
+                                textDecoration: 'none',
+                                display: 'inline-flex', alignItems: 'center', gap: 8,
+                                wordBreak: 'break-all',
+                              }}>
+                                <span style={{fontSize: 14}}>📧</span>
+                                <span>{c.email}</span>
+                              </a>
+                            )}
+                            {c.telefon && (
+                              <a href={`tel:${c.telefon.replace(/\s/g, '')}`} style={{
+                                fontSize: 'clamp(12px, 0.9vw, 14px)',
+                                color: `${C.cream}cc`,
+                                textDecoration: 'none',
+                                display: 'inline-flex', alignItems: 'center', gap: 8,
+                              }}>
+                                <span style={{fontSize: 14}}>📞</span>
+                                <span>{c.telefon}</span>
+                              </a>
+                            )}
+                          </div>
+                        )}
+
                         {(c.instagram || c.linkedin) && (
-                          <div style={{display: 'flex', gap: 8, marginTop: 'auto'}}>
+                          <div style={{display: 'flex', gap: 8, marginTop: 'auto', flexWrap: 'wrap'}}>
                             {c.instagram && (
                               <a href={c.instagram} target="_blank" rel="noopener noreferrer" style={{
                                 padding: '10px 16px', borderRadius: 100,

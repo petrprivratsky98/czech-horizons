@@ -42,6 +42,18 @@ export default {
       description: 'Odkaz na LinkedIn profil (volitelné)',
     },
     {
+      name: 'email',
+      title: 'Email',
+      type: 'string',
+      description: 'Volitelné - veřejný kontaktní email',
+    },
+    {
+      name: 'telefon',
+      title: 'Telefon',
+      type: 'string',
+      description: 'Volitelné - veřejný kontaktní telefon',
+    },
+    {
       name: 'poradi',
       title: 'Pořadí zobrazení',
       type: 'number',
