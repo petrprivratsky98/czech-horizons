@@ -61,18 +61,22 @@ export default async function RealizedProjects() {
             Zatím žádné realizované projekty, ale první přijdou brzy!
           </div>
         ) : (
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(380px, 30vw, 520px), 520px))', gap: 'clamp(20px, 2vw, 32px)', justifyContent: 'start'}}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(240px, 17vw, 320px), 1fr))',
+            gap: 'clamp(14px, 1.5vw, 24px)',
+          }}>
             {projekty.map((p, i) => {
               const barva = TYP_BARVY[p.typ] || C.teal
               const typNazev = TYP_NAZVY[p.typ] || p.typ
-              const fotkaUrl = p.hlavniFotka ? urlFor(p.hlavniFotka).width(1000).height(600).url() : null
+              const fotkaUrl = p.hlavniFotka ? urlFor(p.hlavniFotka).width(800).height(500).url() : null
               const vlajka = p.zeme ? ZEME_VLAJKY[p.zeme] : null
 
               return (
                 <AnimateIn key={p._id} delay={i * 80}>
                 <Link href={`/realizovane/${p.slug?.current}`} style={{textDecoration: 'none', color: 'inherit'}}>
                   <div className="realized-card" style={{
-                    background: C.cream, borderRadius: 28, overflow: 'hidden',
+                    background: C.cream, borderRadius: 20, overflow: 'hidden',
                     border: `1.5px solid ${C.ink}15`,
                     display: 'flex', flexDirection: 'column', height: '100%',
                     transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s, border-color 0.4s',
@@ -80,115 +84,122 @@ export default async function RealizedProjects() {
                   }}>
                     {fotkaUrl ? (
                       <div style={{
-                        height: 'clamp(220px, 20vw, 320px)',
+                        aspectRatio: '16 / 10',
                         backgroundImage: `url(${fotkaUrl})`,
                         backgroundSize: 'cover', backgroundPosition: 'center',
                         position: 'relative',
                       }}>
                         {vlajka && (
                           <div style={{
-                            position: 'absolute', top: 20, left: 20,
-                            fontSize: 'clamp(36px, 3vw, 48px)',
+                            position: 'absolute', top: 12, left: 12,
+                            fontSize: 'clamp(22px, 1.8vw, 30px)',
                             background: `${C.cream}ee`,
-                            width: 'clamp(64px, 5vw, 80px)', height: 'clamp(64px, 5vw, 80px)',
+                            width: 'clamp(42px, 3.2vw, 54px)', height: 'clamp(42px, 3.2vw, 54px)',
                             borderRadius: '50%',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
                           }}>{vlajka}</div>
                         )}
                         <div style={{
-                          position: 'absolute', bottom: 20, right: 20,
-                          padding: 'clamp(7px, 0.6vw, 10px) clamp(16px, 1.3vw, 22px)', borderRadius: 100,
+                          position: 'absolute', bottom: 12, right: 12,
+                          padding: '5px 12px', borderRadius: 100,
                           background: `${C.cream}ee`, color: barva,
-                          fontSize: 'clamp(11px, 0.85vw, 14px)', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase',
+                          fontSize: 'clamp(9px, 0.7vw, 11px)', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase',
                         }}>{typNazev}</div>
                       </div>
                     ) : (
                       <div style={{
-                        height: 'clamp(180px, 15vw, 240px)',
+                        aspectRatio: '16 / 10',
                         background: `linear-gradient(135deg, ${barva}, ${barva}aa)`,
                         position: 'relative',
                       }}>
-                        <div style={{position: 'absolute', inset: 0, opacity: 0.15,
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-                        }} />
                         {vlajka && (
                           <div style={{
-                            position: 'absolute', top: 22, left: 22,
-                            fontSize: 'clamp(40px, 3.5vw, 54px)',
+                            position: 'absolute', top: 12, left: 12,
+                            fontSize: 'clamp(22px, 1.8vw, 30px)',
                             background: `${C.cream}ee`,
-                            width: 'clamp(70px, 5.5vw, 88px)', height: 'clamp(70px, 5.5vw, 88px)',
+                            width: 'clamp(42px, 3.2vw, 54px)', height: 'clamp(42px, 3.2vw, 54px)',
                             borderRadius: '50%',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                           }}>{vlajka}</div>
                         )}
                         <div style={{
-                          position: 'absolute', bottom: 20, right: 20,
-                          padding: 'clamp(7px, 0.6vw, 10px) clamp(16px, 1.3vw, 22px)', borderRadius: 100,
+                          position: 'absolute', bottom: 12, right: 12,
+                          padding: '5px 12px', borderRadius: 100,
                           background: `${C.cream}ee`, color: barva,
-                          fontSize: 'clamp(11px, 0.85vw, 14px)', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase',
+                          fontSize: 'clamp(9px, 0.7vw, 11px)', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase',
                         }}>{typNazev}</div>
                       </div>
                     )}
 
-                    <div style={{padding: 'clamp(28px, 2.5vw, 44px)', flex: 1, display: 'flex', flexDirection: 'column'}}>
+                    <div style={{padding: 'clamp(18px, 1.4vw, 24px)', flex: 1, display: 'flex', flexDirection: 'column'}}>
                       {(p.mesto || p.datum) && (
-                        <div style={{fontSize: 'clamp(13px, 1vw, 16px)', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700, color: C.teal, marginBottom: 12}}>
+                        <div style={{fontSize: 'clamp(10px, 0.75vw, 12px)', letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 700, color: C.teal, marginBottom: 8}}>
                           {[p.mesto, p.datum].filter(Boolean).join(' · ')}
                         </div>
                       )}
                       <h3 style={{
-                        fontSize: 'clamp(28px, 2.4vw, 44px)', fontWeight: 800, lineHeight: 1.1,
-                        letterSpacing: '-0.02em', margin: '0 0 18px', color: C.dark,
+                        fontSize: 'clamp(17px, 1.3vw, 22px)', fontWeight: 800, lineHeight: 1.15,
+                        letterSpacing: '-0.015em', margin: '0 0 10px', color: C.dark,
                         wordBreak: 'break-word', overflowWrap: 'break-word',
                       }}>
                         {p.nazev}
                       </h3>
 
                       {p.kratkyPopis && (
-                        <p style={{fontSize: 'clamp(15px, 1.15vw, 19px)', lineHeight: 1.65, color: `${C.ink}cc`, margin: '0 0 28px'}}>
+                        <p style={{
+                          fontSize: 'clamp(12px, 0.9vw, 14px)',
+                          lineHeight: 1.55,
+                          color: `${C.ink}99`,
+                          margin: '0 0 14px',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                        }}>
                           {p.kratkyPopis}
                         </p>
                       )}
 
                       <div style={{
-                        display: 'flex', gap: 16, flexWrap: 'wrap',
-                        paddingTop: 20, paddingBottom: 20, borderTop: `1.5px dashed ${C.ink}25`,
-                        marginBottom: 'auto',
+                        display: 'flex', gap: 6, flexWrap: 'wrap',
+                        paddingTop: 12, marginBottom: 14,
+                        borderTop: `1px dashed ${C.ink}20`,
+                        marginTop: 'auto',
                       }}>
                         {p.pocetUcastniku && (
                           <div style={{
-                            padding: 'clamp(8px, 0.7vw, 12px) clamp(16px, 1.3vw, 22px)', borderRadius: 100,
+                            padding: '4px 10px', borderRadius: 100,
                             background: `${barva}18`, color: barva,
-                            fontSize: 'clamp(12px, 0.95vw, 15px)', fontWeight: 700,
-                            display: 'inline-flex', alignItems: 'center', gap: 6,
-                          }}>👥 {p.pocetUcastniku} účastníků</div>
+                            fontSize: 'clamp(10px, 0.75vw, 12px)', fontWeight: 700,
+                            display: 'inline-flex', alignItems: 'center', gap: 4,
+                          }}>👥 {p.pocetUcastniku}</div>
                         )}
                         {p.pocetFotek > 0 && (
                           <div style={{
-                            padding: 'clamp(8px, 0.7vw, 12px) clamp(16px, 1.3vw, 22px)', borderRadius: 100,
+                            padding: '4px 10px', borderRadius: 100,
                             background: `${C.teal}18`, color: C.teal,
-                            fontSize: 'clamp(12px, 0.95vw, 15px)', fontWeight: 700,
-                            display: 'inline-flex', alignItems: 'center', gap: 6,
-                          }}>📸 {p.pocetFotek} fotek</div>
+                            fontSize: 'clamp(10px, 0.75vw, 12px)', fontWeight: 700,
+                            display: 'inline-flex', alignItems: 'center', gap: 4,
+                          }}>📸 {p.pocetFotek}</div>
                         )}
                         {p.pocetFeedbacku > 0 && (
                           <div style={{
-                            padding: 'clamp(8px, 0.7vw, 12px) clamp(16px, 1.3vw, 22px)', borderRadius: 100,
+                            padding: '4px 10px', borderRadius: 100,
                             background: `${C.orange}18`, color: C.orange,
-                            fontSize: 'clamp(12px, 0.95vw, 15px)', fontWeight: 700,
-                            display: 'inline-flex', alignItems: 'center', gap: 6,
-                          }}>💬 {p.pocetFeedbacku} ohlasů</div>
+                            fontSize: 'clamp(10px, 0.75vw, 12px)', fontWeight: 700,
+                            display: 'inline-flex', alignItems: 'center', gap: 4,
+                          }}>💬 {p.pocetFeedbacku}</div>
                         )}
                       </div>
 
                       <div style={{
-                        marginTop: 20, display: 'inline-flex', alignItems: 'center', gap: 10,
-                        padding: 'clamp(14px, 1.2vw, 18px) clamp(20px, 1.8vw, 28px)', borderRadius: 100,
+                        display: 'inline-flex', alignItems: 'center', gap: 6,
+                        padding: '9px 16px', borderRadius: 100,
                         background: C.dark, color: C.cream,
-                        fontSize: 'clamp(13px, 1vw, 16px)', fontWeight: 800, letterSpacing: '0.08em',
+                        fontSize: 'clamp(10px, 0.8vw, 12px)', fontWeight: 800, letterSpacing: '0.08em',
                         textTransform: 'uppercase', alignSelf: 'flex-start',
-                      }}>Zobrazit projekt →</div>
+                      }}>Zobrazit →</div>
                     </div>
                   </div>
                 </Link>
