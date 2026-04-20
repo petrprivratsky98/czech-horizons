@@ -122,3 +122,7 @@ export const realizovanyProjektDetailQuery = `*[_type == "realizovanyProjekt" &&
   fotoalbum,
   feedbacky
 }`
+// Helper pro fetchování bez cache
+export const fetchOptions = {
+  next: {revalidate: 0},
+}

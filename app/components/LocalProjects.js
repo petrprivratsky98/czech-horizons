@@ -4,6 +4,7 @@ import {lokalniProjektyQuery} from '@/sanity/queries'
 import {urlFor} from '@/sanity/imageUrl'
 import Link from 'next/link'
 import AnimateIn from './AnimateIn'
+export const revalidate = 0
 
 const STATUS_NAZVY = {
   probihajici: 'Probíhající',

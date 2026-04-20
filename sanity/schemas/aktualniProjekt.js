@@ -1,3 +1,4 @@
+export const revalidate = 0
 const ZEME = [
   {title: '🇦🇹 Rakousko', value: 'AT'},
   {title: '🇧🇪 Belgie', value: 'BE'},

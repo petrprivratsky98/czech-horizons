@@ -3,6 +3,7 @@ import {client} from '@/sanity/client'
 import {aktualniProjektyQuery} from '@/sanity/queries'
 import {urlFor} from '@/sanity/imageUrl'
 import AnimateIn from './AnimateIn'
+export const revalidate = 0
 
 const TYP_NAZVY = {
   vymena: 'Výměna mládeže',
