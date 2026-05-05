@@ -545,10 +545,11 @@ function HerbModal({herb, planterColor, onClose}) {
       onClick={e => e.target === e.currentTarget && onClose()}
       style={{position:'fixed',inset:0,zIndex:1000,background:'rgba(10,26,24,0.88)',backdropFilter:'blur(6px)',
         display:'flex',alignItems:'flex-end',justifyContent:'center',padding:'clamp(16px,3vw,48px)'}}>
-      <div style={{background:C.cream,borderRadius:20,maxWidth:740,width:'100%',maxHeight:'90vh',overflowY:'auto',
+      <div style={{background:C.cream,borderRadius:20,maxWidth:740,width:'100%',maxHeight:'90vh',
         boxShadow:'0 32px 80px rgba(0,0,0,0.45)',display:'flex',flexDirection:'column',
         animation:'herbFlyIn 0.4s cubic-bezier(0.16,1,0.3,1) both'}}>
-        <div style={{padding:'clamp(22px,3vw,34px) clamp(22px,3vw,34px) 0',display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:16}}>
+        {/* Sticky header — stays visible while content scrolls */}
+        <div style={{flexShrink:0,padding:'clamp(22px,3vw,34px) clamp(22px,3vw,34px) 0',display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:16}}>
           <div style={{flex:1}}>
             <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.2em',color:C.teal,marginBottom:8}}>
               <span style={{color:C.orange}}>❋</span> bylinka
@@ -561,43 +562,47 @@ function HerbModal({herb, planterColor, onClose}) {
               {herb.synonymum && <span style={{opacity:0.7}}> · syn. {herb.synonymum}</span>}
             </div>
           </div>
-          <button onClick={onClose} aria-label="Zavřít" style={{flexShrink:0,width:40,height:40,borderRadius:100,
-            border:`1px solid ${C.creamDark}`,background:C.creamDark,cursor:'pointer',fontSize:20,color:C.dark,
-            display:'flex',alignItems:'center',justifyContent:'center',lineHeight:1,transition:'background 0.2s'}}>×</button>
+          <button onClick={onClose} aria-label="Zavřít" style={{flexShrink:0,width:44,height:44,borderRadius:100,
+            border:`1px solid ${C.creamDark}`,background:C.creamDark,cursor:'pointer',fontSize:22,color:C.dark,
+            display:'flex',alignItems:'center',justifyContent:'center',lineHeight:1,transition:'background 0.2s',
+            touchAction:'manipulation'}}>×</button>
         </div>
-        <div style={{padding:'clamp(14px,1.8vw,20px) clamp(22px,3vw,34px)',display:'flex',alignItems:'center',gap:8,
-          borderBottom:`2px solid ${planterColor}22`}}>
-          <PropPics herb={herb}/>
-          <div style={{height:2,flex:1,minWidth:40,background:`linear-gradient(to right, ${planterColor}, transparent)`,borderRadius:1,marginLeft:6}}/>
+        {/* Scrollable content */}
+        <div style={{flex:1,overflowY:'auto',paddingBottom:'clamp(16px,2vw,24px)'}}>
+          <div style={{padding:'clamp(14px,1.8vw,20px) clamp(22px,3vw,34px)',display:'flex',alignItems:'center',gap:8,
+            borderBottom:`2px solid ${planterColor}22`}}>
+            <PropPics herb={herb}/>
+            <div style={{height:2,flex:1,minWidth:40,background:`linear-gradient(to right, ${planterColor}, transparent)`,borderRadius:1,marginLeft:6}}/>
+          </div>
+          <div style={{padding:'0 clamp(22px,3vw,34px)'}}>
+            <PropRow label="Světlo" value={herb.svetlo}/>
+            <PropRow label="Voda" value={herb.voda}/>
+            <PropRow label="Sklizeň" value={herb.sklizen}/>
+            <PropRow label="Životnost" value={herb.zivotnost}/>
+            <PropRow label="Mráz" value={herb.mrazuvzdornost}/>
+            <PropRow label="Opylovači" value={herb.opylovaci}/>
+            <PropRow label="Sbírá se" value={herb.coSeSbira}/>
+          </div>
+          {paras[0] && (
+            <div style={{padding:'clamp(16px,2vw,22px) clamp(22px,3vw,34px) 0'}}>
+              <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.teal,marginBottom:8}}>K čemu se používá</div>
+              <p style={{fontSize:'clamp(13px,1vw,15px)',lineHeight:1.75,color:C.ink,margin:0,opacity:0.82}}>{paras[0]}</p>
+            </div>
+          )}
+          {paras[1] && (
+            <div style={{padding:'clamp(16px,2vw,22px) clamp(22px,3vw,34px) 0',marginTop:4}}>
+              <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.teal,marginBottom:8}}>Jak ji pěstovat</div>
+              <p style={{fontSize:'clamp(13px,1vw,15px)',lineHeight:1.75,color:C.ink,margin:0,opacity:0.82}}>{paras[1]}</p>
+            </div>
+          )}
+          {herb.upozorneni && (
+            <div style={{margin:'clamp(18px,2.5vw,26px) clamp(22px,3vw,34px) 0',padding:'14px 18px',
+              background:C.orange+'10',borderLeft:`3px solid ${C.orange}`,borderRadius:'0 10px 10px 0'}}>
+              <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.orange,marginBottom:6}}>Upozornění / zajímavost</div>
+              <p style={{fontSize:'clamp(12px,0.9vw,14px)',lineHeight:1.65,color:C.ink,margin:0,opacity:0.82}}>{herb.upozorneni}</p>
+            </div>
+          )}
         </div>
-        <div style={{padding:'0 clamp(22px,3vw,34px)'}}>
-          <PropRow label="Světlo" value={herb.svetlo}/>
-          <PropRow label="Voda" value={herb.voda}/>
-          <PropRow label="Sklizeň" value={herb.sklizen}/>
-          <PropRow label="Životnost" value={herb.zivotnost}/>
-          <PropRow label="Mráz" value={herb.mrazuvzdornost}/>
-          <PropRow label="Opylovači" value={herb.opylovaci}/>
-          <PropRow label="Sbírá se" value={herb.coSeSbira}/>
-        </div>
-        {paras[0] && (
-          <div style={{padding:'clamp(16px,2vw,22px) clamp(22px,3vw,34px) 0'}}>
-            <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.teal,marginBottom:8}}>K čemu se používá</div>
-            <p style={{fontSize:'clamp(13px,1vw,15px)',lineHeight:1.75,color:C.ink,margin:0,opacity:0.82}}>{paras[0]}</p>
-          </div>
-        )}
-        {paras[1] && (
-          <div style={{padding:'clamp(16px,2vw,22px) clamp(22px,3vw,34px) 0',marginTop:4}}>
-            <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.teal,marginBottom:8}}>Jak ji pěstovat</div>
-            <p style={{fontSize:'clamp(13px,1vw,15px)',lineHeight:1.75,color:C.ink,margin:0,opacity:0.82}}>{paras[1]}</p>
-          </div>
-        )}
-        {herb.upozorneni && (
-          <div style={{margin:'clamp(18px,2.5vw,26px) clamp(22px,3vw,34px)',padding:'14px 18px',
-            background:C.orange+'10',borderLeft:`3px solid ${C.orange}`,borderRadius:'0 10px 10px 0'}}>
-            <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.orange,marginBottom:6}}>Upozornění / zajímavost</div>
-            <p style={{fontSize:'clamp(12px,0.9vw,14px)',lineHeight:1.65,color:C.ink,margin:0,opacity:0.82}}>{herb.upozorneni}</p>
-          </div>
-        )}
       </div>
     </div>
   )
