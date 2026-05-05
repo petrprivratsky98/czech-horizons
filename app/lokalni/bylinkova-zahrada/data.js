@@ -350,7 +350,7 @@ export const TRUHLIKY = [
         voda: 'střední zálivka, půda by neměla vyschnout',
         opylovaci: true,
         sklizen: 'červen až září',
-        zivotnost: 'jednoletka',
+        zivotnost: 'trvalka, v našich podmínkách pěstovaná jako přenosná rostlina',
         mrazuvzdornost: 'ne',
         coSeSbira: 'listy a mladé výhonky',
         popis:
