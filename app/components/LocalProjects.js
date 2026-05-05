@@ -127,7 +127,7 @@ export default async function LocalProjects() {
                       </div>
                       <div>
                         <div style={{fontSize: 'clamp(12px, 0.9vw, 15px)', color: C.teal, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 5, fontWeight: 700}}>Bylin</div>
-                        <div style={{fontWeight: 800, fontSize: 'clamp(28px, 2.5vw, 44px)', color: C.orange, lineHeight: 1}}>39</div>
+                        <div style={{fontWeight: 800, fontSize: 'clamp(28px, 2.5vw, 44px)', color: C.orange, lineHeight: 1}}>51</div>
                       </div>
                     </div>
                     <div style={{
