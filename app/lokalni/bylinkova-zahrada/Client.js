@@ -5,7 +5,7 @@ import Nav from '@/app/components/Nav'
 import Footer from '@/app/components/Footer'
 import {TRUHLIKY} from './data'
 
-// ─── Herb shape classifier ────────────────────────────────────────────────────
+// ─── Herb shape classifier ─────────────────────────────────────────────────────
 
 function herbShape(nazev) {
   const n = nazev.toLowerCase()
@@ -25,7 +25,7 @@ function herbShape(nazev) {
   return 'bushy'
 }
 
-// ─── Herb SVG shapes ──────────────────────────────────────────────────────────
+// ─── Herb SVG shapes ───────────────────────────────────────────────────────────
 
 function HerbShape({type, color, h = 36, seed = 0}) {
   const lean = ((seed % 5) - 2) * 1.3
@@ -209,7 +209,6 @@ function HerbShape({type, color, h = 36, seed = 0}) {
     </svg>
   )
 
-  // bushy default
   return (
     <svg width="22" height={h} viewBox={`0 0 22 ${h}`} fill="none" style={{overflow:'visible',flexShrink:0}}>
       <line x1="11" y1={h} x2={sx} y2={h*0.5} stroke={`${color}88`} strokeWidth="1.8" strokeLinecap="round"/>
@@ -220,20 +219,42 @@ function HerbShape({type, color, h = 36, seed = 0}) {
   )
 }
 
-// ─── SVG property pictograms ──────────────────────────────────────────────────
+// ─── SVG property pictograms (28px) ───────────────────────────────────────────
 
 function IconSun({text}) {
-  const full = /světlo/.test(text) && !/^polostín|^stín/.test(text)
-  const partial = /polostín/.test(text)
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <circle cx="10" cy="10" r={full ? 4.5 : 3} fill="#f2b63a" opacity={full ? 1 : 0.55}/>
-      {(full || partial) && [0,45,90,135,180,225,270,315].map((a, i) => {
-        const r0 = full ? 6.5 : 5, r1 = full ? 8.5 : 6.5
+  const t = (text || '').toLowerCase()
+  const isShade = /^stín/.test(t)
+  const isPartial = /polostín/.test(t)
+
+  if (isShade) return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <ellipse cx="14" cy="18.5" rx="10" ry="5.5" fill="#94afc0" opacity="0.8"/>
+      <ellipse cx="10" cy="16" rx="5.5" ry="5" fill="#a8c2d0" opacity="0.88"/>
+      <ellipse cx="17.5" cy="15" rx="5" ry="4.5" fill="#a8c2d0" opacity="0.88"/>
+      <ellipse cx="14" cy="13" rx="5.5" ry="5" fill="#c4d8e4" opacity="0.85"/>
+    </svg>
+  )
+
+  if (isPartial) return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <circle cx="14" cy="14" r="5.5" fill="#f2b63a" opacity="0.16"/>
+      <path d="M14,8.5 A5.5,5.5 0 0,0 14,19.5 Z" fill="#f2b63a" opacity="0.92"/>
+      {[0,45,90,135,180,225,270,315].map((a, i) => {
         const cos = Math.cos(a*Math.PI/180), sin = Math.sin(a*Math.PI/180)
-        return <line key={i} x1={10+cos*r0} y1={10+sin*r0} x2={10+cos*r1} y2={10+sin*r1}
-          stroke="#f2b63a" strokeWidth="1.5" strokeLinecap="round"
-          opacity={partial && i%2===1 ? 0.25 : 0.9}/>
+        return <line key={i} x1={14+cos*7.5} y1={14+sin*7.5} x2={14+cos*9.8} y2={14+sin*9.8}
+          stroke="#f2b63a" strokeWidth="2" strokeLinecap="round"
+          opacity={cos < -0.1 ? 0.9 : 0.12}/>
+      })}
+    </svg>
+  )
+
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <circle cx="14" cy="14" r="5.5" fill="#f2b63a"/>
+      {[0,45,90,135,180,225,270,315].map((a, i) => {
+        const cos = Math.cos(a*Math.PI/180), sin = Math.sin(a*Math.PI/180)
+        return <line key={i} x1={14+cos*7.5} y1={14+sin*7.5} x2={14+cos*9.8} y2={14+sin*9.8}
+          stroke="#f2b63a" strokeWidth="2" strokeLinecap="round"/>
       })}
     </svg>
   )
@@ -243,7 +264,7 @@ function IconWater({text}) {
   const low = /nízká/.test(text), high = /vyšší/.test(text)
   const n = low ? 1 : high ? 3 : 2
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <svg width="28" height="28" viewBox="0 0 20 20" fill="none">
       {[0,1,2].map(i => (
         <path key={i} d={`M${2.5+i*6+3},16 Q${2.5+i*6},11 ${2.5+i*6+3},8 Q${2.5+i*6+6},11 ${2.5+i*6+3},16 Z`}
           fill="#2d8a7a" opacity={i < n ? 0.85 : 0.18}/>
@@ -255,7 +276,7 @@ function IconWater({text}) {
 function IconFrost({text}) {
   const hardy = /^ano/.test(text)
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <svg width="28" height="28" viewBox="0 0 20 20" fill="none">
       {hardy ? (
         [0,60,120].map((a, i) => {
           const cos = Math.cos(a*Math.PI/180), sin = Math.sin(a*Math.PI/180)
@@ -281,7 +302,7 @@ function IconFrost({text}) {
 
 function IconBee({active}) {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <svg width="28" height="28" viewBox="0 0 20 20" fill="none">
       <ellipse cx="10" cy="12.5" rx="4.5" ry="5.5" fill={active ? '#f2b63a' : '#f2b63a28'}/>
       {active && <>
         <line x1="6.5" y1="10" x2="13.5" y2="10" stroke="#1a3d3a" strokeWidth="1" opacity="0.7"/>
@@ -297,7 +318,7 @@ function IconBee({active}) {
 function IconLifespan({text}) {
   const annual = /jednoletka/.test(text), biennial = /dvouletka/.test(text)
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <svg width="28" height="28" viewBox="0 0 20 20" fill="none">
       {annual && <text x="5" y="15" fontSize="13" fontWeight="800" fill="#e8823d">1</text>}
       {biennial && <text x="4" y="15" fontSize="13" fontWeight="800" fill="#f2b63a">2</text>}
       {!annual && !biennial && <>
@@ -310,7 +331,7 @@ function IconLifespan({text}) {
 
 function PropPics({herb}) {
   return (
-    <div style={{display:'flex',gap:4,alignItems:'center'}}>
+    <div style={{display:'flex',gap:6,alignItems:'center'}}>
       <IconSun text={herb.svetlo}/>
       <IconWater text={herb.voda}/>
       <IconFrost text={herb.mrazuvzdornost}/>
@@ -320,40 +341,14 @@ function PropPics({herb}) {
   )
 }
 
-// ─── EU Flag SVG ──────────────────────────────────────────────────────────────
+// ─── Planter box (redesigned) ──────────────────────────────────────────────────
 
-function EUFlag({width = 80}) {
-  const h = Math.round(width * 2/3)
-  const cx = width/2, cy = h/2, r = h/3
-  const sr = h/10
-
-  function star(x, y) {
-    const pts = []
-    for (let i = 0; i < 5; i++) {
-      const ao = (i*72-90)*Math.PI/180, ai = (i*72-54)*Math.PI/180
-      pts.push(`${x+Math.cos(ao)*sr},${y+Math.sin(ao)*sr}`)
-      pts.push(`${x+Math.cos(ai)*sr*0.38},${y+Math.sin(ai)*sr*0.38}`)
-    }
-    return pts.join(' ')
-  }
-
-  return (
-    <svg width={width} height={h} viewBox={`0 0 ${width} ${h}`} style={{borderRadius:4,flexShrink:0}}>
-      <rect width={width} height={h} fill="#003399"/>
-      {Array.from({length:12},(_,i) => {
-        const a = (i*30-90)*Math.PI/180
-        return <polygon key={i} points={star(cx+Math.cos(a)*r, cy+Math.sin(a)*r)} fill="#FFCC00"/>
-      })}
-    </svg>
-  )
-}
-
-// ─── Planter box ──────────────────────────────────────────────────────────────
+const HERB_X = [7, 17, 27, 38, 50, 62, 73, 83, 92]
+const HERB_H = [44, 58, 40, 64, 50, 38, 60, 46, 54]
 
 function PlanterBox({truhlík, index, onClick}) {
   const [hovered, setHovered] = useState(false)
-  // Select a representative spread of herbs to show (max 8)
-  const displayHerbs = truhlík.bylinky.filter((_, i) => i < 8)
+  const herbs = truhlík.bylinky.slice(0, 9)
 
   return (
     <button
@@ -363,76 +358,111 @@ function PlanterBox({truhlík, index, onClick}) {
       style={{
         width:'100%', border:'none', padding:0, background:'none',
         cursor:'pointer', display:'flex', flexDirection:'column',
-        transform: hovered ? 'translateY(-4px) scale(1.01)' : 'none',
-        transition: 'transform 0.35s cubic-bezier(0.16,1,0.3,1)',
+        transform: hovered ? 'translateY(-8px) scale(1.015)' : 'none',
+        transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1)',
       }}
     >
       <div style={{
-        borderRadius:14, overflow:'hidden',
-        border: `3px solid ${hovered ? truhlík.barvaHex+'aa' : '#5C3D1E'}`,
+        borderRadius:20, overflow:'hidden',
         boxShadow: hovered
-          ? `0 22px 56px rgba(0,0,0,0.44), 0 0 0 1px ${truhlík.barvaHex}44`
-          : '0 6px 24px rgba(0,0,0,0.3)',
-        transition: 'box-shadow 0.35s, border-color 0.35s',
+          ? `0 28px 64px rgba(0,0,0,0.52), 0 0 0 2px ${truhlík.barvaHex}60`
+          : '0 8px 28px rgba(0,0,0,0.36)',
+        transition: 'box-shadow 0.4s',
       }}>
-        {/* Soil zone — perspective makes it look like a deep trough */}
-        <div style={{overflow:'hidden', background:'#0d1c0a'}}>
+        {/* Soil zone */}
+        <div style={{
+          height:'clamp(130px,15vw,200px)',
+          background:'linear-gradient(to bottom, #07120504 0%, #0b1908 25%, #0f2010 75%, #162a0f 100%)',
+          position:'relative', overflow:'hidden',
+        }}>
+          {/* Sky tint */}
           <div style={{
-            background:'linear-gradient(to bottom, #0c1a09 0%, #172810 50%, #1e3314 100%)',
-            padding:'18px 14px 8px', minHeight:104, position:'relative',
-            transform:'perspective(280px) rotateX(20deg)', transformOrigin:'center bottom',
-          }}>
-            {/* Back wall depth shadow */}
-            <div style={{position:'absolute',top:0,left:0,right:0,height:20,background:'linear-gradient(to bottom, rgba(0,0,0,0.55),transparent)',pointerEvents:'none'}}/>
-            {/* Color glow from herbs */}
-            <div style={{position:'absolute',bottom:0,left:0,right:0,top:'30%',background:`radial-gradient(ellipse at 50% 100%, ${truhlík.barvaHex}22, transparent 70%)`,pointerEvents:'none'}}/>
-            {/* Soil texture dots */}
-            <div style={{position:'absolute',bottom:6,left:0,right:0,display:'flex',justifyContent:'space-evenly',opacity:0.25,pointerEvents:'none'}}>
-              {Array.from({length:14},(_,i)=>(
-                <div key={i} style={{width:2,height:2,borderRadius:'50%',background:'#a0783a'}}/>
-              ))}
-            </div>
-            {/* Herb silhouettes */}
-            <div style={{display:'flex',alignItems:'flex-end',gap:3,justifyContent:'space-around',position:'relative',zIndex:1,flexWrap:'nowrap',overflow:'hidden'}}>
-              {displayHerbs.map((herb, i) => (
-                <HerbShape
-                  key={i}
-                  type={herbShape(herb.nazev)}
-                  color={truhlík.barvaHex}
-                  h={28+(i%4)*8}
-                  seed={i}
-                />
-              ))}
-            </div>
+            position:'absolute',top:0,left:0,right:0,height:'45%',
+            background:`linear-gradient(to bottom, ${truhlík.barvaHex}0e, transparent)`,
+            pointerEvents:'none',
+          }}/>
+          {/* Ground strip */}
+          <div style={{
+            position:'absolute',bottom:0,left:0,right:0,height:18,
+            background:'linear-gradient(to right, #3e2008, #5a300e, #3e2008)',
+            borderTop:'1px solid rgba(255,255,255,0.04)',
+          }}/>
+          {/* Soil pebbles */}
+          <div style={{position:'absolute',bottom:6,left:0,right:0,display:'flex',justifyContent:'space-evenly',opacity:0.3,pointerEvents:'none',padding:'0 6px'}}>
+            {Array.from({length:20},(_,i)=>(
+              <div key={i} style={{width:i%3===0?3:2,height:i%3===0?3:2,borderRadius:'50%',background:'#8a5c28'}}/>
+            ))}
           </div>
+          {/* Color glow from below */}
+          <div style={{
+            position:'absolute',bottom:0,left:0,right:0,height:'65%',
+            background:`radial-gradient(ellipse at 50% 100%, ${truhlík.barvaHex}2a, transparent 68%)`,
+            pointerEvents:'none',
+          }}/>
+          {/* Scattered herbs */}
+          {herbs.map((herb, i) => (
+            <div key={i} style={{
+              position:'absolute',
+              bottom:16,
+              left:`${HERB_X[i] ?? 50}%`,
+              transform:'translateX(-50%)',
+              zIndex:1,
+            }}>
+              <HerbShape type={herbShape(herb.nazev)} color={truhlík.barvaHex} h={HERB_H[i] ?? 44} seed={i}/>
+            </div>
+          ))}
         </div>
 
-        {/* Wood body */}
-        <div style={{background:'linear-gradient(to bottom, #9B6B35, #7A5228)',padding:'10px 16px 13px',borderTop:'4px solid #5C3D1E'}}>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:5}}>
-            <div style={{display:'inline-flex',alignItems:'center',gap:5,background:`${truhlík.barvaHex}28`,border:`1px solid ${truhlík.barvaHex}55`,borderRadius:100,padding:'3px 9px'}}>
-              <div style={{width:5,height:5,borderRadius:'50%',background:truhlík.barvaHex,boxShadow:`0 0 5px ${truhlík.barvaHex}`}}/>
-              <span style={{fontSize:10,fontWeight:700,color:truhlík.barvaHex,letterSpacing:'0.12em',textTransform:'uppercase',filter:'brightness(1.4)'}}>
-                {truhlík.bylinky.length} bylin
-              </span>
+        {/* Wood panel */}
+        <div style={{
+          background:'linear-gradient(160deg, #c08040 0%, #9a6330 45%, #7a4e24 100%)',
+          padding:'clamp(12px,1.5vw,18px) clamp(16px,2vw,24px)',
+          borderTop:'3px solid #4e2e0e',
+          display:'flex', alignItems:'center', gap:16,
+        }}>
+          <div style={{
+            fontSize:'clamp(28px,3.2vw,48px)', fontWeight:800, lineHeight:1,
+            color:truhlík.barvaHex, flexShrink:0, fontFamily:'monospace',
+            filter:'brightness(1.4)',
+            textShadow:`0 2px 14px ${truhlík.barvaHex}55`,
+            transition:'transform 0.3s',
+            transform: hovered ? 'scale(1.06)' : 'scale(1)',
+          }}>
+            {String(index+1).padStart(2,'0')}
+          </div>
+          <div style={{flex:1, minWidth:0}}>
+            <div style={{
+              fontSize:'clamp(13px,1.1vw,17px)', fontWeight:800, color:'rgba(255,255,255,0.95)',
+              lineHeight:1.25, letterSpacing:'-0.01em',
+              whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis',
+            }}>
+              {truhlík.nazev}
             </div>
-            <span style={{fontSize:10,color:'rgba(255,255,255,0.4)',fontWeight:600}}>Rozkliknout ▸</span>
+            <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginTop:4,fontWeight:600,letterSpacing:'0.04em'}}>
+              {truhlík.bylinky.length} bylin
+            </div>
           </div>
-          <div style={{fontSize:'clamp(13px,1.1vw,16px)',fontWeight:700,color:'#fff',lineHeight:1.2,letterSpacing:'-0.01em'}}>
-            {truhlík.nazev}
-          </div>
+          <div style={{
+            width:32, height:32, borderRadius:'50%', flexShrink:0,
+            background:`${truhlík.barvaHex}22`, border:`1.5px solid ${truhlík.barvaHex}50`,
+            display:'flex', alignItems:'center', justifyContent:'center',
+            color:truhlík.barvaHex, fontSize:20, fontWeight:700,
+            filter:'brightness(1.4)',
+            transition:'transform 0.3s',
+            transform: hovered ? 'translateX(4px)' : 'none',
+          }}>›</div>
         </div>
       </div>
       {/* Legs */}
       <div style={{display:'flex',justifyContent:'space-between',padding:'0 18%'}}>
-        <div style={{width:8,height:10,background:'#5C3D1E',borderRadius:'0 0 3px 3px'}}/>
-        <div style={{width:8,height:10,background:'#5C3D1E',borderRadius:'0 0 3px 3px'}}/>
+        <div style={{width:10,height:12,background:'#4e2e0e',borderRadius:'0 0 4px 4px'}}/>
+        <div style={{width:10,height:12,background:'#4e2e0e',borderRadius:'0 0 4px 4px'}}/>
       </div>
     </button>
   )
 }
 
-// ─── Herb card ────────────────────────────────────────────────────────────────
+// ─── Herb card ─────────────────────────────────────────────────────────────────
 
 function HerbCard({herb, accentColor, index, onClick}) {
   const [hovered, setHovered] = useState(false)
@@ -451,7 +481,7 @@ function HerbCard({herb, accentColor, index, onClick}) {
       <div style={{fontSize:'clamp(14px,1.1vw,17px)',fontWeight:800,color:C.dark,marginBottom:3,lineHeight:1.25}}>
         {herb.nazev}
       </div>
-      <div style={{fontSize:11,color:C.ink,opacity:0.42,fontStyle:'italic',marginBottom:10,lineHeight:1.3,
+      <div style={{fontSize:11,color:C.ink,opacity:0.42,fontStyle:'italic',marginBottom:12,lineHeight:1.3,
         whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
         {herb.latinsky.split('/')[0].trim()}
       </div>
@@ -460,7 +490,7 @@ function HerbCard({herb, accentColor, index, onClick}) {
   )
 }
 
-// ─── Planter detail view ──────────────────────────────────────────────────────
+// ─── Planter detail view ───────────────────────────────────────────────────────
 
 function PlanterView({truhlík, onHerbClick, onBack}) {
   return (
@@ -492,7 +522,7 @@ function PlanterView({truhlík, onHerbClick, onBack}) {
   )
 }
 
-// ─── Herb modal ───────────────────────────────────────────────────────────────
+// ─── Herb modal ────────────────────────────────────────────────────────────────
 
 function PropRow({label, value}) {
   if (value === null || value === undefined) return null
@@ -505,6 +535,7 @@ function PropRow({label, value}) {
 }
 
 function HerbModal({herb, planterColor, onClose}) {
+  const paras = herb.popis ? herb.popis.split('\n\n') : []
   return (
     <div role="dialog" aria-modal="true" aria-label={herb.nazev}
       onClick={e => e.target === e.currentTarget && onClose()}
@@ -544,11 +575,16 @@ function HerbModal({herb, planterColor, onClose}) {
           <PropRow label="Opylovači" value={herb.opylovaci}/>
           <PropRow label="Sbírá se" value={herb.coSeSbira}/>
         </div>
-        {herb.popis && (
-          <div style={{padding:'clamp(20px,2.5vw,28px) clamp(22px,3vw,34px) 0'}}>
-            {herb.popis.split('\n\n').map((para, i) => (
-              <p key={i} style={{fontSize:'clamp(13px,1vw,15px)',lineHeight:1.75,color:C.ink,margin:i===0?0:'14px 0 0',opacity:0.82}}>{para}</p>
-            ))}
+        {paras[0] && (
+          <div style={{padding:'clamp(16px,2vw,22px) clamp(22px,3vw,34px) 0'}}>
+            <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.teal,marginBottom:8}}>K čemu se používá</div>
+            <p style={{fontSize:'clamp(13px,1vw,15px)',lineHeight:1.75,color:C.ink,margin:0,opacity:0.82}}>{paras[0]}</p>
+          </div>
+        )}
+        {paras[1] && (
+          <div style={{padding:'clamp(16px,2vw,22px) clamp(22px,3vw,34px) 0',marginTop:4}}>
+            <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.teal,marginBottom:8}}>Jak ji pěstovat</div>
+            <p style={{fontSize:'clamp(13px,1vw,15px)',lineHeight:1.75,color:C.ink,margin:0,opacity:0.82}}>{paras[1]}</p>
           </div>
         )}
         {herb.upozorneni && (
@@ -563,19 +599,13 @@ function HerbModal({herb, planterColor, onClose}) {
   )
 }
 
-// ─── Contact form ─────────────────────────────────────────────────────────────
-
-const FORM_TYPES = [
-  {key:'zalivka', label:'Chci pomoct se zaléváním'},
-  {key:'bylinka', label:'Navrhnout bylinku'},
-  {key:'zpetna',  label:'Dát zpětnou vazbu'},
-]
+// ─── Contact form ──────────────────────────────────────────────────────────────
 
 function ContactForm() {
-  const [type, setType] = useState('zalivka')
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [msg, setMsg] = useState('')
-  const [status, setStatus] = useState('idle') // idle | sending | done | error
+  const [status, setStatus] = useState('idle')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -585,10 +615,10 @@ function ContactForm() {
         method: 'POST',
         headers: {'Content-Type':'application/json','Accept':'application/json'},
         body: JSON.stringify({
-          _subject: `Bylinkové zahrady – ${FORM_TYPES.find(t=>t.key===type)?.label}`,
+          _subject: `Bylinkové zahrady – zpráva od ${name}`,
+          jmeno: name,
           email,
           zprava: msg,
-          typ: type,
         }),
       })
       const data = await res.json()
@@ -608,20 +638,16 @@ function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:16}}>
-      {/* Type selector */}
-      <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
-        {FORM_TYPES.map(t => (
-          <button key={t.key} type="button" onClick={() => setType(t.key)} style={{
-            padding:'10px 18px',borderRadius:100,border:`1.5px solid ${type===t.key ? C.green : 'rgba(255,255,255,0.15)'}`,
-            background: type===t.key ? `${C.green}22` : 'transparent',
-            color: type===t.key ? C.green : `${C.cream}88`,
-            fontSize:13,fontWeight:700,cursor:'pointer',transition:'all 0.2s',letterSpacing:'0.04em',
-            filter: type===t.key ? 'brightness(1.3)' : 'none',
-          }}>{t.label}</button>
-        ))}
+      <div style={{display:'flex',flexDirection:'column',gap:6}}>
+        <label style={{fontSize:12,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:`${C.cream}66`}}>
+          Vaše jméno *
+        </label>
+        <input type="text" required value={name} onChange={e => setName(e.target.value)}
+          placeholder="Jan Novák"
+          style={{padding:'12px 16px',borderRadius:10,border:`1.5px solid rgba(255,255,255,0.12)`,
+            background:'rgba(255,255,255,0.06)',color:C.cream,fontSize:15,outline:'none',
+            transition:'border-color 0.2s'}}/>
       </div>
-
-      {/* Email */}
       <div style={{display:'flex',flexDirection:'column',gap:6}}>
         <label style={{fontSize:12,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:`${C.cream}66`}}>
           Váš e-mail *
@@ -632,8 +658,6 @@ function ContactForm() {
             background:'rgba(255,255,255,0.06)',color:C.cream,fontSize:15,outline:'none',
             transition:'border-color 0.2s'}}/>
       </div>
-
-      {/* Message */}
       <div style={{display:'flex',flexDirection:'column',gap:6}}>
         <label style={{fontSize:12,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:`${C.cream}66`}}>
           Zpráva *
@@ -644,7 +668,6 @@ function ContactForm() {
             background:'rgba(255,255,255,0.06)',color:C.cream,fontSize:15,outline:'none',resize:'vertical',
             transition:'border-color 0.2s',fontFamily:'inherit'}}/>
       </div>
-
       <button type="submit" disabled={status==='sending'} style={{
         alignSelf:'flex-start',padding:'14px 32px',borderRadius:100,border:'none',
         background: status==='sending' ? `${C.green}66` : C.green,
@@ -654,13 +677,18 @@ function ContactForm() {
         {status==='sending' ? 'Odesílám…' : 'Odeslat zprávu'}
       </button>
       {status==='error' && (
-        <p style={{fontSize:13,color:C.orange,margin:0}}>Odeslání se nezdařilo. Napište nám na info@czech-horizons.cz</p>
+        <div style={{fontSize:13,color:`${C.cream}bb`,margin:0,lineHeight:1.6}}>
+          Odeslání se nezdařilo. Napište nám přímo na{' '}
+          <a href="mailto:info@czech-horizons.cz" style={{color:C.green,textDecoration:'underline'}}>
+            info@czech-horizons.cz
+          </a>
+        </div>
       )}
     </form>
   )
 }
 
-// ─── Main page export ─────────────────────────────────────────────────────────
+// ─── Main page export ──────────────────────────────────────────────────────────
 
 export function BylinkoveZahradyClient({akce = []}) {
   const [view, setView] = useState('overview')
@@ -697,7 +725,7 @@ export function BylinkoveZahradyClient({akce = []}) {
   }
 
   const formatDate = (dateStr) => {
-    if (!dateStr) return ''
+    if (!dateStr) return {}
     const d = new Date(dateStr)
     const m = ['LED','ÚN','BŘE','DUB','KVĚ','ČVN','ČVC','SRP','ZÁŘ','ŘÍJ','LIS','PRO'][d.getMonth()]
     return {den: d.getDate(), mesic: m, rok: d.getFullYear()}
@@ -717,17 +745,31 @@ export function BylinkoveZahradyClient({akce = []}) {
       <Nav />
       <main>
 
-        {/* ── Hero ────────────────────────────────────────────────────── */}
+        {/* ── Hero ─────────────────────────────────────────────────────── */}
         <section style={{padding:'clamp(120px,14vw,200px) clamp(24px,5vw,80px) clamp(80px,10vw,120px)',background:C.cream}}>
           <div style={{maxWidth:1400,margin:'0 auto'}}>
             <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:32,color:C.teal}}>
               <span style={{color:C.orange}}>❋</span> Lokální projekt — Praha 6, Hanspaulka
             </div>
-            <h1 style={{fontSize:'clamp(44px,6.5vw,112px)',fontWeight:800,lineHeight:0.9,letterSpacing:'-0.03em',margin:'0 0 clamp(24px,3vw,40px)',color:C.dark}}>
+            <h1 style={{fontSize:'clamp(44px,6.5vw,112px)',fontWeight:800,lineHeight:0.9,letterSpacing:'-0.03em',margin:'0 0 clamp(20px,2.5vw,32px)',color:C.dark}}>
               Sousedská<br/>
               <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>bylinková zahrádka.</span>
             </h1>
-            <p style={{fontSize:'clamp(16px,1.2vw,21px)',lineHeight:1.65,color:C.ink,maxWidth:560,opacity:0.78,margin:'0 0 clamp(24px,3vw,40px)'}}>
+
+            {/* Stats */}
+            <div style={{display:'flex',gap:'clamp(20px,3vw,48px)',alignItems:'flex-end',marginBottom:'clamp(24px,3vw,40px)',flexWrap:'wrap'}}>
+              <div>
+                <div style={{fontSize:'clamp(44px,5.5vw,76px)',fontWeight:800,lineHeight:0.9,color:C.orange}}>6</div>
+                <div style={{fontSize:'clamp(11px,0.85vw,14px)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:`${C.ink}55`,marginTop:8}}>truhlíků</div>
+              </div>
+              <div style={{width:1,height:52,background:`${C.ink}18`,marginBottom:4,flexShrink:0}}/>
+              <div>
+                <div style={{fontSize:'clamp(44px,5.5vw,76px)',fontWeight:800,lineHeight:0.9,color:C.green}}>50+</div>
+                <div style={{fontSize:'clamp(11px,0.85vw,14px)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:`${C.ink}55`,marginTop:8}}>druhů bylin</div>
+              </div>
+            </div>
+
+            <p style={{fontSize:'clamp(16px,1.2vw,21px)',lineHeight:1.65,color:C.ink,maxWidth:540,opacity:0.75,margin:'0 0 clamp(24px,3vw,40px)'}}>
               Šest bylinkových truhlíků plných vůní, chutí a příběhů — volně přístupných každému, kdo jde kolem.
             </p>
             <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
@@ -741,7 +783,7 @@ export function BylinkoveZahradyClient({akce = []}) {
           </div>
         </section>
 
-        {/* ── Planters garden ─────────────────────────────────────────── */}
+        {/* ── Planters garden ──────────────────────────────────────────── */}
         <section id="zahon" style={{background:C.dark,padding: view==='overview' ? 'clamp(60px,8vw,100px) clamp(24px,5vw,80px) 0' : '0',minHeight:'65vh',transition:'padding 0.4s'}}>
           {view === 'overview' && (
             <div style={{maxWidth:1400,margin:'0 auto'}}>
@@ -761,40 +803,54 @@ export function BylinkoveZahradyClient({akce = []}) {
           <div style={{height:28,background:'linear-gradient(to bottom, transparent, rgba(0,0,0,0.32))',marginTop: view==='overview' ? 'clamp(40px,5vw,72px)' : 'clamp(24px,3vw,40px)'}}/>
         </section>
 
-        {/* ── Jak zahradu používat ─────────────────────────────────────── */}
+        {/* ── Přijďte, přivonějte ───────────────────────────────────────── */}
         <section style={{background:C.creamDark,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
-          <div style={{maxWidth:1400,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr clamp(320px,42%,600px)',gap:'clamp(40px,6vw,100px)',alignItems:'start'}}>
+          <div style={{maxWidth:1400,margin:'0 auto',display:'grid',gridTemplateColumns:'clamp(260px,36%,480px) 1fr',gap:'clamp(40px,6vw,100px)',alignItems:'start'}}>
             <div>
               <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
                 <span style={{color:C.orange}}>❋</span> 002 — Jak zahradu používat
               </div>
               <h2 style={{fontSize:'clamp(36px,5vw,72px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.03em',margin:'0 0 clamp(20px,2.5vw,36px)',color:C.dark}}>
-                Přijďte, přivonějte<span style={{color:C.orange}}>.</span>
+                Přijďte,<br/>přivonějte<span style={{color:C.orange}}>.</span>
               </h2>
-              <p style={{fontSize:'clamp(16px,1.2vw,20px)',lineHeight:1.65,color:`${C.ink}bb`,margin:0,maxWidth:500}}>
+              <p style={{fontSize:'clamp(16px,1.2vw,20px)',lineHeight:1.65,color:`${C.ink}bb`,margin:0,maxWidth:420}}>
                 Zahrádka je volně přístupná každý den. Bylinky jsou tady pro všechny — pro zvědavce, kuchaře i ty, kteří si chtějí jen odpočinout.
               </p>
             </div>
 
-            <div style={{display:'flex',flexDirection:'column',gap:12}}>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(2, 1fr)',gap:12}}>
               {[
-                {icon:'🌿', text:'Bylinky si klidně prohlédněte, přivonějte nebo trochu natrháte.'},
-                {icon:'✂️', text:'Trhejte prosím šetrně — ne celé rostliny, jen pár lístků.'},
-                {icon:'🌱', text:'Nevytrhávejte rostliny s kořeny, aby mohly dál růst.'},
-                {icon:'🙏', text:'Berte jen tolik, kolik opravdu využijete.'},
-                {icon:'💧', text:'Pokud vidíte suchý truhlík, pomůže mu sklenka vody.'},
-                {icon:'📱', text:'U každého truhlíku najdete QR kód s podrobnostmi o bylinkách.'},
-              ].map(({icon, text}, i) => (
-                <div key={i} style={{display:'flex',gap:14,alignItems:'flex-start',padding:'clamp(14px,1.5vw,20px)',background:C.cream,borderRadius:14,border:`1px solid ${C.ink}10`}}>
-                  <span style={{fontSize:20,flexShrink:0,lineHeight:1.2}}>{icon}</span>
-                  <p style={{fontSize:'clamp(14px,1.05vw,17px)',lineHeight:1.6,color:C.ink,margin:0,opacity:0.85}}>{text}</p>
+                {icon:'🌿', n:'01', title:'Přivonějte si',      text:'Bylinky si klidně prohlédněte, přivonějte nebo trochu natrháte.'},
+                {icon:'✂️', n:'02', title:'Trhejte šetrně',     text:'Trhejte prosím šetrně — pár lístků, ne celé rostliny.'},
+                {icon:'🌱', n:'03', title:'Nechte kořeny',      text:'Nechte rostliny v zemi — trhejte jen to, co roste nad zemí.'},
+                {icon:'🙏', n:'04', title:'Berte s mírou',      text:'Berte jen tolik, kolik opravdu využijete.'},
+                {icon:'💧', n:'05', title:'Zálivka pomůže',     text:'Pokud vidíte suchý truhlík, pomůže mu sklenka vody.'},
+                {icon:'📱', n:'06', title:'QR kód u truhlíku',  text:'U každého truhlíku najdete QR kód s podrobnostmi o bylinkách.'},
+              ].map(({icon, n, title, text}, i) => (
+                <div key={i} style={{
+                  padding:'clamp(18px,1.8vw,24px)',
+                  background:C.cream,
+                  borderRadius:16,
+                  border:`1px solid ${C.ink}08`,
+                  position:'relative',
+                  overflow:'hidden',
+                }}>
+                  <div style={{
+                    position:'absolute', top:-6, right:10,
+                    fontSize:'clamp(48px,5vw,68px)', fontWeight:800,
+                    color:`${C.ink}05`, lineHeight:1, fontFamily:'monospace',
+                    userSelect:'none', pointerEvents:'none',
+                  }}>{n}</div>
+                  <span style={{fontSize:'clamp(22px,2.5vw,30px)',display:'block',marginBottom:10}}>{icon}</span>
+                  <div style={{fontSize:'clamp(13px,1.05vw,16px)',fontWeight:800,color:C.dark,marginBottom:6,lineHeight:1.25}}>{title}</div>
+                  <p style={{fontSize:'clamp(12px,0.92vw,14px)',lineHeight:1.65,color:C.ink,margin:0,opacity:0.7}}>{text}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── Kde nás najdete ─────────────────────────────────────────── */}
+        {/* ── Kde nás najdete ───────────────────────────────────────────── */}
         <section id="mapa" style={{background:C.dark,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
           <div style={{maxWidth:1400,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'clamp(40px,6vw,80px)',alignItems:'start'}}>
             <div>
@@ -826,31 +882,35 @@ export function BylinkoveZahradyClient({akce = []}) {
                   </div>
                 </div>
               </div>
-              <a
-                href="https://www.google.com/maps?q=50.104083,14.371722"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{display:'inline-flex',alignItems:'center',gap:10,padding:'14px 28px',borderRadius:100,
-                  background:C.green,color:C.dark,fontSize:14,fontWeight:800,textDecoration:'none',
-                  letterSpacing:'0.06em',textTransform:'uppercase'}}>
-                Otevřít v Google Maps ↗
-              </a>
+              <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+                <a href="https://www.google.com/maps?q=50.104083,14.371722" target="_blank" rel="noopener noreferrer"
+                  style={{display:'inline-flex',alignItems:'center',gap:10,padding:'14px 24px',borderRadius:100,
+                    background:C.green,color:C.dark,fontSize:14,fontWeight:800,textDecoration:'none',
+                    letterSpacing:'0.06em',textTransform:'uppercase'}}>
+                  Google Maps ↗
+                </a>
+                <a href="https://mapy.cz/zakladni?x=14.371722&y=50.104083&z=17" target="_blank" rel="noopener noreferrer"
+                  style={{display:'inline-flex',alignItems:'center',gap:10,padding:'14px 24px',borderRadius:100,
+                    border:`1.5px solid ${C.cream}22`,color:C.cream,fontSize:14,fontWeight:700,textDecoration:'none',
+                    letterSpacing:'0.04em',textTransform:'uppercase',opacity:0.8}}>
+                  Mapy.cz ↗
+                </a>
+              </div>
             </div>
 
-            {/* Map embed */}
             <div style={{borderRadius:20,overflow:'hidden',border:`2px solid ${C.cream}12`,boxShadow:'0 16px 48px rgba(0,0,0,0.35)',aspectRatio:'1/1',background:C.dark}}>
               <iframe
                 title="Mapa - Sousedská bylinková zahrádka"
                 src="https://www.openstreetmap.org/export/embed.html?bbox=14.368722%2C50.102083%2C14.374722%2C50.106083&layer=mapnik&marker=50.104083%2C14.371722"
                 width="100%" height="100%"
-                style={{border:'none',display:'block',filter:'hue-rotate(160deg) saturate(0.7) brightness(0.8)'}}
+                style={{border:'none',display:'block'}}
                 loading="lazy"
               />
             </div>
           </div>
         </section>
 
-        {/* ── Proč jsme zahrádku vytvořili ────────────────────────────── */}
+        {/* ── Proč jsme zahrádku vytvořili ─────────────────────────────── */}
         <section style={{background:C.cream,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
           <div style={{maxWidth:1400,margin:'0 auto'}}>
             <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
@@ -888,7 +948,7 @@ export function BylinkoveZahradyClient({akce = []}) {
           </div>
         </section>
 
-        {/* ── Zapojte se ───────────────────────────────────────────────── */}
+        {/* ── Zapojte se ────────────────────────────────────────────────── */}
         <section style={{background:C.dark,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
           <div style={{maxWidth:1400,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'clamp(40px,6vw,80px)',alignItems:'start'}}>
             <div>
@@ -899,7 +959,7 @@ export function BylinkoveZahradyClient({akce = []}) {
                 Chcete<br/>
                 <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>pomoct?</span>
               </h2>
-              <div style={{display:'flex',flexDirection:'column',gap:12,marginBottom:0}}>
+              <div style={{display:'flex',flexDirection:'column',gap:12}}>
                 {[
                   'Napište nám, pokud chcete pomoct se zaléváním',
                   'Pošlete nám recept s bylinkou z naší zahrádky',
@@ -919,7 +979,7 @@ export function BylinkoveZahradyClient({akce = []}) {
           </div>
         </section>
 
-        {/* ── Akce ─────────────────────────────────────────────────────── */}
+        {/* ── Akce ──────────────────────────────────────────────────────── */}
         {akce.length > 0 && (
           <section style={{background:C.dark,padding:'0 clamp(24px,5vw,80px) clamp(60px,8vw,100px)'}}>
             <div style={{maxWidth:1400,margin:'0 auto'}}>
@@ -963,26 +1023,50 @@ export function BylinkoveZahradyClient({akce = []}) {
           </section>
         )}
 
-        {/* ── Acknowledgements / EU-ESC ────────────────────────────────── */}
+        {/* ── Odkud bylinky máme ───────────────────────────────────────── */}
+        <section style={{background:C.cream,padding:'clamp(48px,6vw,80px) clamp(24px,5vw,80px)'}}>
+          <div style={{maxWidth:1400,margin:'0 auto'}}>
+            <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
+              <span style={{color:C.orange}}>❋</span> Odkud bylinky máme
+            </div>
+            <h2 style={{fontSize:'clamp(28px,3.5vw,52px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.025em',margin:'0 0 clamp(28px,3.5vw,44px)',color:C.dark}}>
+              Bylinky s dobrým<br/>
+              <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>původem.</span>
+            </h2>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(240px,1fr))',gap:20}}>
+              {[
+                {emoji:'🌱', nazev:'Zahradnictví Spomyšl', popis:'Rodinné zahradnictví s bohatou nabídkou bylinkových sazenic pěstovaných s péčí a zkušenostmi.'},
+                {emoji:'🌿', nazev:'Zahradnictví Chládek', popis:'Osvědčený dodavatel kvalitních bylin, s nimiž spolupracujeme opakovaně a s radostí.'},
+                {emoji:'🔬', nazev:'Výzkumné skleníky ČZU', popis:'Česká zemědělská univerzita nám poskytuje vzácnější a méně běžné druhy bylin ze svých výzkumných sbírek.'},
+              ].map(({emoji, nazev, popis}, i) => (
+                <div key={i} style={{
+                  padding:'clamp(22px,2.2vw,30px)',
+                  borderRadius:16,
+                  background:C.creamDark,
+                  border:`1px solid ${C.ink}10`,
+                }}>
+                  <span style={{fontSize:28,display:'block',marginBottom:14}}>{emoji}</span>
+                  <div style={{fontSize:'clamp(15px,1.2vw,18px)',fontWeight:800,color:C.dark,marginBottom:8,lineHeight:1.2}}>{nazev}</div>
+                  <p style={{fontSize:'clamp(13px,0.95vw,15px)',lineHeight:1.65,color:C.ink,margin:0,opacity:0.68}}>{popis}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Acknowledgements / EU-ESC ─────────────────────────────────── */}
         <section style={{background:C.creamDark,padding:'clamp(40px,5vw,72px) clamp(24px,5vw,80px)'}}>
           <div style={{maxWidth:1400,margin:'0 auto'}}>
             <div style={{height:1,background:`${C.ink}15`,marginBottom:'clamp(28px,3.5vw,48px)'}}/>
-            <p style={{fontSize:'clamp(13px,1vw,16px)',color:`${C.ink}88`,margin:'0 0 clamp(20px,2.5vw,32px)',lineHeight:1.65}}>
+            <p style={{fontSize:'clamp(13px,1vw,16px)',color:`${C.ink}88`,margin:'0 0 clamp(24px,3vw,36px)',lineHeight:1.65}}>
               Projekt realizuje <strong style={{color:C.ink}}>Czech Horizons z. s.</strong> za podpory <strong style={{color:C.ink}}>Evropského sboru solidarity</strong>.
             </p>
-            <div style={{display:'flex',gap:16,alignItems:'center',flexWrap:'wrap'}}>
-              {/* EU flag */}
-              <EUFlag width={72}/>
-              {/* ESC badge */}
-              <div style={{display:'flex',alignItems:'center',gap:8,padding:'8px 16px',borderRadius:8,background:C.cream,border:`1px solid ${C.ink}15`}}>
-                <div style={{width:8,height:8,borderRadius:'50%',background:'#003399'}}/>
-                <span style={{fontSize:12,fontWeight:700,color:'#003399',letterSpacing:'0.06em'}}>Evropský sbor solidarity</span>
-              </div>
-              {/* Czech Horizons badge */}
-              <div style={{display:'flex',alignItems:'center',gap:8,padding:'8px 16px',borderRadius:8,background:C.cream,border:`1px solid ${C.ink}15`}}>
-                <div style={{width:8,height:8,borderRadius:'50%',background:C.teal}}/>
-                <span style={{fontSize:12,fontWeight:700,color:C.teal,letterSpacing:'0.06em'}}>Czech Horizons z. s.</span>
-              </div>
+            <div style={{display:'flex',gap:'clamp(16px,2.5vw,32px)',alignItems:'center',flexWrap:'wrap'}}>
+              <img src="/logoeu.png" alt="Evropská unie" style={{height:52,objectFit:'contain',display:'block'}}/>
+              <img src="/logoesc.png" alt="Evropský sbor solidarity" style={{height:60,objectFit:'contain',display:'block'}}/>
+              <img src="/logodzs.png" alt="Dům zahraniční spolupráce" style={{height:48,objectFit:'contain',display:'block'}}/>
+              <img src="/czulogo.png" alt="Česká zemědělská univerzita" style={{height:44,objectFit:'contain',display:'block'}}/>
+              <img src="/logopraha6.png" alt="Praha 6" style={{height:44,objectFit:'contain',display:'block'}}/>
             </div>
             <p style={{fontSize:11,color:`${C.ink}55`,margin:'clamp(16px,2vw,24px) 0 0',lineHeight:1.6,maxWidth:700}}>
               Tento projekt byl podpořen z programu Evropský sbor solidarity Evropské unie. Vyjádřené názory jsou výlučně názory autorů a Evropská unie za ně nenese žádnou odpovědnost.
@@ -999,3 +1083,5 @@ export function BylinkoveZahradyClient({akce = []}) {
     </>
   )
 }
+
+export default BylinkoveZahradyClient
