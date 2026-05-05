@@ -1,6 +1,6 @@
 // Bylinkové zahrady – data truhlíků a bylin
 // Truhlíky jsou seřazeny po řadách zleva doprava:
-// Řada 0 (zadní/top): Bylinky babiček | Svěží truhlík | Bazalky a sladké listy
+// Řada 0 (zadní/top): Bylinky babiček | Bazalky a sladké listy | Kvetoucí kuchyňské
 // Řada 1 (přední/bottom): Voňavé středomoří | Svěží truhlík | Bylinky předků
 // Všechna data jsou kompletní.
 
@@ -289,16 +289,9 @@ export const TRUHLIKY = [
     ],
   },
   {
-    id: 'svezi-zadni',
-    nazev: 'Svěží truhlík',
-    barvaHex: '#2d8a7a',
-    rada: 'zadni',
-    bylinky: SVEZI_BYLINKY,
-  },
-  {
     id: 'bazalky-sladke-listy',
     nazev: 'Bazalky a sladké listy',
-    barvaHex: '#c9793a',
+    barvaHex: '#2d8a7a',
     rada: 'zadni',
     bylinky: [
       {
@@ -428,6 +421,111 @@ export const TRUHLIKY = [
           'Bazalka citronová má příjemnou kombinaci bazalkové a citronové vůně. Hodí se k rybám, mořským plodům, kuřecímu masu, do salátů, limonád, čajů, dezertů, sirupů nebo ovocných jídel. Je jemnější než klasická bazalka a dobře doplňuje citrusové chutě.\n\nPěstujte ji na plném slunci v teplé a přiměřeně vlhké půdě. Stejně jako ostatní bazalky je citlivá na chlad a průvan. Pravidelnou sklizní vrcholků podpoříte větvení a prodloužíte dobu sklizně. Hodí se k citronové verbeně, meduňce, mátě nebo ostatním bazalkám. Nesázejte ji do stínu ani do větrného místa.',
         upozorneni:
           'Citronové aroma je nejsilnější u mladých listů před začátkem kvetení. Po odkvětu vůně mírně slábne.',
+      },
+    ],
+  },
+
+  {
+    id: 'kvetouci-kuchynske',
+    nazev: 'Kvetoucí kuchyňské bylinky',
+    barvaHex: '#c9793a',
+    rada: 'zadni',
+    bylinky: [
+      {
+        nazev: 'Mateřídouška',
+        latinsky: 'Thymus serpyllum',
+        synonymum: null,
+        svetlo: 'světlo',
+        voda: 'nízká zálivka, sušší a propustná půda',
+        opylovaci: true,
+        sklizen: 'květen až září',
+        zivotnost: 'trvalka',
+        mrazuvzdornost: 'ano, přibližně do −25 °C',
+        coSeSbira: 'kvetoucí nať, listy a mladé výhonky',
+        popis:
+          'Mateřídouška je nízká aromatická bylina podobná tymiánu, ale často jemnější. V kuchyni ji můžete použít k masu, zelenině, bramborám, do polévek, omáček nebo bylinkových směsí. Mimo kuchyni se tradičně používá do čajů, hlavně v období nachlazení, a je výborná také jako vonná rostlina do suchých záhonů nebo skalek.\n\nPěstujte ji na slunném, suchém a dobře propustném místě. Snese chudší půdu a nepotřebuje téměř žádné hnojení. Hodí se k tymiánu, levanduli, santolíně, šalvěji, yzopu, rozchodníkům nebo netřeskům. Nesázejte ji k vlhkomilným bylinkám, například k mátě, šťovíku, celeru nebo petrželi.',
+        upozorneni:
+          'Mateřídouška je velmi oblíbená u včel a čmeláků. Když kvete, je to jedna z nejlepších nízkých bylinek pro opylovače.',
+      },
+      {
+        nazev: 'Mateřídouška citronová',
+        latinsky: 'Thymus × citriodorus',
+        synonymum: null,
+        svetlo: 'světlo',
+        voda: 'nízká zálivka, sušší a propustná půda',
+        opylovaci: true,
+        sklizen: 'květen až září',
+        zivotnost: 'trvalka',
+        mrazuvzdornost: 'ano, přibližně do −15 až −20 °C',
+        coSeSbira: 'listy, mladé výhonky a kvetoucí nať',
+        popis:
+          'Mateřídouška citronová má příjemnou citrusovou vůni. V kuchyni se hodí k rybám, kuřecímu masu, zelenině, bramborám, do marinád, čajů, limonád, sirupů nebo dezertů. Mimo kuchyni je vhodná jako voňavá nízká rostlina do záhonů, skalek a nádob.\n\nPěstujte ji na slunném a teplém místě v lehké, dobře propustné půdě. Nesnáší přemokření, hlavně v zimě. Po odkvětu ji můžete lehce sestřihnout, aby zůstala hustá. Hodí se k levanduli, šalvěji, rozmarýnu, santolíně, yzopu nebo netřeskům. Nesázejte ji k rostlinám, které potřebují více vody, například k mátě, šťovíku, petrželi nebo celeru.',
+        upozorneni:
+          'Citronové aroma je nejsilnější u čerstvých mladých výhonků. Sušením se část vůně ztrácí.',
+      },
+      {
+        nazev: 'Oregano / dobromysl obecná',
+        latinsky: 'Origanum vulgare',
+        synonymum: null,
+        svetlo: 'světlo',
+        voda: 'nízká až střední zálivka, propustná půda',
+        opylovaci: true,
+        sklizen: 'červen až září',
+        zivotnost: 'trvalka',
+        mrazuvzdornost: 'ano, přibližně do −25 °C',
+        coSeSbira: 'listy, mladé výhonky a kvetoucí nať',
+        popis:
+          'Oregano je výrazná kuchyňská bylinka typická hlavně pro středomořskou kuchyni. Hodí se do rajčatových omáček, na pizzu, do těstovin, k masu, zelenině, sýrům, bramborám, do marinád a bylinkových směsí. Mimo kuchyni se tradičně používá také do čajů a je výborné pro opylovače.\n\nPěstujte ho na slunném místě v propustné půdě. Snese sušší podmínky a nemá rádo přemokření. Pravidelným seřezáváním podpoříte hustší růst a nové mladé výhonky. Hodí se k tymiánu, levanduli, šalvěji, rozmarýnu, yzopu, santolíně nebo mateřídoušce. Nesázejte ho do vlhkého záhonu k mátě, šťovíku, celeru nebo petrželi.',
+        upozorneni:
+          'Oregano má často nejsilnější aroma těsně před květem. Na rozdíl od mnoha jiných bylinek si dobře drží chuť i po usušení.',
+      },
+      {
+        nazev: 'Fenykl obecný',
+        latinsky: 'Foeniculum vulgare',
+        synonymum: null,
+        svetlo: 'světlo',
+        voda: 'střední zálivka, hlubší propustná půda',
+        opylovaci: true,
+        sklizen: 'červen až říjen',
+        zivotnost: 'krátkověká trvalka, často pěstovaná jako jednoletka až dvouletka',
+        mrazuvzdornost: 'ano, přibližně do −10 až −15 °C s ochranou',
+        coSeSbira: 'listy, mladé výhonky, květy a semena',
+        popis:
+          'Fenykl má sladce anýzovou vůni a chuť. Jemné listy se hodí k rybám, zelenině, bramborám, do salátů, omáček, polévek nebo bylinkových směsí. Semena se používají jako koření do čajů, pečiva, marinád, nakládané zeleniny nebo k masům. Mimo kuchyni je fenykl krásná vzdušná rostlina, která při kvetení silně láká užitečný hmyz.\n\nPěstujte ho na slunném místě v hlubší, propustné a přiměřeně vlhké půdě. Je vyšší a výrazný, proto mu nechte dost prostoru. Hodí se spíše na okraj záhonu nebo jako samostatná dominantnější rostlina. Dobře se kombinuje s koprem, měsíčkem, šalvějí nebo dalšími vyššími bylinami. Nesázejte ho těsně k nízkým a slabším rostlinám, které by mohl zastínit.',
+        upozorneni:
+          'Fenykl se může snadno vysemeňovat. Pokud nechcete, aby se po zahradě šířil, odstřihněte květenství dříve, než semena dozrají.',
+      },
+      {
+        nazev: 'Kopr vonný',
+        latinsky: 'Anethum graveolens',
+        synonymum: null,
+        svetlo: 'světlo',
+        voda: 'střední zálivka, půda by neměla dlouhodobě vyschnout',
+        opylovaci: true,
+        sklizen: 'květen až říjen',
+        zivotnost: 'jednoletka',
+        mrazuvzdornost: 'ne, snese jen slabší krátkodobý chlad',
+        coSeSbira: 'listy, nať, květy a semena',
+        popis:
+          'Kopr je výrazná kuchyňská bylina s čerstvou, lehce nasládlou vůní. Hodí se do omáček, polévek, salátů, k bramborám, rybám, okurkám, nakládané zelenině nebo do bylinkových dresinků. Semena se používají hlavně při nakládání zeleniny a do kořenících směsí.\n\nPěstujte ho na světlém místě v propustné, mírně vlhké půdě. Kopr nemá rád přesazování, proto je lepší ho vysévat přímo na místo. Pokud chcete průběžnou sklizeň natě, vysévejte ho postupně v menších dávkách. Hodí se k okurkám, salátu, cibuli, červené řepě nebo fenyklu. Nesázejte ho těsně k nízkým a slabším bylinkám, které by mohl zastínit.',
+        upozorneni:
+          'Kopr se snadno vysemeňuje. Pokud ho necháte dozrát, může se na zahradě další rok objevit sám.',
+      },
+      {
+        nazev: 'Pažitka pobřežní',
+        latinsky: 'Allium schoenoprasum',
+        synonymum: null,
+        svetlo: 'světlo, polostín',
+        voda: 'střední zálivka, půda by neměla dlouhodobě vysychat',
+        opylovaci: true,
+        sklizen: 'březen až listopad',
+        zivotnost: 'trvalka',
+        mrazuvzdornost: 'ano, přibližně do −25 až −30 °C',
+        coSeSbira: 'duté listy a květy',
+        popis:
+          'Pažitka patří mezi nejpraktičtější kuchyňské bylinky. Hodí se na chleba, do pomazánek, salátů, polévek, k bramborám, vajíčkům, sýrům, tvarohu nebo do studené kuchyně. Květy jsou jedlé a můžete je použít jako dekoraci do salátů nebo na pomazánky.\n\nPěstujte ji na světlém místě nebo v polostínu, v mírně vlhké a výživnější půdě. Pravidelným seřezáváním podpoříte nové jemné listy. Pokud trs časem zeslábne nebo příliš zhoustne, rozdělte ho a přesaďte. Hodí se k petrželi, salátu, rajčatům, mrkvi, jahodám nebo bylinkám s podobnou potřebou vláhy. Nesázejte ji do úplně suchého středomořského záhonu k levanduli, rozmarýnu nebo tymiánu.',
+        upozorneni:
+          'Pažitka po seříznutí dobře obrůstá. Pokud chcete hlavně jemnou nať, nenechávejte ji dlouho přestárlou a pravidelně ji sklízejte.',
       },
     ],
   },
