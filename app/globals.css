@@ -71,6 +71,14 @@ body {
   /* Map / asymmetric section layouts */
   .grid-map-section { grid-template-columns: 1fr !important; }
   .grid-asymmetric { grid-template-columns: 1fr !important; }
+
+  /* Planter boxes: reorder to 1–6 on mobile (desktop grid already positions them correctly) */
+  .planter-o-1 { order: 1; }
+  .planter-o-2 { order: 2; }
+  .planter-o-3 { order: 3; }
+  .planter-o-4 { order: 4; }
+  .planter-o-5 { order: 5; }
+  .planter-o-6 { order: 6; }
 }
 
 /* Disable hover effects on touch */

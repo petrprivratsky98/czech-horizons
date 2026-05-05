@@ -349,7 +349,7 @@ const HERB_H = [44, 58, 40, 64, 50, 38, 60, 46, 54]
 // User wants: bot-left=1, top-left=2, bot-mid=3, top-mid=4, bot-right=5, top-right=6
 const DISPLAY_NUMBERS = [2, 4, 6, 1, 3, 5]
 
-function PlanterBox({truhlík, index, onClick}) {
+function PlanterBox({truhlík, index, onClick, className}) {
   const [hovered, setHovered] = useState(false)
   const herbs = truhlík.bylinky.slice(0, 9)
 
@@ -358,6 +358,7 @@ function PlanterBox({truhlík, index, onClick}) {
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      className={className}
       style={{
         width:'100%', border:'none', padding:0, background:'none',
         cursor:'pointer', display:'flex', flexDirection:'column',
@@ -795,7 +796,7 @@ export function BylinkoveZahradyClient({akce = []}) {
               </div>
               <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(min(clamp(180px,28vw,380px),100%),1fr))',gap:'clamp(16px,2vw,32px)'}}>
                 {TRUHLIKY.map((t, i) => (
-                  <PlanterBox key={t.id} truhlík={t} index={i} onClick={() => handlePlanterClick(i)}/>
+                  <PlanterBox key={t.id} truhlík={t} index={i} onClick={() => handlePlanterClick(i)} className={`planter-o-${DISPLAY_NUMBERS[i]}`}/>
                 ))}
               </div>
             </div>
