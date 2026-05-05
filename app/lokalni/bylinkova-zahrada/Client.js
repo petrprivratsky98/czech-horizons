@@ -345,6 +345,9 @@ function PropPics({herb}) {
 
 const HERB_X = [7, 17, 27, 38, 50, 62, 73, 83, 92]
 const HERB_H = [44, 58, 40, 64, 50, 38, 60, 46, 54]
+// Grid order (l-r, t-b): top-left=0, top-mid=1, top-right=2, bot-left=3, bot-mid=4, bot-right=5
+// User wants: bot-left=1, top-left=2, bot-mid=3, top-mid=4, bot-right=5, top-right=6
+const DISPLAY_NUMBERS = [2, 4, 6, 1, 3, 5]
 
 function PlanterBox({truhlík, index, onClick}) {
   const [hovered, setHovered] = useState(false)
@@ -371,7 +374,7 @@ function PlanterBox({truhlík, index, onClick}) {
       }}>
         {/* Soil zone */}
         <div style={{
-          height:'clamp(130px,15vw,200px)',
+          height:'clamp(100px,11vw,150px)',
           background:'linear-gradient(to bottom, #07120504 0%, #0b1908 25%, #0f2010 75%, #162a0f 100%)',
           position:'relative', overflow:'hidden',
         }}>
@@ -428,7 +431,7 @@ function PlanterBox({truhlík, index, onClick}) {
             transition:'transform 0.3s',
             transform: hovered ? 'scale(1.06)' : 'scale(1)',
           }}>
-            {String(index+1).padStart(2,'0')}
+            {String(DISPLAY_NUMBERS[index] ?? index+1).padStart(2,'0')}
           </div>
           <div style={{flex:1, minWidth:0}}>
             <div style={{
@@ -611,7 +614,7 @@ function ContactForm() {
     e.preventDefault()
     setStatus('sending')
     try {
-      const res = await fetch('https://formsubmit.co/ajax/info@czech-horizons.cz', {
+      const res = await fetch('https://formsubmit.co/ajax/info@czechhorizons.eu', {
         method: 'POST',
         headers: {'Content-Type':'application/json','Accept':'application/json'},
         body: JSON.stringify({
@@ -679,7 +682,7 @@ function ContactForm() {
       {status==='error' && (
         <div style={{fontSize:13,color:`${C.cream}bb`,margin:0,lineHeight:1.6}}>
           Odeslání se nezdařilo. Napište nám přímo na{' '}
-          <a href="mailto:info@czech-horizons.cz" style={{color:C.green,textDecoration:'underline'}}>
+          <a href="mailto:info@czechhorizons.eu" style={{color:C.green,textDecoration:'underline'}}>
             info@czech-horizons.cz
           </a>
         </div>
@@ -803,47 +806,40 @@ export function BylinkoveZahradyClient({akce = []}) {
           <div style={{height:28,background:'linear-gradient(to bottom, transparent, rgba(0,0,0,0.32))',marginTop: view==='overview' ? 'clamp(40px,5vw,72px)' : 'clamp(24px,3vw,40px)'}}/>
         </section>
 
-        {/* ── Přijďte, přivonějte ───────────────────────────────────────── */}
+        {/* ── Přijďte, přivoňte ────────────────────────────────────────── */}
         <section style={{background:C.creamDark,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
-          <div style={{maxWidth:1400,margin:'0 auto',display:'grid',gridTemplateColumns:'clamp(260px,36%,480px) 1fr',gap:'clamp(40px,6vw,100px)',alignItems:'start'}}>
-            <div>
-              <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
+          <div style={{maxWidth:1400,margin:'0 auto'}}>
+            <div style={{marginBottom:'clamp(36px,5vw,56px)'}}>
+              <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:16,color:C.teal}}>
                 <span style={{color:C.orange}}>❋</span> 002 — Jak zahradu používat
               </div>
-              <h2 style={{fontSize:'clamp(36px,5vw,72px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.03em',margin:'0 0 clamp(20px,2.5vw,36px)',color:C.dark}}>
-                Přijďte,<br/>přivonějte<span style={{color:C.orange}}>.</span>
+              <h2 style={{fontSize:'clamp(36px,5vw,72px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.03em',margin:'0 0 clamp(16px,2vw,24px)',color:C.dark}}>
+                Přijďte, přivoňte<span style={{color:C.orange}}>.</span>
               </h2>
-              <p style={{fontSize:'clamp(16px,1.2vw,20px)',lineHeight:1.65,color:`${C.ink}bb`,margin:0,maxWidth:420}}>
+              <p style={{fontSize:'clamp(16px,1.2vw,20px)',lineHeight:1.65,color:`${C.ink}bb`,margin:0,maxWidth:600}}>
                 Zahrádka je volně přístupná každý den. Bylinky jsou tady pro všechny — pro zvědavce, kuchaře i ty, kteří si chtějí jen odpočinout.
               </p>
             </div>
 
-            <div style={{display:'grid',gridTemplateColumns:'repeat(2, 1fr)',gap:12}}>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(clamp(180px,22vw,260px),1fr))',gap:12}}>
               {[
-                {icon:'🌿', n:'01', title:'Přivonějte si',      text:'Bylinky si klidně prohlédněte, přivonějte nebo trochu natrháte.'},
-                {icon:'✂️', n:'02', title:'Trhejte šetrně',     text:'Trhejte prosím šetrně — pár lístků, ne celé rostliny.'},
-                {icon:'🌱', n:'03', title:'Nechte kořeny',      text:'Nechte rostliny v zemi — trhejte jen to, co roste nad zemí.'},
-                {icon:'🙏', n:'04', title:'Berte s mírou',      text:'Berte jen tolik, kolik opravdu využijete.'},
-                {icon:'💧', n:'05', title:'Zálivka pomůže',     text:'Pokud vidíte suchý truhlík, pomůže mu sklenka vody.'},
-                {icon:'📱', n:'06', title:'QR kód u truhlíku',  text:'U každého truhlíku najdete QR kód s podrobnostmi o bylinkách.'},
-              ].map(({icon, n, title, text}, i) => (
+                {icon:'🌿', title:'Přivoňte si',    text:'Bylinky si klidně prohlédněte a přivoňte si k nim.'},
+                {icon:'✂️', title:'Utrhněte si',    text:'Urhněte si pár lístků a vezměte je domů do kuchyně.'},
+                {icon:'😋', title:'Ochutnejte',     text:'Zkuste chuť čerstvé bylinky přímo ze zahrádky.'},
+                {icon:'🌱', title:'Trhejte šetrně', text:'Trhejte prosím šetrně, pár lístků, ne celé rostliny.'},
+                {icon:'🌾', title:'Nechte kořeny',  text:'Nechte rostliny v zemi, trhejte jen to, co roste nad zemí.'},
+                {icon:'🙏', title:'Berte s mírou',  text:'Berte jen tolik, kolik opravdu využijete.'},
+                {icon:'💧', title:'Zálivka pomůže', text:'Pokud vidíte suchý truhlík, pomůže mu sklenka vody.'},
+              ].map(({icon, title, text}, i) => (
                 <div key={i} style={{
                   padding:'clamp(18px,1.8vw,24px)',
                   background:C.cream,
                   borderRadius:16,
                   border:`1px solid ${C.ink}08`,
-                  position:'relative',
-                  overflow:'hidden',
                 }}>
-                  <div style={{
-                    position:'absolute', top:-6, right:10,
-                    fontSize:'clamp(48px,5vw,68px)', fontWeight:800,
-                    color:`${C.ink}05`, lineHeight:1, fontFamily:'monospace',
-                    userSelect:'none', pointerEvents:'none',
-                  }}>{n}</div>
-                  <span style={{fontSize:'clamp(22px,2.5vw,30px)',display:'block',marginBottom:10}}>{icon}</span>
-                  <div style={{fontSize:'clamp(13px,1.05vw,16px)',fontWeight:800,color:C.dark,marginBottom:6,lineHeight:1.25}}>{title}</div>
-                  <p style={{fontSize:'clamp(12px,0.92vw,14px)',lineHeight:1.65,color:C.ink,margin:0,opacity:0.7}}>{text}</p>
+                  <span style={{fontSize:'clamp(22px,2.5vw,28px)',display:'block',marginBottom:10}}>{icon}</span>
+                  <div style={{fontSize:'clamp(13px,1.05vw,15px)',fontWeight:800,color:C.dark,marginBottom:6,lineHeight:1.25}}>{title}</div>
+                  <p style={{fontSize:'clamp(12px,0.9vw,14px)',lineHeight:1.6,color:C.ink,margin:0,opacity:0.7}}>{text}</p>
                 </div>
               ))}
             </div>
@@ -926,12 +922,12 @@ export function BylinkoveZahradyClient({akce = []}) {
                   Bylinkové zahrady jsme vytvořili proto, aby na Hanspaulce vzniklo malé místo, kde se lidé mohou zastavit, přivonět si k bylinkám, něco se dozvědět a třeba si i pár lístků odnést domů.
                 </p>
                 <p style={{fontSize:'clamp(16px,1.2vw,20px)',lineHeight:1.7,color:`${C.ink}bb`,margin:0}}>
-                  Nejde jen o pěstování. Chceme podpořit sousedský život, ukázat, že i malý veřejný prostor může mít smysl, a přiblížit lidem bylinky, které z kuchyně dobře znají — ale málokdy je vidí růst přímo před sebou.
+                  Nejde jen o pěstování. Chceme podpořit sousedský život, ukázat, že i malý veřejný prostor může mít smysl, a přiblížit lidem bylinky, které z kuchyně dobře znají, ale málokdy je vidí růst přímo před sebou.
                 </p>
               </div>
               <div style={{display:'flex',flexDirection:'column',gap:20}}>
                 {[
-                  {barva:C.green, nadpis:'Komunitní pilot', text:'Zahrádka je pilotní krok — chceme zjistit, jestli má na Hanspaulce smysl rozvíjet podobné komunitní a zelené aktivity i dál.'},
+                  {barva:C.green, nadpis:'Komunitní pilot', text:'Zahrádka je pilotní krok. Chceme zjistit, jestli má na Hanspaulce smysl rozvíjet podobné komunitní a zelené aktivity i dál.'},
                   {barva:C.teal, nadpis:'Sousedské vztahy', text:'Projekt má posílit sousedské vazby, propojit různé generace a ověřit zájem o větší komunitní zahradu.'},
                   {barva:C.orange, nadpis:'Edukace o bylinkách', text:'Chceme ukázat, jak různé bylinky vypadají, jak rostou a jak je lze zapojit do každodenní kuchyně.'},
                 ].map(({barva, nadpis, text}, i) => (
@@ -961,10 +957,9 @@ export function BylinkoveZahradyClient({akce = []}) {
               </h2>
               <div style={{display:'flex',flexDirection:'column',gap:12}}>
                 {[
-                  'Napište nám, pokud chcete pomoct se zaléváním',
+                  'Napište nám, pokud chcete s zahrádkou pomoct',
                   'Pošlete nám recept s bylinkou z naší zahrádky',
                   'Dejte nám vědět, co byste v zahradě chtěli příště',
-                  'Vyplňte dotazník k větší komunitní zahradě',
                 ].map((item, i) => (
                   <div key={i} style={{display:'flex',gap:12,alignItems:'flex-start'}}>
                     <div style={{width:6,height:6,borderRadius:'50%',background:C.green,flexShrink:0,marginTop:7,boxShadow:`0 0 6px ${C.green}`}}/>

@@ -70,6 +70,7 @@ export default function Nav() {
         <a href="/#eventy" style={linkStyle}>Eventy</a>
         <a href="/#projekty" style={linkStyle}>Projekty</a>
         <a href="/#lokalni" style={linkStyle}>Lokální</a>
+        <Link href="/lokalni/bylinkova-zahrada" style={linkStyle}>Zahrádka</Link>
         <a href="/#realizovane" style={linkStyle}>Realizované</a>
         <a href="/#programy" style={linkStyle}>Programy</a>
         <a href="/#o-nas" style={linkStyle}>O nás</a>
