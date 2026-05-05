@@ -65,32 +65,11 @@ export default async function LocalProjects() {
                   {/* Image zone */}
                   <div style={{
                     height: 'clamp(220px, 20vw, 320px)',
-                    background: 'linear-gradient(135deg, #1e3318 0%, #2d5a20 45%, #4a9b4e 100%)',
+                    backgroundImage: 'url(/zahradauvod.png)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                     position: 'relative', overflow: 'hidden',
                   }}>
-                    {/* Herb SVG illustration */}
-                    <svg viewBox="0 0 400 200" style={{position:'absolute',inset:0,width:'100%',height:'100%',opacity:0.35}} fill="none">
-                      {/* Stems */}
-                      {[60,110,160,210,260,310,355].map((x,i) => (
-                        <line key={i} x1={x} y1="200" x2={x+(i%2?-8:8)} y2={60+(i%3)*20}
-                          stroke="#a8d5a0" strokeWidth="3" strokeLinecap="round"/>
-                      ))}
-                      {/* Feathery branches */}
-                      {[60,160,260,355].map((x,i) => [0.35,0.55,0.72].map((y,j) => (
-                        <g key={`${i}-${j}`}>
-                          <line x1={x} y1={200-y*140} x2={x-18+(i%2)*4} y2={200-y*140-14} stroke="#a8d5a0" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/>
-                          <line x1={x} y1={200-y*140} x2={x+18-(i%2)*4} y2={200-y*140-14} stroke="#a8d5a0" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/>
-                        </g>
-                      )))}
-                      {/* Spike tops */}
-                      {[110,210,310].map((x,i) => (
-                        <ellipse key={i} cx={x} cy={55+(i%2)*15} rx="8" ry="22" fill="#a8d5a0" opacity="0.7"/>
-                      ))}
-                      {/* Round bushes */}
-                      {[85,185,335].map((x,i) => (
-                        <ellipse key={i} cx={x} cy={90+(i%2)*12} rx="20" ry="16" fill="#7ec87a" opacity="0.5"/>
-                      ))}
-                    </svg>
                     {/* Status badge */}
                     <div style={{
                       position: 'absolute', top: 20, left: 20,
@@ -113,9 +92,19 @@ export default async function LocalProjects() {
                       fontSize: 'clamp(30px, 2.6vw, 48px)', fontWeight: 800, lineHeight: 1.05,
                       letterSpacing: '-0.03em', margin: '0 0 16px', color: C.dark,
                     }}>Bylinkové zahrady</h3>
-                    <p style={{fontSize: 'clamp(16px, 1.2vw, 20px)', lineHeight: 1.6, color: `${C.ink}cc`, margin: '0 0 28px'}}>
+                    <p style={{fontSize: 'clamp(16px, 1.2vw, 20px)', lineHeight: 1.6, color: `${C.ink}cc`, margin: '0 0 16px'}}>
                       Šest bylinkových truhlíků plných vůní, chutí a příběhů. Prozkoumej každou bylinu.
                     </p>
+                    <div style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 10,
+                      padding: 'clamp(8px, 0.7vw, 12px) clamp(16px, 1.2vw, 20px)', borderRadius: 100,
+                      background: `${C.teal}15`, color: C.teal,
+                      fontSize: 'clamp(12px, 0.95vw, 15px)', fontWeight: 700, letterSpacing: '0.06em',
+                      marginBottom: 28, alignSelf: 'flex-start',
+                    }}>
+                      <span style={{fontSize: 14}}>📅</span>
+                      leden — říjen 2026
+                    </div>
                     <div className="grid-2col" style={{
                       display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20,
                       paddingTop: 24, paddingBottom: 24, borderTop: `1.5px dashed ${C.ink}25`,
