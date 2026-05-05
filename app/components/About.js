@@ -31,7 +31,7 @@ export default async function About() {
 
             <div style={{fontSize: 'clamp(17px, 1.35vw, 22px)', lineHeight: 1.7, color: `${C.cream}cc`}}>
               <p style={{margin: '0 0 24px'}}>
-                Czech Horizons vznikl v červenci 2025 v Praze. Spojujeme tři věci, které nás baví: <strong style={{color: C.yellow}}>ekologii</strong>, <strong style={{color: C.orange}}>wellbeing</strong> a <strong style={{color: C.green}}>mezinárodní spolupráci</strong>.
+                Czech Horizons vznikl v červenci 2025 v Praze. Spojujeme tři věci, na kterých záleží: <strong style={{color: C.orange}}>zdraví</strong>, <strong style={{color: C.green}}>životní prostředí</strong> a <strong style={{color: C.yellow}}>připravenost na krizi</strong>.
               </p>
               <p style={{margin: 0}}>
                 Organizujeme výměny mládeže a tréninkové kurzy po celé Evropě skrze Erasmus+, lokální úklidové akce v Praze a pomáháme mladým najít svou cestu přes evropské programy jako DiscoverEU nebo ESC.
@@ -47,9 +47,9 @@ export default async function About() {
           marginBottom: 'clamp(60px, 8vw, 120px)',
         }}>
           {[
-            {cislo: '001', nazev: 'Ekologie', popis: 'Menší stopa, větší dopad. Lokální akce i edukace.', barva: C.green},
-            {cislo: '002', nazev: 'Wellbeing', popis: 'Duševní zdraví jako samozřejmost. Prostor na růst.', barva: C.orange},
-            {cislo: '003', nazev: 'Spolupráce', popis: 'Mezi generacemi, kulturami a hranicemi.', barva: C.yellow},
+            {cislo: '001', nazev: 'Zdraví', popis: 'Fyzická i duševní pohoda jako základ. Péče o sebe i druhé.', barva: C.orange},
+            {cislo: '002', nazev: 'Životní prostředí', popis: 'Menší stopa, větší dopad. Lokální akce i vzdělávání.', barva: C.green},
+            {cislo: '003', nazev: 'Připravenost na krizi', popis: 'Vědomosti a dovednosti pro případ nouze. Být připraven je zodpovědnost.', barva: C.yellow},
           ].map((h, i) => (
             <AnimateIn key={i} delay={i * 100}>
               <div style={{
