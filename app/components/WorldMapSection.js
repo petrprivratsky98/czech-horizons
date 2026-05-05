@@ -59,7 +59,7 @@ export default async function WorldMapSection() {
           </div>
         </div>
 
-        <div style={{
+        <div className="grid-map-section" style={{
           display: 'grid',
           gridTemplateColumns: 'minmax(0, 3fr) minmax(260px, 1fr)',
           gap: 'clamp(16px, 2vw, 32px)',

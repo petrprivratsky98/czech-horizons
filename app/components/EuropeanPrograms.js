@@ -88,7 +88,7 @@ export default function EuropeanPrograms() {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(380px, 40vw, 700px), 1fr))',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(min(clamp(300px, 40vw, 700px), 100%), 1fr))',
           gap: 'clamp(20px, 2vw, 32px)',
         }}>
          {PROGRAMY.map((p, i) => (
@@ -136,7 +136,7 @@ export default function EuropeanPrograms() {
                 position: 'relative',
               }}>{p.popis}</p>
 
-              <ul style={{
+              <ul className="grid-2col" style={{
                 listStyle: 'none', padding: 0, margin: '0 0 clamp(24px, 2.5vw, 40px)',
                 display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12,
                 position: 'relative',

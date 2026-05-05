@@ -21,7 +21,7 @@ export default function Contact() {
       }} />
 
       <div style={{maxWidth: 1600, margin: '0 auto', position: 'relative'}}>
-        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 'clamp(40px, 5vw, 80px)', alignItems: 'center'}}>
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(400px, 100%), 1fr))', gap: 'clamp(40px, 5vw, 80px)', alignItems: 'center'}}>
           {/* Levá strana — CTA */}
           <div>
             <div style={{fontSize: 'clamp(12px, 0.9vw, 16px)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 20, color: C.teal}}>

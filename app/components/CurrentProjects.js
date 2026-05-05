@@ -84,7 +84,7 @@ export default async function CurrentProjects() {
             Momentálně nemáme volné projekty. Sleduj nás na Instagramu, pravidelně přidáváme nové!
           </div>
         ) : (
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(380px, 30vw, 520px), 520px))', gap: 'clamp(20px, 2vw, 32px)', justifyContent: 'start'}}>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(clamp(300px, 40vw, 520px), 100%), 1fr))', gap: 'clamp(20px, 2vw, 32px)'}}>
             {projekty.map((p, i) => {
               const barva = TYP_BARVY[p.typ] || C.orange
               const typNazev = TYP_NAZVY[p.typ] || p.typ
@@ -233,7 +233,7 @@ export default async function CurrentProjects() {
                       </p>
                     )}
 
-                    <div style={{
+                    <div className="grid-2col" style={{
                       display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20,
                       paddingTop: 24, paddingBottom: 28, borderTop: `1.5px dashed ${C.ink}25`,
                       marginBottom: 'auto',

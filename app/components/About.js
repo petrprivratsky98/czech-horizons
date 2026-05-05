@@ -21,7 +21,7 @@ export default async function About() {
             <span style={{color: C.orange}}>❋</span> 006 — O nás
           </div>
 
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 'clamp(32px, 5vw, 80px)', alignItems: 'start'}}>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(400px, 100%), 1fr))', gap: 'clamp(32px, 5vw, 80px)', alignItems: 'start'}}>
             <h2 style={{
               fontSize: 'clamp(44px, 6.5vw, 120px)', fontWeight: 800, lineHeight: 0.9,
               letterSpacing: '-0.03em', margin: 0, color: C.cream,
@@ -42,7 +42,7 @@ export default async function About() {
 
         {/* Hodnoty */}
         <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))',
           gap: 'clamp(16px, 2vw, 32px)',
           marginBottom: 'clamp(60px, 8vw, 120px)',
         }}>

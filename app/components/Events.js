@@ -69,7 +69,7 @@ export default async function Events() {
             Momentálně nejsou naplánované žádné akce. Sleduj nás na Instagramu!
           </div>
         ) : (
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(380px, 30vw, 520px), 520px))', gap: 'clamp(20px, 2vw, 32px)', justifyContent: 'start'}}>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(clamp(300px, 40vw, 520px), 100%), 1fr))', gap: 'clamp(20px, 2vw, 32px)'}}>
             {akce.map((a, i) => {
               const datum = formatDatum(a.datum)
               const barva = KATEGORIE_BARVY[a.kategorie] || C.dark

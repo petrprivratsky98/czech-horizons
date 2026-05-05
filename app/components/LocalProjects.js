@@ -50,7 +50,7 @@ export default async function LocalProjects() {
             Zatím zde nejsou žádné lokální projekty. Brzy přibudou!
           </div>
         ) : (
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(380px, 30vw, 520px), 520px))', gap: 'clamp(20px, 2vw, 32px)', justifyContent: 'start'}}>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(clamp(300px, 40vw, 520px), 100%), 1fr))', gap: 'clamp(20px, 2vw, 32px)'}}>
 
             {/* Static card: Bylinkové zahrady */}
             <AnimateIn delay={0}>
@@ -116,7 +116,7 @@ export default async function LocalProjects() {
                     <p style={{fontSize: 'clamp(16px, 1.2vw, 20px)', lineHeight: 1.6, color: `${C.ink}cc`, margin: '0 0 28px'}}>
                       Šest bylinkových truhlíků plných vůní, chutí a příběhů. Prozkoumej každou bylinu.
                     </p>
-                    <div style={{
+                    <div className="grid-2col" style={{
                       display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20,
                       paddingTop: 24, paddingBottom: 24, borderTop: `1.5px dashed ${C.ink}25`,
                       marginBottom: 'auto',

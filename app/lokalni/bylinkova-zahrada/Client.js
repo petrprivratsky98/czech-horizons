@@ -793,7 +793,7 @@ export function BylinkoveZahradyClient({akce = []}) {
               <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:'clamp(36px,5vw,64px)',color:C.teal}}>
                 <span style={{color:C.orange}}>❋</span> 001 — Záhon
               </div>
-              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(clamp(220px,28vw,380px),1fr))',gap:'clamp(16px,2vw,32px)'}}>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(min(clamp(180px,28vw,380px),100%),1fr))',gap:'clamp(16px,2vw,32px)'}}>
                 {TRUHLIKY.map((t, i) => (
                   <PlanterBox key={t.id} truhlík={t} index={i} onClick={() => handlePlanterClick(i)}/>
                 ))}
@@ -848,7 +848,7 @@ export function BylinkoveZahradyClient({akce = []}) {
 
         {/* ── Kde nás najdete ───────────────────────────────────────────── */}
         <section id="mapa" style={{background:C.dark,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
-          <div style={{maxWidth:1400,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'clamp(40px,6vw,80px)',alignItems:'start'}}>
+          <div className="grid-2col" style={{maxWidth:1400,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'clamp(40px,6vw,80px)',alignItems:'start'}}>
             <div>
               <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
                 <span style={{color:C.orange}}>❋</span> 003 — Kde nás najdete
@@ -912,7 +912,7 @@ export function BylinkoveZahradyClient({akce = []}) {
             <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
               <span style={{color:C.orange}}>❋</span> 004 — Proč jsme zahrádku vytvořili
             </div>
-            <div style={{display:'grid',gridTemplateColumns:'clamp(300px,50%,600px) 1fr',gap:'clamp(40px,6vw,100px)',alignItems:'start'}}>
+            <div className="grid-asymmetric" style={{display:'grid',gridTemplateColumns:'clamp(300px,50%,600px) 1fr',gap:'clamp(40px,6vw,100px)',alignItems:'start'}}>
               <div>
                 <h2 style={{fontSize:'clamp(36px,5vw,72px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.03em',margin:'0 0 clamp(24px,3vw,36px)',color:C.dark}}>
                   Malé místo<br/>
@@ -946,7 +946,7 @@ export function BylinkoveZahradyClient({akce = []}) {
 
         {/* ── Zapojte se ────────────────────────────────────────────────── */}
         <section style={{background:C.dark,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
-          <div style={{maxWidth:1400,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'clamp(40px,6vw,80px)',alignItems:'start'}}>
+          <div className="grid-2col" style={{maxWidth:1400,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'clamp(40px,6vw,80px)',alignItems:'start'}}>
             <div>
               <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
                 <span style={{color:C.orange}}>❋</span> 005 — Zapojte se
