@@ -546,7 +546,7 @@ function HerbModal({herb, planterColor, onClose}) {
       style={{position:'fixed',inset:0,zIndex:1000,background:'rgba(10,26,24,0.88)',backdropFilter:'blur(6px)',
         display:'flex',alignItems:'flex-end',justifyContent:'center',
         padding:'clamp(16px,3vw,48px)'}}>
-      <div style={{background:C.cream,borderRadius:20,maxWidth:740,width:'100%',maxHeight:'80vh',
+      <div className="herb-modal-panel" style={{background:C.cream,borderRadius:20,maxWidth:740,width:'100%',
         boxShadow:'0 32px 80px rgba(0,0,0,0.45)',display:'flex',flexDirection:'column',overflow:'hidden',
         animation:'herbFlyIn 0.4s cubic-bezier(0.16,1,0.3,1) both'}}>
         {/* Header — outside scroll container, always visible */}

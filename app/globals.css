@@ -81,6 +81,12 @@ body {
   .planter-o-6 { order: 6; }
 }
 
+/* Herb modal panel — dvh accounts for browser chrome (address bar) on mobile */
+.herb-modal-panel {
+  max-height: 80vh;   /* fallback */
+  max-height: 80dvh;  /* actual visible viewport, excludes browser UI */
+}
+
 /* Disable hover effects on touch */
 @media (hover: none) {
   .event-card:hover,
