@@ -98,6 +98,20 @@ export default function Nav() {
               ? <Link key={href} href={href} style={linkStyle}>{label}</Link>
               : <a key={href} href={href} style={linkStyle}>{label}</a>
           )}
+          <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer" style={{
+            display: 'flex', alignItems: 'center',
+            opacity: 0.85, transition: 'opacity 0.2s',
+          }}
+            onMouseEnter={e => { e.currentTarget.style.opacity = '1' }}
+            onMouseLeave={e => { e.currentTarget.style.opacity = '0.85' }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/ig.png" alt="Instagram" style={{
+              width: 30, height: 30, borderRadius: 8, objectFit: 'cover',
+              filter: scrolled ? 'none' : 'brightness(0) invert(1)',
+              transition: 'filter 0.3s',
+            }} />
+          </a>
           <button
             onClick={() => router.replace(pathname, {locale: otherLocale})}
             style={{
@@ -184,6 +198,10 @@ export default function Nav() {
               textTransform:'uppercase',cursor:'pointer',
             }}
           >{t('langSwitch')}</button>
+          <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/ig.png" alt="Instagram" style={{width: 44, height: 44, borderRadius: 12, objectFit: 'cover'}} />
+          </a>
         </div>
       </div>
     </>

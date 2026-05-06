@@ -46,80 +46,48 @@ export default async function Contact() {
               color: `${C.ink}bb`, margin: '0 0 clamp(28px, 3.5vw, 44px)', maxWidth: 480,
             }}>{t('desc')}</p>
 
-            <div style={{display: 'grid', gap: 12}}>
+            <div style={{display: 'flex', flexDirection: 'column', gap: 10}}>
               <a href="mailto:info@czechhorizons.eu" style={{
-                padding: 'clamp(18px, 1.8vw, 26px)', borderRadius: 20,
+                padding: '16px 20px', borderRadius: 16,
                 background: C.cream, border: `1.5px solid ${C.ink}12`,
                 textDecoration: 'none', color: C.ink,
-                display: 'flex', alignItems: 'center', gap: 16,
-                transition: 'border-color 0.3s',
-              }}>
+                display: 'flex', alignItems: 'center', gap: 14,
+                transition: 'border-color 0.2s, box-shadow 0.2s',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = `${C.orange}60`; e.currentTarget.style.boxShadow = `0 4px 16px ${C.orange}18` }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = `${C.ink}12`; e.currentTarget.style.boxShadow = 'none' }}
+              >
                 <div style={{
-                  width: 'clamp(48px, 4vw, 60px)', height: 'clamp(48px, 4vw, 60px)',
-                  borderRadius: 14, background: `linear-gradient(135deg, ${C.orange}, ${C.yellow})`,
+                  width: 44, height: 44, borderRadius: 12,
+                  background: `linear-gradient(135deg, ${C.orange}, ${C.yellow})`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 'clamp(22px, 2vw, 28px)', flexShrink: 0,
+                  fontSize: 20, flexShrink: 0,
                 }}>📧</div>
                 <div>
-                  <div style={{fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700, color: C.teal, marginBottom: 3}}>{t('emailLabel')}</div>
-                  <div style={{fontSize: 'clamp(15px, 1.2vw, 19px)', fontWeight: 700, color: C.dark, wordBreak: 'break-all'}}>info@czechhorizons.eu</div>
+                  <div style={{fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700, color: `${C.ink}66`, marginBottom: 2}}>{t('emailLabel')}</div>
+                  <div style={{fontSize: 'clamp(14px, 1.1vw, 17px)', fontWeight: 700, color: C.dark, wordBreak: 'break-all'}}>info@czechhorizons.eu</div>
                 </div>
+                <span style={{marginLeft: 'auto', fontSize: 18, color: `${C.ink}30`}}>↗</span>
               </a>
 
               <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer" style={{
-                padding: 'clamp(18px, 1.8vw, 26px)', borderRadius: 20,
+                padding: '16px 20px', borderRadius: 16,
                 background: C.cream, border: `1.5px solid ${C.ink}12`,
                 textDecoration: 'none', color: C.ink,
-                display: 'flex', alignItems: 'center', gap: 16,
-                transition: 'border-color 0.3s',
-              }}>
-                <div style={{
-                  width: 'clamp(48px, 4vw, 60px)', height: 'clamp(48px, 4vw, 60px)',
-                  borderRadius: 14, background: `linear-gradient(135deg, ${C.green}, ${C.teal})`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 'clamp(22px, 2vw, 28px)', flexShrink: 0,
-                }}>📸</div>
+                display: 'flex', alignItems: 'center', gap: 14,
+                transition: 'border-color 0.2s, box-shadow 0.2s',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = `${C.ink}25`; e.currentTarget.style.boxShadow = `0 4px 16px ${C.ink}08` }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = `${C.ink}12`; e.currentTarget.style.boxShadow = 'none' }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/ig.png" alt="Instagram" style={{width: 44, height: 44, borderRadius: 12, objectFit: 'cover', flexShrink: 0}} />
                 <div>
-                  <div style={{fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700, color: C.teal, marginBottom: 3}}>{t('igLabel')}</div>
-                  <div style={{fontSize: 'clamp(15px, 1.2vw, 19px)', fontWeight: 700, color: C.dark}}>@czech.horizons</div>
+                  <div style={{fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700, color: `${C.ink}66`, marginBottom: 2}}>{t('igLabel')}</div>
+                  <div style={{fontSize: 'clamp(14px, 1.1vw, 17px)', fontWeight: 700, color: C.dark}}>@czech.horizons</div>
                 </div>
+                <span style={{marginLeft: 'auto', fontSize: 18, color: `${C.ink}30`}}>↗</span>
               </a>
-
-              <a href="https://www.facebook.com/profile.php?id=61565942690033" target="_blank" rel="noopener noreferrer" style={{
-                padding: 'clamp(18px, 1.8vw, 26px)', borderRadius: 20,
-                background: C.cream, border: `1.5px solid ${C.ink}12`,
-                textDecoration: 'none', color: C.ink,
-                display: 'flex', alignItems: 'center', gap: 16,
-                transition: 'border-color 0.3s',
-              }}>
-                <div style={{
-                  width: 'clamp(48px, 4vw, 60px)', height: 'clamp(48px, 4vw, 60px)',
-                  borderRadius: 14, background: `linear-gradient(135deg, #1877F2, #0a5ab5)`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 'clamp(22px, 2vw, 28px)', flexShrink: 0,
-                }}>📘</div>
-                <div>
-                  <div style={{fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700, color: C.teal, marginBottom: 3}}>{t('fbLabel')}</div>
-                  <div style={{fontSize: 'clamp(15px, 1.2vw, 19px)', fontWeight: 700, color: C.dark}}>Czech Horizons</div>
-                </div>
-              </a>
-
-              <div style={{
-                padding: 'clamp(18px, 1.8vw, 26px)', borderRadius: 20,
-                background: C.cream, border: `1.5px solid ${C.ink}12`,
-                display: 'flex', alignItems: 'center', gap: 16,
-              }}>
-                <div style={{
-                  width: 'clamp(48px, 4vw, 60px)', height: 'clamp(48px, 4vw, 60px)',
-                  borderRadius: 14, background: `linear-gradient(135deg, ${C.teal}, ${C.dark})`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 'clamp(22px, 2vw, 28px)', flexShrink: 0,
-                }}>📍</div>
-                <div>
-                  <div style={{fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700, color: C.teal, marginBottom: 3}}>{t('locationLabel')}</div>
-                  <div style={{fontSize: 'clamp(15px, 1.2vw, 19px)', fontWeight: 700, color: C.dark}}>{t('location')}</div>
-                </div>
-              </div>
             </div>
           </div>
 

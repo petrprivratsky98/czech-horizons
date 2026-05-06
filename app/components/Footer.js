@@ -69,14 +69,34 @@ export default async function Footer() {
                 color: `${C.cream}cc`, textDecoration: 'none',
                 fontSize: 'clamp(14px, 1.05vw, 17px)', fontWeight: 500, wordBreak: 'break-all',
               }}>info@czechhorizons.eu</a>
-              <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer" style={{
-                color: `${C.cream}cc`, textDecoration: 'none',
-                fontSize: 'clamp(14px, 1.05vw, 17px)', fontWeight: 500,
-              }}>Instagram ↗</a>
-              <a href="https://www.facebook.com/profile.php?id=61565942690033" target="_blank" rel="noopener noreferrer" style={{
-                color: `${C.cream}cc`, textDecoration: 'none',
-                fontSize: 'clamp(14px, 1.05vw, 17px)', fontWeight: 500,
-              }}>Facebook ↗</a>
+              <div style={{display: 'flex', gap: 10, marginTop: 4}}>
+                <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer" style={{
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  color: `${C.cream}cc`, textDecoration: 'none',
+                  fontSize: 'clamp(13px, 1vw, 16px)', fontWeight: 500,
+                  transition: 'color 0.2s',
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.color = C.cream }}
+                  onMouseLeave={e => { e.currentTarget.style.color = `${C.cream}cc` }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/ig.png" alt="Instagram" style={{width: 24, height: 24, borderRadius: 6, objectFit: 'cover'}} />
+                  Instagram
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61565942690033" target="_blank" rel="noopener noreferrer" style={{
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  color: `${C.cream}cc`, textDecoration: 'none',
+                  fontSize: 'clamp(13px, 1vw, 16px)', fontWeight: 500,
+                  transition: 'color 0.2s',
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.color = C.cream }}
+                  onMouseLeave={e => { e.currentTarget.style.color = `${C.cream}cc` }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/fb.png" alt="Facebook" style={{width: 24, height: 24, borderRadius: 6, objectFit: 'cover'}} />
+                  Facebook
+                </a>
+              </div>
               <span style={{color: `${C.cream}cc`, fontSize: 'clamp(14px, 1.05vw, 17px)', fontWeight: 500}}>
                 {tContact('location')}
               </span>
