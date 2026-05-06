@@ -8,7 +8,7 @@ const poppins = Poppins({
 })
 
 export const metadata = {
-  metadataBase: new URL('https://czech-horizons.vercel.app'),
+  metadataBase: new URL('https://www.czechhorizons.eu'),
   title: {
     default: 'Czech Horizons — Posouváme tvůj horizont poznání',
     template: '%s | Czech Horizons',
@@ -21,7 +21,7 @@ export const metadata = {
   openGraph: {
     title: 'Czech Horizons — Posouváme tvůj horizont poznání',
     description: 'Spolek propojující ekologii, wellbeing a mezinárodní spolupráci skrze Erasmus+, dobrovolnické programy a lokální akce v Praze.',
-    url: 'https://czech-horizons.vercel.app',
+    url: 'https://www.czechhorizons.eu',
     siteName: 'Czech Horizons',
     locale: 'cs_CZ',
     type: 'website',
