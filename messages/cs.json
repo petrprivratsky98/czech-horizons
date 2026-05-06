@@ -188,8 +188,22 @@
     "cta": "Napiš nám ↗",
     "emailLabel": "Email",
     "igLabel": "Instagram",
+    "fbLabel": "Facebook",
     "locationLabel": "Sídlo",
-    "location": "Praha, Česká republika"
+    "location": "Praha, Česká republika",
+    "formTitle": "Pošli zprávu",
+    "formDesc": "Odpovíme co nejdřív, obvykle do pár dnů.",
+    "form": {
+      "name": "Jméno",
+      "email": "E-mail",
+      "message": "Zpráva",
+      "messagePlaceholder": "Čím se zabýváš, co tě zajímá…",
+      "submit": "Odeslat zprávu",
+      "sending": "Odesílám…",
+      "successTitle": "Zpráva odeslána!",
+      "successDesc": "Díky za zprávu, ozveme se co nejdřív.",
+      "error": "Nepodařilo se odeslat. Zkus to znovu nebo nám napiš přímo na"
+    }
   },
   "footer": {
     "tagline": "Rozšiř svůj obzor",

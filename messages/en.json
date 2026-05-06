@@ -188,8 +188,22 @@
     "cta": "Write to us ↗",
     "emailLabel": "Email",
     "igLabel": "Instagram",
+    "fbLabel": "Facebook",
     "locationLabel": "Location",
-    "location": "Prague, Czech Republic"
+    "location": "Prague, Czech Republic",
+    "formTitle": "Send a message",
+    "formDesc": "We'll get back to you as soon as possible, usually within a few days.",
+    "form": {
+      "name": "Name",
+      "email": "E-mail",
+      "message": "Message",
+      "messagePlaceholder": "What are you working on, what interests you…",
+      "submit": "Send message",
+      "sending": "Sending…",
+      "successTitle": "Message sent!",
+      "successDesc": "Thanks for reaching out, we'll get back to you soon.",
+      "error": "Failed to send. Please try again or write to us directly at"
+    }
   },
   "footer": {
     "tagline": "Expand your horizon",

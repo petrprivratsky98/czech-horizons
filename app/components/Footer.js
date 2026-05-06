@@ -88,12 +88,14 @@ export default async function Footer() {
               fontSize: 'clamp(11px, 0.85vw, 14px)', letterSpacing: '0.15em', textTransform: 'uppercase',
               fontWeight: 700, color: C.yellow, marginBottom: 20,
             }}>{t('orgLabel')}</div>
-            <div style={{display: 'grid', gap: 12, fontSize: 'clamp(14px, 1.05vw, 17px)', color: `${C.cream}cc`, fontWeight: 500}}>
+            <div style={{display: 'grid', gap: 8, fontSize: 'clamp(13px, 1vw, 16px)', color: `${C.cream}cc`, fontWeight: 500}}>
               <div>Czech Horizons, z. s.</div>
-              <div>{t('founded')}</div>
-              <div style={{fontSize: 'clamp(12px, 0.95vw, 15px)', color: `${C.cream}88`, marginTop: 4}}>
-                Erasmus+ partner
+              <div style={{fontSize: 'clamp(12px, 0.9vw, 14px)', color: `${C.cream}88`}}>IČO: 21770441</div>
+              <div style={{fontSize: 'clamp(12px, 0.9vw, 14px)', color: `${C.cream}88`}}>Na pískách 1185/92, 160 00 Praha 6</div>
+              <div style={{fontSize: 'clamp(11px, 0.85vw, 13px)', color: `${C.cream}66`, lineHeight: 1.4}}>
+                Zapsán u Městského soudu v Praze,<br />oddíl L, vložka 79295
               </div>
+              <div style={{fontSize: 'clamp(12px, 0.9vw, 14px)', color: `${C.cream}88`}}>{t('founded')}</div>
             </div>
           </div>
         </div>
