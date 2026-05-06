@@ -37,27 +37,6 @@ export default function WorldMap({navstivenaData}) {
     if (iso3) navstivenePodleIso3[iso3] = item
   })
 
-  useEffect(() => {
-    // Načteme GeoJSON a převedeme ho na SVG paths
-    fetch('https://raw.githubusercontent.com/leakyMirror/map-of-europe/master/GeoJSON/europe.geojson')
-      .then((r) => r.json())
-      .then((data) => {
-        setGeoData(data)
-        // Převedeme GeoJSON na SVG path strings
-        const converted = data.features.map((feature) => {
-          const iso3 = feature.properties.ISO3 || feature.properties.iso_a3
-          const name = feature.properties.NAME || feature.properties.name
-          return {
-            iso3,
-            name,
-            d: geoToPath(feature.geometry),
-          }
-        })
-        setPaths(converted)
-      })
-      .catch((err) => console.error('Map load error:', err))
-  }, [])
-
   // Konverze GeoJSON souřadnic (lon/lat) na SVG path string — s projekcí Mercator
   function geoToPath(geometry) {
     const project = (lon, lat) => {
@@ -96,6 +75,25 @@ export default function WorldMap({navstivenaData}) {
     }
     return ''
   }
+
+  useEffect(() => {
+    fetch('https://raw.githubusercontent.com/leakyMirror/map-of-europe/master/GeoJSON/europe.geojson')
+      .then((r) => r.json())
+      .then((data) => {
+        setGeoData(data)
+        const converted = data.features.map((feature) => {
+          const iso3 = feature.properties.ISO3 || feature.properties.iso_a3
+          const name = feature.properties.NAME || feature.properties.name
+          return {
+            iso3,
+            name,
+            d: geoToPath(feature.geometry),
+          }
+        })
+        setPaths(converted)
+      })
+      .catch((err) => console.error('Map load error:', err))
+  }, [])
 
   return (
     <div

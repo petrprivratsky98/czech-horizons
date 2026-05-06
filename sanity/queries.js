@@ -2,6 +2,7 @@
 export const aktualniProjektyQuery = `*[_type == "aktualniProjekt"] | order(_createdAt desc) {
   _id,
   nazev,
+  nazev_en,
   typ,
   zeme,
   mesto,
@@ -12,6 +13,7 @@ export const aktualniProjektyQuery = `*[_type == "aktualniProjekt"] | order(_cre
   vekOd,
   vekDo,
   popis,
+  popis_en,
   fotka,
   odkazPrihlaska,
   odkazInfopack
@@ -21,6 +23,7 @@ export const aktualniProjektyQuery = `*[_type == "aktualniProjekt"] | order(_cre
 export const realizovaneProjektyQuery = `*[_type == "realizovanyProjekt"] | order(_createdAt desc) {
   _id,
   nazev,
+  nazev_en,
   slug,
   typ,
   zeme,
@@ -29,6 +32,7 @@ export const realizovaneProjektyQuery = `*[_type == "realizovanyProjekt"] | orde
   pocetUcastniku,
   hlavniFotka,
   kratkyPopis,
+  kratkyPopis_en,
   "pocetFotek": count(fotoalbum),
   "pocetFeedbacku": count(feedbacky)
 }`
@@ -37,8 +41,10 @@ export const realizovaneProjektyQuery = `*[_type == "realizovanyProjekt"] | orde
 export const lokalniProjektyQuery = `*[_type == "lokalniProjekt"] | order(_createdAt desc) {
   _id,
   nazev,
+  nazev_en,
   slug,
   podnadpis,
+  podnadpis_en,
   obdobiOd,
   obdobiDo,
   hlavniFotka,
@@ -57,6 +63,7 @@ export const lokalniProjektyQuery = `*[_type == "lokalniProjekt"] | order(_creat
 export const nadchazejiciAkceQuery = `*[_type == "akce" && status == "nadchazejici"] | order(datum asc) {
   _id,
   nazev,
+  nazev_en,
   kategorie,
   datum,
   casDo,
@@ -65,6 +72,7 @@ export const nadchazejiciAkceQuery = `*[_type == "akce" && status == "nadchazeji
   odkazMapa,
   kapacita,
   popis,
+  popis_en,
   fotka,
   odkazFB,
   odkazIG
@@ -75,8 +83,10 @@ export const clenoveTimuQuery = `*[_type == "clenTymu"] | order(poradi asc) {
   _id,
   jmeno,
   role,
+  role_en,
   fotka,
   bio,
+  bio_en,
   instagram,
   linkedin,
   email,
@@ -87,12 +97,15 @@ export const clenoveTimuQuery = `*[_type == "clenTymu"] | order(poradi asc) {
 export const lokalniProjektDetailQuery = `*[_type == "lokalniProjekt" && slug.current == $slug][0] {
   _id,
   nazev,
+  nazev_en,
   slug,
   podnadpis,
+  podnadpis_en,
   obdobiOd,
   obdobiDo,
   hlavniFotka,
   popis,
+  popis_en,
   statPocetAkci,
   statPocetUcastniku,
   status,
@@ -100,9 +113,11 @@ export const lokalniProjektDetailQuery = `*[_type == "lokalniProjekt" && slug.cu
   "akce": akce[]-> {
     _id,
     nazev,
+    nazev_en,
     datum,
     misto,
     popis,
+    popis_en,
     fotka,
     status
   }
@@ -112,6 +127,7 @@ export const lokalniProjektDetailQuery = `*[_type == "lokalniProjekt" && slug.cu
 export const realizovanyProjektDetailQuery = `*[_type == "realizovanyProjekt" && slug.current == $slug][0] {
   _id,
   nazev,
+  nazev_en,
   slug,
   typ,
   zeme,
@@ -120,10 +136,13 @@ export const realizovanyProjektDetailQuery = `*[_type == "realizovanyProjekt" &&
   pocetUcastniku,
   hlavniFotka,
   kratkyPopis,
+  kratkyPopis_en,
   dlouhyPopis,
+  dlouhyPopis_en,
   fotoalbum,
   feedbacky
 }`
+
 // Helper pro fetchování bez cache
 export const fetchOptions = {
   next: {revalidate: 0},

@@ -28,6 +28,18 @@ export default {
       description: 'Jedna věta o projektu',
     },
     {
+      name: 'nazev_en',
+      title: 'Název projektu (EN)',
+      type: 'string',
+      description: 'English project name — leave empty to use Czech',
+    },
+    {
+      name: 'podnadpis_en',
+      title: 'Krátký podnadpis (EN)',
+      type: 'string',
+      description: 'English subtitle — leave empty to use Czech',
+    },
+    {
       name: 'obdobiOd',
       title: 'Období — od',
       type: 'string',
@@ -57,6 +69,19 @@ export default {
         },
       ],
       description: 'Hlavní text projektu — podporuje nadpisy, odstavce, obrázky',
+    },
+    {
+      name: 'popis_en',
+      title: 'Dlouhý popis projektu (EN)',
+      type: 'array',
+      of: [
+        {type: 'block'},
+        {
+          type: 'image',
+          options: {hotspot: true},
+        },
+      ],
+      description: 'English long description — leave empty to use Czech',
     },
     {
       name: 'akce',

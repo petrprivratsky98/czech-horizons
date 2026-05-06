@@ -69,6 +69,19 @@ export default {
       rows: 4,
     },
     {
+      name: 'nazev_en',
+      title: 'Název akce (EN)',
+      type: 'string',
+      description: 'English event name — leave empty to use Czech',
+    },
+    {
+      name: 'popis_en',
+      title: 'Popis akce (EN)',
+      type: 'text',
+      rows: 4,
+      description: 'English description — leave empty to use Czech',
+    },
+    {
       name: 'fotka',
       title: 'Fotka',
       type: 'image',

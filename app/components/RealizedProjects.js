@@ -1,5 +1,5 @@
 export const revalidate = 10
-
+import {getTranslations} from 'next-intl/server'
 import {C} from './Colors'
 import {client} from '@/sanity/client'
 import {realizovaneProjektyQuery} from '@/sanity/queries'
@@ -7,9 +7,9 @@ import {urlFor} from '@/sanity/imageUrl'
 import RealizedProjectsList from './RealizedProjectsList'
 
 export default async function RealizedProjects() {
+  const t = await getTranslations('realizedProjects')
   const projekty = await client.fetch(realizovaneProjektyQuery)
 
-  // Přidáme pre-computed photo URL (serverová práce)
   const projektySFotkou = projekty.map((p) => ({
     ...p,
     fotkaUrl: p.hlavniFotka ? urlFor(p.hlavniFotka).width(800).height(500).url() : null,
@@ -24,14 +24,14 @@ export default async function RealizedProjects() {
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 'clamp(40px, 5vw, 80px)', flexWrap: 'wrap', gap: 32}}>
           <div>
             <div style={{fontSize: 'clamp(12px, 0.9vw, 16px)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 20, color: C.teal}}>
-              <span style={{color: C.orange}}>❋</span> 004 — Realizované projekty
+              <span style={{color: C.orange}}>❋</span> {t('label')}
             </div>
             <h2 style={{fontSize: 'clamp(44px, 6.5vw, 120px)', fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.03em', margin: 0}}>
-              Za námi<br /><span style={{fontWeight: 300, fontStyle: 'italic', color: C.teal}}>je stopa.</span>
+              {t('h1')}<br /><span style={{fontWeight: 300, fontStyle: 'italic', color: C.teal}}>{t('h2')}</span>
             </h2>
           </div>
           <p style={{fontSize: 'clamp(16px, 1.3vw, 22px)', lineHeight: 1.6, maxWidth: 440, color: `${C.ink}aa`}}>
-            Projekty, které jsme absolvovali. Fotky, příběhy a ohlasy účastníků.
+            {t('desc')}
           </p>
         </div>
 
@@ -40,9 +40,7 @@ export default async function RealizedProjects() {
             padding: 'clamp(40px, 6vw, 80px)', textAlign: 'center',
             border: `1.5px dashed ${C.ink}30`, borderRadius: 20,
             color: `${C.ink}88`, fontSize: 'clamp(15px, 1.2vw, 20px)',
-          }}>
-            Zatím žádné realizované projekty, ale první přijdou brzy!
-          </div>
+          }}>{t('empty')}</div>
         ) : (
           <RealizedProjectsList projekty={projektySFotkou} />
         )}

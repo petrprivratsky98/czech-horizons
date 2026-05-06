@@ -1,0 +1,257 @@
+{
+  "nav": {
+    "tagline": "Rozšiř svůj obzor",
+    "events": "Eventy",
+    "projects": "Projekty",
+    "local": "Lokální",
+    "garden": "Zahrádka",
+    "realized": "Realizované",
+    "programs": "Programy",
+    "about": "O nás",
+    "contact": "Kontakt",
+    "openMenu": "Otevřít menu",
+    "closeMenu": "Zavřít menu",
+    "langSwitch": "EN"
+  },
+  "hero": {
+    "eyebrow": "Est. 2025 · Praha · Erasmus+ partner",
+    "h1_1": "Posouváme",
+    "h1_2": "tvůj",
+    "h1_3": "horizont",
+    "h1_4": "poznání",
+    "descPre": "Spolek propojující ",
+    "health": "zdraví",
+    "descMid1": ", ",
+    "environment": "životní prostředí",
+    "descMid2": " a ",
+    "preparedness": "připravenost na krizi",
+    "descPost": " skrze Erasmus+, dobrovolnické programy a lokální akce v Praze.",
+    "ctaProjects": "Aktuálně volné projekty ↗",
+    "ctaEvents": "Nadcházející události"
+  },
+  "marquee": {
+    "cities": ["Berlín","Paříž","Řím","Madrid","Lisabon","Athény","Vídeň","Praha","Varšava","Budapešť","Bratislava","Lublaň","Záhřeb","Bukurešť","Sofie","Nikósie","Valletta","Helsinki","Stockholm","Kodaň","Dublin","Amsterdam","Brusel","Lucemburk","Tallinn","Riga","Vilnius","Reykjavík","Oslo","Vaduz","Ankara","Skopje","Bělehrad"]
+  },
+  "events": {
+    "label": "001 — Kalendář",
+    "h1": "Nadcházející",
+    "h2": "akce",
+    "desc": "Úklidy, workshopy, setkání. Přidej se k nám, některé akce jsou pravidelné, jiné jednorázové.",
+    "empty": "Momentálně nejsou naplánované žádné akce. Sleduj nás na Instagramu!",
+    "capacity": "Kapacita",
+    "map": "Mapa",
+    "months": ["LED","ÚNO","BŘE","DUB","KVĚ","ČVN","ČVC","SRP","ZÁŘ","ŘÍJ","LIS","PRO"],
+    "categories": {
+      "uklid": "Úklidová akce",
+      "workshop": "Workshop",
+      "setkani": "Setkání",
+      "infosession": "Infosession",
+      "vylet": "Výlet",
+      "jine": "Jiné"
+    }
+  },
+  "currentProjects": {
+    "label": "002 — Aktuálně volné",
+    "h1": "Kam teď",
+    "h2": "vyrazit.",
+    "desc": "Výměny mládeže, tréninkové kurzy. Vše plně hrazené z Erasmus+, letenky, ubytování, jídlo.",
+    "empty": "Momentálně nemáme volné projekty. Sleduj nás na Instagramu, pravidelně přidáváme nové!",
+    "types": {
+      "vymena": "Výměna mládeže",
+      "trening": "Tréninkový kurz"
+    },
+    "deadline": {
+      "closed": "Přihlášky uzavřeny",
+      "today": "Deadline dnes!",
+      "day1": "Zbývá 1 den",
+      "days": "Zbývá {n} dní",
+      "until": "Do {d}. {m}. {y}"
+    },
+    "termLabel": "Termín",
+    "ageLabel": "Věk",
+    "participantsLabel": "Účastníci",
+    "ageRange": "{from}–{to} let",
+    "ageFrom": "{from}+ let",
+    "ageTo": "do {to} let",
+    "participants": "{n} účastníků",
+    "groupLeaders": "{n} + {gl} group leader",
+    "groupLeadersPlural": "{n} + {gl} group leaderů",
+    "apply": "Přihláška ↗",
+    "applyClosed": "Přihlášky uzavřeny",
+    "infopack": "Infopack ↗"
+  },
+  "localProjects": {
+    "label": "003 — Lokální projekty",
+    "h1": "Doma",
+    "h2": "v Česku.",
+    "desc": "Dlouhodobé projekty v Praze s podporou ESC. Každý projekt se skládá z několika akcí rozložených do měsíců.",
+    "empty": "Zatím zde nejsou žádné lokální projekty. Brzy přibudou!",
+    "show": "Zobrazit projekt →",
+    "planters": "Truhlíků",
+    "herbs": "Bylin",
+    "events": "akcí celkem",
+    "participants": "Účastníků",
+    "statuses": {
+      "probihajici": "Probíhající",
+      "ukonceny": "Ukončený",
+      "pripravovany": "Připravovaný"
+    }
+  },
+  "realizedProjects": {
+    "label": "004 — Realizované projekty",
+    "h1": "Za námi",
+    "h2": "je stopa.",
+    "desc": "Projekty, které jsme absolvovali. Fotky, příběhy a ohlasy účastníků.",
+    "empty": "Zatím žádné realizované projekty, ale první přijdou brzy!",
+    "show": "Zobrazit →",
+    "loadMore": "Načíst víc",
+    "types": {
+      "vymena": "Výměna mládeže",
+      "trening": "Tréninkový kurz",
+      "lokalni": "Lokální akce",
+      "jine": "Jiné"
+    }
+  },
+  "worldMap": {
+    "label": "Kde jsme byli",
+    "h1": "Evropa",
+    "h2": "a kousek dál.",
+    "desc": "Každý realizovaný projekt rozsvítí zemi, kde jsme byli. Najeď myší pro detail.",
+    "countriesLabel": "Zemí",
+    "projectsLabel": "Projektů",
+    "bonusLabel": "+ Bonus destinace",
+    "reunionDesc": "Francouzský zámořský departement v Indickém oceánu. Náš nejvzdálenější projekt.",
+    "reunionDist": "9 000 km od Prahy"
+  },
+  "programs": {
+    "label": "005 — Evropské programy",
+    "h1": "Čím ti",
+    "h2": "Evropa pomůže.",
+    "desc": "Čtyři programy, které financujeme z EU a pomáhají mladým růst, poznávat a podnikat.",
+    "officialWeb": "Oficiální web ↗",
+    "items": [
+      {
+        "kod": "erasmus",
+        "nazev": "Erasmus+",
+        "podnadpis": "Mládež · Vzdělávání · Mobilita",
+        "popis": "Největší evropský program pro mobilitu mládeže. Výměny mládeže, tréninkové kurzy pro pracovníky s mládeží a strategická partnerství.",
+        "features": ["Plně hrazené cesty a ubytování", "Pro mladé 13–30 let", "Certifikát Youthpass", "Více než 40 zemí Evropy"]
+      },
+      {
+        "kod": "discover",
+        "nazev": "DiscoverEU",
+        "podnadpis": "Cestování · Poznávání · Zkušenost",
+        "popis": "Bezplatná vlaková jízdenka napříč Evropou pro 18leté. Objevte až 30 zemí a potkejte tisíce dalších účastníků.",
+        "features": ["Zdarma Interrail pass", "Pro 18leté občany EU", "Otevřeno 2× ročně", "Kulturní a jazykové workshopy"]
+      },
+      {
+        "kod": "esc",
+        "nazev": "Evropský sbor solidarity",
+        "podnadpis": "Dobrovolnictví · Solidarita · Změna",
+        "popis": "Dobrovolnické projekty v Evropě i doma. Dlouhodobé i krátkodobé, individuální i týmové. Pomáhej tam, kde je to potřeba.",
+        "features": ["Pro mladé 18–30 let", "Projekty 2 týdny až 12 měsíců", "Kapesné a stravné", "Pojištění a jazykový kurz"]
+      },
+      {
+        "kod": "podnikatele",
+        "nazev": "Erasmus pro podnikatele",
+        "podnadpis": "Business · Nápady · Mentoring",
+        "popis": "Výměnný program pro nové a zkušené podnikatele. Získej zkušenosti od zavedeného podnikatele v jiné evropské zemi.",
+        "features": ["Pobyty 1–6 měsíců", "Pro začínající podnikatele", "Financování až 1 100 €/měsíc", "Síť 10 000+ podnikatelů"]
+      }
+    ]
+  },
+  "about": {
+    "label": "006 — O nás",
+    "h1": "Jsme parta",
+    "h2": "s posláním.",
+    "desc1": "Czech Horizons vznikl v červenci 2025 v Praze. Spojujeme tři věci, na kterých záleží: ",
+    "health": "zdraví",
+    "desc1mid1": ", ",
+    "environment": "životní prostředí",
+    "desc1mid2": " a ",
+    "preparedness": "připravenost na krizi",
+    "desc1end": ".",
+    "desc2": "Organizujeme výměny mládeže a tréninkové kurzy po celé Evropě skrze Erasmus+, lokální úklidové akce v Praze a pomáháme mladým najít svou cestu přes evropské programy jako DiscoverEU nebo ESC.",
+    "teamLabel": "Naše parta",
+    "teamHeading": "Tým",
+    "values": [
+      {"cislo": "001", "nazev": "Zdraví", "popis": "Fyzická i duševní pohoda jako základ. Péče o sebe i druhé."},
+      {"cislo": "002", "nazev": "Životní prostředí", "popis": "Menší stopa, větší dopad. Lokální akce i vzdělávání."},
+      {"cislo": "003", "nazev": "Připravenost na krizi", "popis": "Vědomosti a dovednosti pro případ nouze. Být připraven je zodpovědnost."}
+    ]
+  },
+  "contact": {
+    "label": "007 — Kontakt",
+    "h1": "Máš",
+    "h2": "nápad?",
+    "desc": "Chceš se zapojit do našich projektů, přidat se do týmu nebo si jen tak popovídat o tom, jak proměnit myšlenku v reálnou akci? Napiš nám.",
+    "cta": "Napiš nám ↗",
+    "emailLabel": "Email",
+    "igLabel": "Instagram",
+    "locationLabel": "Sídlo",
+    "location": "Praha, Česká republika"
+  },
+  "footer": {
+    "tagline": "Rozšiř svůj obzor",
+    "desc": "Propojujeme ekologii, wellbeing a mezinárodní spolupráci skrze Erasmus+, dobrovolnické programy a lokální akce.",
+    "navLabel": "Rozcestník",
+    "contactLabel": "Kontakt",
+    "orgLabel": "Spolek",
+    "founded": "Založen 17. 7. 2025",
+    "copyright": "Všechna práva vyhrazena.",
+    "tagline2": "Posouváme tvůj horizont poznání",
+    "links": {
+      "events": "Eventy",
+      "projects": "Aktuální projekty",
+      "local": "Lokální projekty",
+      "realized": "Realizované",
+      "programs": "Evropské programy",
+      "about": "O nás"
+    }
+  },
+  "lokalniDetail": {
+    "back": "← Zpět na projekty",
+    "label": "Lokální projekt",
+    "statEvents": "Akcí celkem",
+    "statParticipants": "Účastníků",
+    "statStatus": "Stav",
+    "eventsLabel": "Akce v rámci projektu",
+    "galleryLabel": "Fotogalerie",
+    "galleryHeading": "Jak to vypadá",
+    "statusDone": "Proběhlo",
+    "statusUpcoming": "Nadcházející",
+    "notFoundTitle": "Projekt nenalezen",
+    "notFoundDesc": "Tento lokální projekt neexistuje nebo byl smazán.",
+    "notFoundBack": "← Zpět na homepage",
+    "months": ["leden","únor","březen","duben","květen","červen","červenec","srpen","září","říjen","listopad","prosinec"]
+  },
+  "realizovanyDetail": {
+    "back": "← Zpět na realizované projekty",
+    "statParticipants": "Účastníků",
+    "statPhotos": "Fotek v albu",
+    "statFeedback": "Ohlasů",
+    "howItWas": "Jak to bylo",
+    "feedbackLabel": "Co na to účastníci",
+    "feedbackHeading": "Ohlasy",
+    "albumLabel": "Fotoalbum",
+    "backCta": "← Zpět na všechny realizované projekty",
+    "age": "{n} let",
+    "types": {
+      "vymena": "Výměna mládeže",
+      "trening": "Tréninkový kurz",
+      "lokalni": "Lokální akce",
+      "jine": "Jiné"
+    }
+  },
+  "countries": {
+    "AT": "Rakousko", "BE": "Belgie", "BG": "Bulharsko", "HR": "Chorvatsko",
+    "CY": "Kypr", "CZ": "Česko", "DK": "Dánsko", "EE": "Estonsko",
+    "FI": "Finsko", "FR": "Francie", "DE": "Německo", "GR": "Řecko",
+    "HU": "Maďarsko", "IS": "Island", "IE": "Irsko", "IT": "Itálie",
+    "LV": "Lotyšsko", "LI": "Lichtenštejnsko", "LT": "Litva", "LU": "Lucembursko",
+    "MT": "Malta", "NL": "Nizozemsko", "MK": "Severní Makedonie", "NO": "Norsko",
+    "PL": "Polsko", "PT": "Portugalsko", "RO": "Rumunsko", "RS": "Srbsko",
+    "SK": "Slovensko", "SI": "Slovinsko", "ES": "Španělsko", "SE": "Švédsko",
+    "TR": "Turecko"
+  }
+}

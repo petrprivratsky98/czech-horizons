@@ -1,44 +1,31 @@
 export const revalidate = 10
+import {getTranslations} from 'next-intl/server'
 import {C} from './Colors'
 import {client} from '@/sanity/client'
 import {nadchazejiciAkceQuery} from '@/sanity/queries'
 import {urlFor} from '@/sanity/imageUrl'
 import AnimateIn from './AnimateIn'
 
-
-const KATEGORIE_BARVY = {
-  uklid: C.green,
-  workshop: C.orange,
-  setkani: C.teal,
-  infosession: C.yellow,
-  vylet: C.green,
-  jine: C.dark,
-}
-
-const KATEGORIE_NAZVY = {
-  uklid: 'Úklidová akce',
-  workshop: 'Workshop',
-  setkani: 'Setkání',
-  infosession: 'Infosession',
-  vylet: 'Výlet',
-  jine: 'Jiné',
-}
-
-const MESICE_CZ = ['LED','ÚNO','BŘE','DUB','KVĚ','ČVN','ČVC','SRP','ZÁŘ','ŘÍJ','LIS','PRO']
-
-function formatDatum(isoDatum) {
+function formatDatum(isoDatum, months) {
   if (!isoDatum) return {day: '--', month: '---', year: '----', time: ''}
   const d = new Date(isoDatum)
   return {
     day: String(d.getDate()).padStart(2, '0'),
-    month: MESICE_CZ[d.getMonth()],
+    month: months[d.getMonth()],
     year: String(d.getFullYear()),
     time: d.toLocaleTimeString('cs-CZ', {hour: '2-digit', minute: '2-digit'}),
   }
 }
 
 export default async function Events() {
+  const t = await getTranslations('events')
+  const months = t.raw('months')
   const akce = await client.fetch(nadchazejiciAkceQuery)
+
+  const KATEGORIE_BARVY = {
+    uklid: C.green, workshop: C.orange, setkani: C.teal,
+    infosession: C.yellow, vylet: C.green, jine: C.dark,
+  }
 
   return (
     <section id="eventy" style={{
@@ -49,14 +36,14 @@ export default async function Events() {
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 'clamp(40px, 5vw, 80px)', flexWrap: 'wrap', gap: 32}}>
           <div>
             <div style={{fontSize: 'clamp(12px, 0.9vw, 16px)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 20, color: C.teal}}>
-              <span style={{color: C.orange}}>❋</span> 001 — Kalendář
+              <span style={{color: C.orange}}>❋</span> {t('label')}
             </div>
             <h2 style={{fontSize: 'clamp(44px, 6.5vw, 120px)', fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.03em', margin: 0}}>
-              Nadcházející<br /><span style={{fontWeight: 300, fontStyle: 'italic', color: C.orange}}>akce</span>
+              {t('h1')}<br /><span style={{fontWeight: 300, fontStyle: 'italic', color: C.orange}}>{t('h2')}</span>
             </h2>
           </div>
           <p style={{fontSize: 'clamp(16px, 1.3vw, 22px)', lineHeight: 1.6, maxWidth: 440, color: `${C.ink}aa`}}>
-            Úklidy, workshopy, setkání. Přidej se k nám, některé akce jsou pravidelné, jiné jednorázové.
+            {t('desc')}
           </p>
         </div>
 
@@ -65,16 +52,14 @@ export default async function Events() {
             padding: 'clamp(40px, 6vw, 80px)', textAlign: 'center',
             border: `1.5px dashed ${C.ink}30`, borderRadius: 20,
             color: `${C.ink}88`, fontSize: 'clamp(15px, 1.2vw, 20px)',
-          }}>
-            Momentálně nejsou naplánované žádné akce. Sleduj nás na Instagramu!
-          </div>
+          }}>{t('empty')}</div>
         ) : (
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(clamp(300px, 40vw, 520px), 100%), 1fr))', gap: 'clamp(20px, 2vw, 32px)'}}>
             {akce.map((a, i) => {
-              const datum = formatDatum(a.datum)
+              const datum = formatDatum(a.datum, months)
               const barva = KATEGORIE_BARVY[a.kategorie] || C.dark
               const fotkaUrl = a.fotka ? urlFor(a.fotka).width(1000).height(600).url() : null
-              const mapaLink = a.odkazMapa || null
+              const kategorieNazev = t(`categories.${a.kategorie}`)
 
               return (
                 <AnimateIn key={a._id} delay={i * 80}>
@@ -89,16 +74,14 @@ export default async function Events() {
                     <div className="card-photo" style={{
                       height: 'clamp(220px, 20vw, 320px)',
                       backgroundImage: `url(${fotkaUrl})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      position: 'relative',
+                      backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative',
                     }}>
                       <div style={{
                         position: 'absolute', top: 20, left: 20,
                         background: C.cream, color: barva,
                         padding: 'clamp(7px, 0.6vw, 10px) clamp(16px, 1.3vw, 22px)', borderRadius: 100,
                         fontSize: 'clamp(11px, 0.85vw, 14px)', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase',
-                      }}>{KATEGORIE_NAZVY[a.kategorie] || a.kategorie}</div>
+                      }}>{kategorieNazev}</div>
                     </div>
                   ) : (
                     <div style={{
@@ -106,8 +89,7 @@ export default async function Events() {
                       background: `linear-gradient(135deg, ${barva}, ${barva}88)`,
                       position: 'relative', overflow: 'hidden',
                     }}>
-                      <div style={{
-                        position: 'absolute', inset: 0, opacity: 0.15,
+                      <div style={{position: 'absolute', inset: 0, opacity: 0.15,
                         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
                       }} />
                       <div style={{
@@ -115,7 +97,7 @@ export default async function Events() {
                         background: C.cream, color: barva,
                         padding: 'clamp(7px, 0.6vw, 10px) clamp(16px, 1.3vw, 22px)', borderRadius: 100,
                         fontSize: 'clamp(11px, 0.85vw, 14px)', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase',
-                      }}>{KATEGORIE_NAZVY[a.kategorie] || a.kategorie}</div>
+                      }}>{kategorieNazev}</div>
                     </div>
                   )}
 
@@ -129,12 +111,12 @@ export default async function Events() {
                     </div>
 
                     <h3 style={{fontSize: 'clamp(24px, 2vw, 36px)', fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.02em', margin: '0 0 16px', color: C.dark}}>
-                      {a.nazev}
+                      {a.nazev_en || a.nazev}
                     </h3>
 
-                    {a.popis && (
+                    {(a.popis_en || a.popis) && (
                       <p style={{fontSize: 'clamp(15px, 1.15vw, 19px)', lineHeight: 1.65, color: `${C.ink}cc`, margin: '0 0 28px'}}>
-                        {a.popis}
+                        {a.popis_en || a.popis}
                       </p>
                     )}
 
@@ -152,19 +134,19 @@ export default async function Events() {
                       {a.kapacita && (
                         <div style={{display: 'flex', alignItems: 'center', gap: 10, color: C.dark}}>
                           <span style={{fontSize: 'clamp(16px, 1.3vw, 20px)'}}>👥</span>
-                          <span style={{fontSize: 'clamp(15px, 1.1vw, 18px)', fontWeight: 600}}>Kapacita: {a.kapacita}</span>
+                          <span style={{fontSize: 'clamp(15px, 1.1vw, 18px)', fontWeight: 600}}>{t('capacity')}: {a.kapacita}</span>
                         </div>
                       )}
                     </div>
 
-                    {(mapaLink || a.odkazFB || a.odkazIG) && (
+                    {(a.odkazMapa || a.odkazFB || a.odkazIG) && (
                       <div style={{display: 'flex', gap: 10, marginTop: 28, flexWrap: 'wrap'}}>
-                        {mapaLink && (
-                          <a href={mapaLink} target="_blank" rel="noopener noreferrer" style={{
+                        {a.odkazMapa && (
+                          <a href={a.odkazMapa} target="_blank" rel="noopener noreferrer" style={{
                             padding: 'clamp(12px, 1vw, 16px) clamp(16px, 1.3vw, 22px)', borderRadius: 100, background: barva, color: C.cream,
                             fontSize: 'clamp(12px, 0.9vw, 15px)', fontWeight: 800, letterSpacing: '0.08em', textDecoration: 'none',
                             textTransform: 'uppercase', display: 'inline-flex', alignItems: 'center', gap: 6,
-                          }}>📍 Mapa</a>
+                          }}>📍 {t('map')}</a>
                         )}
                         {a.odkazFB && (
                           <a href={a.odkazFB} target="_blank" rel="noopener noreferrer" style={{

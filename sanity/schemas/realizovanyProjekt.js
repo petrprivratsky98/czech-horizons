@@ -113,6 +113,26 @@ export default {
       description: 'Dlouhý popis projektu pro detail stránku',
     },
     {
+      name: 'nazev_en',
+      title: 'Název projektu (EN)',
+      type: 'string',
+      description: 'English project name — leave empty to use Czech',
+    },
+    {
+      name: 'kratkyPopis_en',
+      title: 'Krátký popis (EN)',
+      type: 'text',
+      rows: 3,
+      description: 'English short description — leave empty to use Czech',
+    },
+    {
+      name: 'dlouhyPopis_en',
+      title: 'Podrobný popis (EN)',
+      type: 'array',
+      of: [{type: 'block'}],
+      description: 'English long description — leave empty to use Czech',
+    },
+    {
       name: 'fotoalbum',
       title: 'Fotoalbum',
       type: 'array',

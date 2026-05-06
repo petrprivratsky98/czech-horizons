@@ -17,6 +17,12 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'role_en',
+      title: 'Role ve spolku (EN)',
+      type: 'string',
+      description: 'English role title — leave empty to use Czech',
+    },
+    {
       name: 'fotka',
       title: 'Fotka',
       type: 'image',
@@ -28,6 +34,13 @@ export default {
       type: 'text',
       rows: 3,
       description: 'Pár vět o osobě (volitelné)',
+    },
+    {
+      name: 'bio_en',
+      title: 'Krátký popis / bio (EN)',
+      type: 'text',
+      rows: 3,
+      description: 'English bio — leave empty to use Czech',
     },
     {
       name: 'instagram',

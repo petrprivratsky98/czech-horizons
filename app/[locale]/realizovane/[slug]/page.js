@@ -1,19 +1,14 @@
 export const revalidate = 10
-import {C} from '../../components/Colors'
+import {getTranslations} from 'next-intl/server'
+import {C} from '@/app/components/Colors'
 import {client} from '@/sanity/client'
 import {realizovanyProjektDetailQuery} from '@/sanity/queries'
 import {urlFor} from '@/sanity/imageUrl'
 import {PortableText} from 'next-sanity'
-import Nav from '../../components/Nav'
-import Link from 'next/link'
+import Nav from '@/app/components/Nav'
+import Footer from '@/app/components/Footer'
+import {Link} from '@/i18n/navigation'
 import {notFound} from 'next/navigation'
-
-const TYP_NAZVY = {
-  vymena: 'Výměna mládeže',
-  trening: 'Tréninkový kurz',
-  lokalni: 'Lokální akce',
-  jine: 'Jiné',
-}
 
 const TYP_BARVY = {
   vymena: C.orange,
@@ -22,44 +17,10 @@ const TYP_BARVY = {
   jine: C.teal,
 }
 
-const ZEME_INFO = {
-  AT: {nazev: 'Rakousko', vlajka: '🇦🇹'},
-  BE: {nazev: 'Belgie', vlajka: '🇧🇪'},
-  BG: {nazev: 'Bulharsko', vlajka: '🇧🇬'},
-  HR: {nazev: 'Chorvatsko', vlajka: '🇭🇷'},
-  CY: {nazev: 'Kypr', vlajka: '🇨🇾'},
-  CZ: {nazev: 'Česko', vlajka: '🇨🇿'},
-  DK: {nazev: 'Dánsko', vlajka: '🇩🇰'},
-  EE: {nazev: 'Estonsko', vlajka: '🇪🇪'},
-  FI: {nazev: 'Finsko', vlajka: '🇫🇮'},
-  FR: {nazev: 'Francie', vlajka: '🇫🇷'},
-  DE: {nazev: 'Německo', vlajka: '🇩🇪'},
-  GR: {nazev: 'Řecko', vlajka: '🇬🇷'},
-  HU: {nazev: 'Maďarsko', vlajka: '🇭🇺'},
-  IS: {nazev: 'Island', vlajka: '🇮🇸'},
-  IE: {nazev: 'Irsko', vlajka: '🇮🇪'},
-  IT: {nazev: 'Itálie', vlajka: '🇮🇹'},
-  LV: {nazev: 'Lotyšsko', vlajka: '🇱🇻'},
-  LI: {nazev: 'Lichtenštejnsko', vlajka: '🇱🇮'},
-  LT: {nazev: 'Litva', vlajka: '🇱🇹'},
-  LU: {nazev: 'Lucembursko', vlajka: '🇱🇺'},
-  MT: {nazev: 'Malta', vlajka: '🇲🇹'},
-  NL: {nazev: 'Nizozemsko', vlajka: '🇳🇱'},
-  MK: {nazev: 'Severní Makedonie', vlajka: '🇲🇰'},
-  NO: {nazev: 'Norsko', vlajka: '🇳🇴'},
-  PL: {nazev: 'Polsko', vlajka: '🇵🇱'},
-  PT: {nazev: 'Portugalsko', vlajka: '🇵🇹'},
-  RO: {nazev: 'Rumunsko', vlajka: '🇷🇴'},
-  RS: {nazev: 'Srbsko', vlajka: '🇷🇸'},
-  SK: {nazev: 'Slovensko', vlajka: '🇸🇰'},
-  SI: {nazev: 'Slovinsko', vlajka: '🇸🇮'},
-  ES: {nazev: 'Španělsko', vlajka: '🇪🇸'},
-  SE: {nazev: 'Švédsko', vlajka: '🇸🇪'},
-  TR: {nazev: 'Turecko', vlajka: '🇹🇷'},
-}
-
 export default async function RealizovanyProjektDetail({params}) {
   const {slug} = await params
+  const t = await getTranslations('realizovanyDetail')
+  const tCountries = await getTranslations('countries')
   const p = await client.fetch(realizovanyProjektDetailQuery, {slug})
 
   if (!p) {
@@ -67,9 +28,16 @@ export default async function RealizovanyProjektDetail({params}) {
   }
 
   const barva = TYP_BARVY[p.typ] || C.teal
-  const typNazev = TYP_NAZVY[p.typ] || p.typ
+  const typNazev = t(`types.${p.typ}`)
   const fotkaUrl = p.hlavniFotka ? urlFor(p.hlavniFotka).width(1600).height(700).url() : null
-  const zemeInfo = p.zeme ? ZEME_INFO[p.zeme] : null
+  const zemeNazev = p.zeme ? tCountries(p.zeme) : null
+  const zemeVlajky = {
+    AT:'🇦🇹',BE:'🇧🇪',BG:'🇧🇬',HR:'🇭🇷',CY:'🇨🇾',CZ:'🇨🇿',DK:'🇩🇰',EE:'🇪🇪',
+    FI:'🇫🇮',FR:'🇫🇷',DE:'🇩🇪',GR:'🇬🇷',HU:'🇭🇺',IS:'🇮🇸',IE:'🇮🇪',IT:'🇮🇹',
+    LV:'🇱🇻',LI:'🇱🇮',LT:'🇱🇹',LU:'🇱🇺',MT:'🇲🇹',NL:'🇳🇱',MK:'🇲🇰',NO:'🇳🇴',
+    PL:'🇵🇱',PT:'🇵🇹',RO:'🇷🇴',RS:'🇷🇸',SK:'🇸🇰',SI:'🇸🇮',ES:'🇪🇸',SE:'🇸🇪',TR:'🇹🇷',
+  }
+  const vlajka = p.zeme ? zemeVlajky[p.zeme] : null
   const fotoalbum = p.fotoalbum || []
   const feedbacky = p.feedbacky || []
 
@@ -89,7 +57,7 @@ export default async function RealizovanyProjektDetail({params}) {
             color: C.teal, fontSize: 'clamp(13px, 1vw, 16px)',
             fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
             textDecoration: 'none', marginBottom: 'clamp(20px, 2.5vw, 36px)',
-          }}>← Zpět na realizované projekty</Link>
+          }}>{t('back')}</Link>
 
           <div style={{display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, flexWrap: 'wrap'}}>
             <div style={{
@@ -97,15 +65,15 @@ export default async function RealizovanyProjektDetail({params}) {
               background: `${barva}18`, color: barva,
               fontSize: 'clamp(12px, 0.9vw, 15px)', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase',
             }}>{typNazev}</div>
-            {(zemeInfo || p.mesto) && (
+            {(zemeNazev || p.mesto) && (
               <div style={{
                 padding: 'clamp(8px, 0.7vw, 12px) clamp(18px, 1.4vw, 24px)', borderRadius: 100,
                 background: `${C.teal}15`, color: C.teal,
                 fontSize: 'clamp(12px, 0.9vw, 15px)', fontWeight: 700, letterSpacing: '0.06em',
                 display: 'inline-flex', alignItems: 'center', gap: 8,
               }}>
-                {zemeInfo && <span style={{fontSize: 18}}>{zemeInfo.vlajka}</span>}
-                {[zemeInfo?.nazev, p.mesto].filter(Boolean).join(' · ')}
+                {vlajka && <span style={{fontSize: 18}}>{vlajka}</span>}
+                {[zemeNazev, p.mesto].filter(Boolean).join(' · ')}
               </div>
             )}
             {p.datum && (
@@ -124,13 +92,13 @@ export default async function RealizovanyProjektDetail({params}) {
             margin: '0 0 clamp(14px, 1.6vw, 24px)',
             wordBreak: 'break-word', overflowWrap: 'break-word',
             color: C.dark,
-          }}>{p.nazev}</h1>
+          }}>{p.nazev_en || p.nazev}</h1>
 
-          {p.kratkyPopis && (
+          {(p.kratkyPopis_en || p.kratkyPopis) && (
             <p style={{
               fontSize: 'clamp(16px, 1.3vw, 22px)', lineHeight: 1.5,
               maxWidth: 800, color: `${C.ink}cc`, fontWeight: 400, margin: 0,
-            }}>{p.kratkyPopis}</p>
+            }}>{p.kratkyPopis_en || p.kratkyPopis}</p>
           )}
         </div>
       </section>
@@ -164,19 +132,19 @@ export default async function RealizovanyProjektDetail({params}) {
           }}>
             {p.pocetUcastniku && (
               <div>
-                <div style={{fontSize: 'clamp(12px, 0.9vw, 15px)', color: C.teal, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 12, fontWeight: 700}}>Účastníků</div>
+                <div style={{fontSize: 'clamp(12px, 0.9vw, 15px)', color: C.teal, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 12, fontWeight: 700}}>{t('statParticipants')}</div>
                 <div style={{fontWeight: 800, fontSize: 'clamp(48px, 5vw, 96px)', color: C.orange, lineHeight: 1, letterSpacing: '-0.03em'}}>{p.pocetUcastniku}</div>
               </div>
             )}
             {fotoalbum.length > 0 && (
               <div>
-                <div style={{fontSize: 'clamp(12px, 0.9vw, 15px)', color: C.teal, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 12, fontWeight: 700}}>Fotek v albu</div>
+                <div style={{fontSize: 'clamp(12px, 0.9vw, 15px)', color: C.teal, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 12, fontWeight: 700}}>{t('statPhotos')}</div>
                 <div style={{fontWeight: 800, fontSize: 'clamp(48px, 5vw, 96px)', color: C.green, lineHeight: 1, letterSpacing: '-0.03em'}}>{fotoalbum.length}</div>
               </div>
             )}
             {feedbacky.length > 0 && (
               <div>
-                <div style={{fontSize: 'clamp(12px, 0.9vw, 15px)', color: C.teal, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 12, fontWeight: 700}}>Ohlasů</div>
+                <div style={{fontSize: 'clamp(12px, 0.9vw, 15px)', color: C.teal, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 12, fontWeight: 700}}>{t('statFeedback')}</div>
                 <div style={{fontWeight: 800, fontSize: 'clamp(48px, 5vw, 96px)', color: C.teal, lineHeight: 1, letterSpacing: '-0.03em'}}>{feedbacky.length}</div>
               </div>
             )}
@@ -185,18 +153,18 @@ export default async function RealizovanyProjektDetail({params}) {
       )}
 
       {/* Long description */}
-      {p.dlouhyPopis && p.dlouhyPopis.length > 0 && (
+      {(p.dlouhyPopis_en || p.dlouhyPopis) && (p.dlouhyPopis_en || p.dlouhyPopis).length > 0 && (
         <section style={{
           background: C.cream,
           padding: 'clamp(32px, 5vw, 64px) clamp(24px, 5vw, 80px) clamp(60px, 8vw, 120px)',
         }}>
           <div style={{maxWidth: 900, margin: '0 auto'}}>
             <div style={{fontSize: 'clamp(12px, 0.9vw, 16px)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 24, color: C.teal}}>
-              <span style={{color: C.orange}}>❋</span> Jak to bylo
+              <span style={{color: C.orange}}>❋</span> {t('howItWas')}
             </div>
             <div style={{fontSize: 'clamp(17px, 1.35vw, 22px)', lineHeight: 1.7, color: `${C.ink}dd`}}>
               <PortableText
-                value={p.dlouhyPopis}
+                value={p.dlouhyPopis_en || p.dlouhyPopis}
                 components={{
                   block: {
                     normal: ({children}) => <p style={{margin: '0 0 clamp(16px, 1.5vw, 28px)'}}>{children}</p>,
@@ -215,7 +183,7 @@ export default async function RealizovanyProjektDetail({params}) {
         </section>
       )}
 
-      {/* Feedbacky účastníků */}
+      {/* Feedback */}
       {feedbacky.length > 0 && (
         <section style={{
           background: C.dark, color: C.cream,
@@ -224,12 +192,12 @@ export default async function RealizovanyProjektDetail({params}) {
           <div style={{maxWidth: 1400, margin: '0 auto'}}>
             <div style={{marginBottom: 'clamp(32px, 4vw, 64px)'}}>
               <div style={{fontSize: 'clamp(12px, 0.9vw, 16px)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 20, color: C.yellow}}>
-                <span style={{color: C.orange}}>❋</span> Co na to účastníci
+                <span style={{color: C.orange}}>❋</span> {t('feedbackLabel')}
               </div>
               <h2 style={{
                 fontSize: 'clamp(36px, 5vw, 80px)', fontWeight: 800, lineHeight: 0.95,
                 letterSpacing: '-0.03em', margin: 0, color: C.cream,
-              }}>Ohlasy</h2>
+              }}>{t('feedbackHeading')}</h2>
             </div>
 
             <div style={{
@@ -247,7 +215,7 @@ export default async function RealizovanyProjektDetail({params}) {
                     padding: 'clamp(24px, 2.5vw, 40px)',
                     display: 'flex', flexDirection: 'column', gap: 20,
                   }}>
-                    <div style={{fontSize: 'clamp(44px, 4vw, 64px)', lineHeight: 0.8, color: C.orange, fontWeight: 800}}>"</div>
+                    <div style={{fontSize: 'clamp(44px, 4vw, 64px)', lineHeight: 0.8, color: C.orange, fontWeight: 800}}>&ldquo;</div>
                     <p style={{
                       fontSize: 'clamp(16px, 1.25vw, 20px)', lineHeight: 1.6,
                       color: C.cream, fontWeight: 400, margin: 0, fontStyle: 'italic',
@@ -276,7 +244,7 @@ export default async function RealizovanyProjektDetail({params}) {
                       <div>
                         <div style={{fontSize: 'clamp(15px, 1.1vw, 18px)', fontWeight: 700, color: C.cream}}>{f.jmeno}</div>
                         {f.vek && (
-                          <div style={{fontSize: 'clamp(12px, 0.9vw, 14px)', color: `${C.cream}88`, fontWeight: 500}}>{f.vek} let</div>
+                          <div style={{fontSize: 'clamp(12px, 0.9vw, 14px)', color: `${C.cream}88`, fontWeight: 500}}>{t('age', {n: f.vek})}</div>
                         )}
                       </div>
                     </div>
@@ -297,14 +265,12 @@ export default async function RealizovanyProjektDetail({params}) {
           <div style={{maxWidth: 1400, margin: '0 auto'}}>
             <div style={{marginBottom: 'clamp(32px, 4vw, 64px)'}}>
               <div style={{fontSize: 'clamp(12px, 0.9vw, 16px)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 20, color: C.teal}}>
-                <span style={{color: C.orange}}>❋</span> Fotoalbum
+                <span style={{color: C.orange}}>❋</span> {t('albumLabel')}
               </div>
               <h2 style={{
                 fontSize: 'clamp(36px, 5vw, 80px)', fontWeight: 800, lineHeight: 0.95,
                 letterSpacing: '-0.03em', margin: 0, color: C.dark,
-              }}>
-                {fotoalbum.length} {fotoalbum.length === 1 ? 'fotka' : fotoalbum.length < 5 ? 'fotky' : 'fotek'}
-              </h2>
+              }}>{fotoalbum.length}</h2>
             </div>
 
             <div style={{
@@ -357,8 +323,10 @@ export default async function RealizovanyProjektDetail({params}) {
           borderRadius: 100, background: C.dark, color: C.cream,
           fontSize: 'clamp(13px, 1vw, 16px)', fontWeight: 800, letterSpacing: '0.08em',
           textTransform: 'uppercase', textDecoration: 'none',
-        }}>← Zpět na všechny realizované projekty</Link>
+        }}>{t('backCta')}</Link>
       </section>
+
+      <Footer />
     </main>
   )
 }

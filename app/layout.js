@@ -1,4 +1,5 @@
 import {Poppins} from 'next/font/google'
+import {getLocale} from 'next-intl/server'
 import './globals.css'
 
 const poppins = Poppins({
@@ -57,9 +58,10 @@ export const metadata = {
   },
 }
 
-export default function RootLayout({children}) {
+export default async function RootLayout({children}) {
+  const locale = await getLocale()
   return (
-    <html lang="cs" className={poppins.variable}>
+    <html lang={locale} className={poppins.variable}>
       <head>
         <link
           rel="stylesheet"

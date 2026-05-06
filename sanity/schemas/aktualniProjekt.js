@@ -117,6 +117,19 @@ export default {
       rows: 4,
     },
     {
+      name: 'nazev_en',
+      title: 'Název projektu (EN)',
+      type: 'string',
+      description: 'English project name — leave empty to use Czech',
+    },
+    {
+      name: 'popis_en',
+      title: 'Popis (EN)',
+      type: 'text',
+      rows: 4,
+      description: 'English description — leave empty to use Czech',
+    },
+    {
       name: 'fotka',
       title: 'Hlavní fotka',
       type: 'image',

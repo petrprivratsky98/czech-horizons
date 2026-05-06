@@ -1,21 +1,17 @@
 'use client'
 
 import {useState, useEffect} from 'react'
+import {useTranslations, useLocale} from 'next-intl'
 import {C} from './Colors'
 import Logo from './Logo'
-import Link from 'next/link'
-
-const NAV_LINKS = [
-  {href: '/#eventy',    label: 'Eventy'},
-  {href: '/#projekty',  label: 'Projekty'},
-  {href: '/#lokalni',   label: 'Lokální'},
-  {href: '/lokalni/bylinkova-zahrada', label: 'Zahrádka', isLink: true},
-  {href: '/#realizovane', label: 'Realizované'},
-  {href: '/#programy',  label: 'Programy'},
-  {href: '/#o-nas',     label: 'O nás'},
-]
+import {Link, usePathname, useRouter} from '@/i18n/navigation'
 
 export default function Nav() {
+  const t = useTranslations('nav')
+  const locale = useLocale()
+  const pathname = usePathname()
+  const router = useRouter()
+
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -30,6 +26,16 @@ export default function Nav() {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
+  const NAV_LINKS = [
+    {href: '/#eventy',    label: t('events')},
+    {href: '/#projekty',  label: t('projects')},
+    {href: '/#lokalni',   label: t('local')},
+    {href: '/lokalni/bylinkova-zahrada', label: t('garden'), isLink: true},
+    {href: '/#realizovane', label: t('realized')},
+    {href: '/#programy',  label: t('programs')},
+    {href: '/#o-nas',     label: t('about')},
+  ]
+
   const linkStyle = {
     fontSize: 14,
     fontWeight: 600,
@@ -41,6 +47,8 @@ export default function Nav() {
     textShadow: scrolled ? 'none' : '0 1px 6px rgba(0,0,0,0.4)',
     transition: 'color 0.3s',
   }
+
+  const otherLocale = locale === 'cs' ? 'en' : 'cs'
 
   return (
     <>
@@ -78,7 +86,7 @@ export default function Nav() {
               textShadow: scrolled ? 'none' : '0 1px 6px rgba(0,0,0,0.4)',
               transition: 'color 0.3s',
             }}>
-              Rozšiř svůj obzor
+              {t('tagline')}
             </span>
           </div>
         </Link>
@@ -90,7 +98,24 @@ export default function Nav() {
               ? <Link key={href} href={href} style={linkStyle}>{label}</Link>
               : <a key={href} href={href} style={linkStyle}>{label}</a>
           )}
-          <a href="/#kontakt" style={{
+          <button
+            onClick={() => router.replace(pathname, {locale: otherLocale})}
+            style={{
+              fontSize: 13,
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: scrolled ? C.ink : C.cream,
+              background: 'transparent',
+              border: `1.5px solid ${scrolled ? C.ink : C.cream}`,
+              padding: '8px 16px',
+              borderRadius: 100,
+              cursor: 'pointer',
+              transition: 'all 0.3s',
+              opacity: 0.7,
+            }}
+          >{t('langSwitch')}</button>
+          <Link href="/#kontakt" style={{
             fontSize: 14,
             fontWeight: 700,
             letterSpacing: '0.08em',
@@ -103,14 +128,14 @@ export default function Nav() {
             cursor: 'pointer',
             boxShadow: scrolled ? 'none' : '0 4px 20px rgba(0,0,0,0.2)',
             transition: 'all 0.3s',
-          }}>Kontakt ↗</a>
+          }}>{t('contact')} ↗</Link>
         </div>
 
         {/* Hamburger button */}
         <button
           className="nav-hamburger"
           onClick={() => setMenuOpen(o => !o)}
-          aria-label={menuOpen ? 'Zavřít menu' : 'Otevřít menu'}
+          aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
           style={{zIndex: 501}}
         >
           <svg width="28" height="20" viewBox="0 0 28 20" fill="none">
@@ -143,12 +168,23 @@ export default function Nav() {
                 }}>{label}</a>
           )}
         </div>
-        <a href="/#kontakt" onClick={() => setMenuOpen(false)} style={{
-          display:'inline-flex',alignItems:'center',gap:12,marginTop:32,
-          padding:'18px 36px',borderRadius:100,background:C.orange,
-          color:C.cream,fontSize:16,fontWeight:800,letterSpacing:'0.08em',
-          textDecoration:'none',textTransform:'uppercase',alignSelf:'flex-start',
-        }}>Kontakt ↗</a>
+        <div style={{display:'flex', gap:16, marginTop:32, alignItems:'center', flexWrap:'wrap'}}>
+          <Link href="/#kontakt" onClick={() => setMenuOpen(false)} style={{
+            display:'inline-flex',alignItems:'center',gap:12,
+            padding:'18px 36px',borderRadius:100,background:C.orange,
+            color:C.cream,fontSize:16,fontWeight:800,letterSpacing:'0.08em',
+            textDecoration:'none',textTransform:'uppercase',
+          }}>{t('contact')} ↗</Link>
+          <button
+            onClick={() => { setMenuOpen(false); router.replace(pathname, {locale: otherLocale}) }}
+            style={{
+              padding:'18px 28px',borderRadius:100,
+              background:'transparent', border:`2px solid ${C.cream}40`,
+              color:C.cream,fontSize:16,fontWeight:800,letterSpacing:'0.08em',
+              textTransform:'uppercase',cursor:'pointer',
+            }}
+          >{t('langSwitch')}</button>
+        </div>
       </div>
     </>
   )

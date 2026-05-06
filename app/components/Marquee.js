@@ -1,15 +1,12 @@
 'use client'
 
+import {useTranslations} from 'next-intl'
 import {C} from './Colors'
 
-const CITIES = [
-  "Berlín","Paříž","Řím","Madrid","Lisabon","Athény","Vídeň","Praha",
-  "Varšava","Budapešť","Bratislava","Lublaň","Záhřeb","Bukurešť","Sofie","Nikósie",
-  "Valletta","Helsinki","Stockholm","Kodaň","Dublin","Amsterdam","Brusel","Lucemburk",
-  "Tallinn","Riga","Vilnius","Reykjavík","Oslo","Vaduz","Ankara","Skopje","Bělehrad",
-]
-
 export default function Marquee() {
+  const t = useTranslations('marquee')
+  const cities = t.raw('cities')
+
   return (
     <section style={{
       background: C.dark, color: C.cream,
@@ -22,7 +19,7 @@ export default function Marquee() {
       }}>
         {[0, 1].map((r) => (
           <div key={r} style={{display: 'flex', gap: 40}}>
-            {CITIES.map((city, i) => (
+            {cities.map((city, i) => (
               <span key={i} style={{display: 'inline-flex', alignItems: 'center', gap: 40}}>
                 {city}
                 <span style={{

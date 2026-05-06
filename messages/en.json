@@ -1,0 +1,257 @@
+{
+  "nav": {
+    "tagline": "Expand your horizon",
+    "events": "Events",
+    "projects": "Projects",
+    "local": "Local",
+    "garden": "Garden",
+    "realized": "Realized",
+    "programs": "Programs",
+    "about": "About",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "langSwitch": "CS"
+  },
+  "hero": {
+    "eyebrow": "Est. 2025 · Prague · Erasmus+ partner",
+    "h1_1": "We expand",
+    "h1_2": "your",
+    "h1_3": "horizon",
+    "h1_4": "of knowledge",
+    "descPre": "An association connecting ",
+    "health": "health",
+    "descMid1": ", ",
+    "environment": "environment",
+    "descMid2": " and ",
+    "preparedness": "crisis preparedness",
+    "descPost": " through Erasmus+, volunteering programmes and local events in Prague.",
+    "ctaProjects": "Open projects ↗",
+    "ctaEvents": "Upcoming events"
+  },
+  "marquee": {
+    "cities": ["Berlin","Paris","Rome","Madrid","Lisbon","Athens","Vienna","Prague","Warsaw","Budapest","Bratislava","Ljubljana","Zagreb","Bucharest","Sofia","Nicosia","Valletta","Helsinki","Stockholm","Copenhagen","Dublin","Amsterdam","Brussels","Luxembourg","Tallinn","Riga","Vilnius","Reykjavik","Oslo","Vaduz","Ankara","Skopje","Belgrade"]
+  },
+  "events": {
+    "label": "001 — Calendar",
+    "h1": "Upcoming",
+    "h2": "events",
+    "desc": "Clean-ups, workshops, meetups. Join us — some events are recurring, others are one-time.",
+    "empty": "No events scheduled right now. Follow us on Instagram!",
+    "capacity": "Capacity",
+    "map": "Map",
+    "months": ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"],
+    "categories": {
+      "uklid": "Clean-up",
+      "workshop": "Workshop",
+      "setkani": "Meetup",
+      "infosession": "Info session",
+      "vylet": "Trip",
+      "jine": "Other"
+    }
+  },
+  "currentProjects": {
+    "label": "002 — Open now",
+    "h1": "Where to go",
+    "h2": "next.",
+    "desc": "Youth exchanges, training courses. Fully funded by Erasmus+ — flights, accommodation, meals.",
+    "empty": "No open projects right now. Follow us on Instagram for new ones!",
+    "types": {
+      "vymena": "Youth Exchange",
+      "trening": "Training Course"
+    },
+    "deadline": {
+      "closed": "Applications closed",
+      "today": "Deadline today!",
+      "day1": "1 day left",
+      "days": "{n} days left",
+      "until": "Until {d}/{m}/{y}"
+    },
+    "termLabel": "Dates",
+    "ageLabel": "Age",
+    "participantsLabel": "Participants",
+    "ageRange": "{from}–{to} yrs",
+    "ageFrom": "{from}+ yrs",
+    "ageTo": "up to {to} yrs",
+    "participants": "{n} participants",
+    "groupLeaders": "{n} + {gl} group leader",
+    "groupLeadersPlural": "{n} + {gl} group leaders",
+    "apply": "Apply ↗",
+    "applyClosed": "Applications closed",
+    "infopack": "Infopack ↗"
+  },
+  "localProjects": {
+    "label": "003 — Local projects",
+    "h1": "At home",
+    "h2": "in Czechia.",
+    "desc": "Long-term projects in Prague supported by ESC. Each project consists of multiple events spread over months.",
+    "empty": "No local projects yet. Coming soon!",
+    "show": "View project →",
+    "planters": "Planters",
+    "herbs": "Herbs",
+    "events": "events total",
+    "participants": "Participants",
+    "statuses": {
+      "probihajici": "Ongoing",
+      "ukonceny": "Completed",
+      "pripravovany": "Upcoming"
+    }
+  },
+  "realizedProjects": {
+    "label": "004 — Realized projects",
+    "h1": "We left",
+    "h2": "a mark.",
+    "desc": "Projects we've completed. Photos, stories and participant feedback.",
+    "empty": "No realized projects yet, but the first ones are coming soon!",
+    "show": "View →",
+    "loadMore": "Load more",
+    "types": {
+      "vymena": "Youth Exchange",
+      "trening": "Training Course",
+      "lokalni": "Local Event",
+      "jine": "Other"
+    }
+  },
+  "worldMap": {
+    "label": "Where we've been",
+    "h1": "Europe",
+    "h2": "and beyond.",
+    "desc": "Every completed project lights up the country we visited. Hover for details.",
+    "countriesLabel": "Countries",
+    "projectsLabel": "Projects",
+    "bonusLabel": "+ Bonus destination",
+    "reunionDesc": "A French overseas department in the Indian Ocean. Our most distant project.",
+    "reunionDist": "9,000 km from Prague"
+  },
+  "programs": {
+    "label": "005 — European programmes",
+    "h1": "How Europe",
+    "h2": "can help you.",
+    "desc": "Four EU-funded programmes that help young people grow, explore and do business.",
+    "officialWeb": "Official website ↗",
+    "items": [
+      {
+        "kod": "erasmus",
+        "nazev": "Erasmus+",
+        "podnadpis": "Youth · Education · Mobility",
+        "popis": "The largest European youth mobility programme. Youth exchanges, training courses for youth workers and strategic partnerships.",
+        "features": ["Fully funded travel & accommodation", "For young people aged 13–30", "Youthpass certificate", "More than 40 European countries"]
+      },
+      {
+        "kod": "discover",
+        "nazev": "DiscoverEU",
+        "podnadpis": "Travel · Discovery · Experience",
+        "popis": "Free train pass across Europe for 18-year-olds. Discover up to 30 countries and meet thousands of other participants.",
+        "features": ["Free Interrail pass", "For 18-year-old EU citizens", "Open 2× per year", "Cultural & language workshops"]
+      },
+      {
+        "kod": "esc",
+        "nazev": "European Solidarity Corps",
+        "podnadpis": "Volunteering · Solidarity · Change",
+        "popis": "Volunteering projects across Europe and at home. Long-term and short-term, individual and team-based. Help where it's needed.",
+        "features": ["For young people aged 18–30", "Projects 2 weeks to 12 months", "Pocket money & meals covered", "Insurance & language course"]
+      },
+      {
+        "kod": "podnikatele",
+        "nazev": "Erasmus for Entrepreneurs",
+        "podnadpis": "Business · Ideas · Mentoring",
+        "popis": "Exchange programme for new and experienced entrepreneurs. Gain experience from an established entrepreneur in another European country.",
+        "features": ["Stays of 1–6 months", "For early-stage entrepreneurs", "Funding up to €1,100/month", "Network of 10,000+ entrepreneurs"]
+      }
+    ]
+  },
+  "about": {
+    "label": "006 — About us",
+    "h1": "We are a team",
+    "h2": "with a mission.",
+    "desc1": "Czech Horizons was founded in July 2025 in Prague. We connect three things that matter: ",
+    "health": "health",
+    "desc1mid1": ", ",
+    "environment": "environment",
+    "desc1mid2": " and ",
+    "preparedness": "crisis preparedness",
+    "desc1end": ".",
+    "desc2": "We organise youth exchanges and training courses across Europe through Erasmus+, local clean-up events in Prague, and help young people find their path through European programmes like DiscoverEU or ESC.",
+    "teamLabel": "Our team",
+    "teamHeading": "Team",
+    "values": [
+      {"cislo": "001", "nazev": "Health", "popis": "Physical and mental well-being as a foundation. Caring for yourself and others."},
+      {"cislo": "002", "nazev": "Environment", "popis": "Smaller footprint, bigger impact. Local action and education."},
+      {"cislo": "003", "nazev": "Crisis preparedness", "popis": "Knowledge and skills for emergencies. Being prepared is a responsibility."}
+    ]
+  },
+  "contact": {
+    "label": "007 — Contact",
+    "h1": "Got an",
+    "h2": "idea?",
+    "desc": "Want to join our projects, become part of the team, or just talk about how to turn an idea into real action? Write to us.",
+    "cta": "Write to us ↗",
+    "emailLabel": "Email",
+    "igLabel": "Instagram",
+    "locationLabel": "Location",
+    "location": "Prague, Czech Republic"
+  },
+  "footer": {
+    "tagline": "Expand your horizon",
+    "desc": "Connecting health, environment and crisis preparedness through Erasmus+, volunteering programmes and local events.",
+    "navLabel": "Navigation",
+    "contactLabel": "Contact",
+    "orgLabel": "Organisation",
+    "founded": "Founded 17 July 2025",
+    "copyright": "All rights reserved.",
+    "tagline2": "Expanding your horizon of knowledge",
+    "links": {
+      "events": "Events",
+      "projects": "Current projects",
+      "local": "Local projects",
+      "realized": "Realized",
+      "programs": "European programmes",
+      "about": "About"
+    }
+  },
+  "lokalniDetail": {
+    "back": "← Back to projects",
+    "label": "Local project",
+    "statEvents": "Events total",
+    "statParticipants": "Participants",
+    "statStatus": "Status",
+    "eventsLabel": "Project events",
+    "galleryLabel": "Photo gallery",
+    "galleryHeading": "How it looks",
+    "statusDone": "Completed",
+    "statusUpcoming": "Upcoming",
+    "notFoundTitle": "Project not found",
+    "notFoundDesc": "This local project does not exist or has been deleted.",
+    "notFoundBack": "← Back to homepage",
+    "months": ["January","February","March","April","May","June","July","August","September","October","November","December"]
+  },
+  "realizovanyDetail": {
+    "back": "← Back to realized projects",
+    "statParticipants": "Participants",
+    "statPhotos": "Photos in album",
+    "statFeedback": "Testimonials",
+    "howItWas": "How it went",
+    "feedbackLabel": "What participants say",
+    "feedbackHeading": "Testimonials",
+    "albumLabel": "Photo album",
+    "backCta": "← Back to all realized projects",
+    "age": "{n} yrs old",
+    "types": {
+      "vymena": "Youth Exchange",
+      "trening": "Training Course",
+      "lokalni": "Local Event",
+      "jine": "Other"
+    }
+  },
+  "countries": {
+    "AT": "Austria", "BE": "Belgium", "BG": "Bulgaria", "HR": "Croatia",
+    "CY": "Cyprus", "CZ": "Czechia", "DK": "Denmark", "EE": "Estonia",
+    "FI": "Finland", "FR": "France", "DE": "Germany", "GR": "Greece",
+    "HU": "Hungary", "IS": "Iceland", "IE": "Ireland", "IT": "Italy",
+    "LV": "Latvia", "LI": "Liechtenstein", "LT": "Lithuania", "LU": "Luxembourg",
+    "MT": "Malta", "NL": "Netherlands", "MK": "North Macedonia", "NO": "Norway",
+    "PL": "Poland", "PT": "Portugal", "RO": "Romania", "RS": "Serbia",
+    "SK": "Slovakia", "SI": "Slovenia", "ES": "Spain", "SE": "Sweden",
+    "TR": "Turkey"
+  }
+}
