@@ -253,5 +253,11 @@
     "PL": "Poland", "PT": "Portugal", "RO": "Romania", "RS": "Serbia",
     "SK": "Slovakia", "SI": "Slovenia", "ES": "Spain", "SE": "Sweden",
     "TR": "Turkey"
+  },
+  "cookies": {
+    "text": "We use cookies for basic site functionality. Analytics cookies are only enabled with your consent.",
+    "accept": "Accept all",
+    "decline": "Essential only",
+    "privacy": "Privacy policy"
   }
 }

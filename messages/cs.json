@@ -253,5 +253,11 @@
     "PL": "Polsko", "PT": "Portugalsko", "RO": "Rumunsko", "RS": "Srbsko",
     "SK": "Slovensko", "SI": "Slovinsko", "ES": "Španělsko", "SE": "Švédsko",
     "TR": "Turecko"
+  },
+  "cookies": {
+    "text": "Používáme cookies pro základní fungování webu. Analytické cookies zapínáme pouze s vaším souhlasem.",
+    "accept": "Přijmout vše",
+    "decline": "Jen nutné",
+    "privacy": "Zásady ochrany dat"
   }
 }
