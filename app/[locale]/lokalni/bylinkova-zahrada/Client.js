@@ -1,8 +1,6 @@
 'use client'
 import {useState, useEffect} from 'react'
 import {C} from '@/app/components/Colors'
-import Nav from '@/app/components/Nav'
-import Footer from '@/app/components/Footer'
 import {TRUHLIKY} from './data'
 
 // ─── Herb shape classifier ─────────────────────────────────────────────────────
@@ -752,7 +750,6 @@ export function BylinkoveZahradyClient({akce = []}) {
         input:focus, textarea:focus { border-color: rgba(255,255,255,0.35) !important; }
       `}</style>
 
-      <Nav />
       <main>
 
         {/* ── Hero ─────────────────────────────────────────────────────── */}
@@ -1077,7 +1074,6 @@ export function BylinkoveZahradyClient({akce = []}) {
         </section>
 
       </main>
-      <Footer />
 
       {activeHerb && (
         <HerbModal herb={activeHerb} planterColor={selectedTruhlík?.barvaHex ?? C.green} onClose={() => setActiveHerb(null)}/>
