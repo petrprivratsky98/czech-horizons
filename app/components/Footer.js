@@ -69,10 +69,14 @@ export default async function Footer() {
                 color: `${C.cream}cc`, textDecoration: 'none',
                 fontSize: 'clamp(14px, 1.05vw, 17px)', fontWeight: 500, wordBreak: 'break-all',
               }}>info@czechhorizons.eu</a>
-              <a href="https://www.instagram.com/czechhorizons/" target="_blank" rel="noopener noreferrer" style={{
+              <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer" style={{
                 color: `${C.cream}cc`, textDecoration: 'none',
                 fontSize: 'clamp(14px, 1.05vw, 17px)', fontWeight: 500,
               }}>Instagram ↗</a>
+              <a href="https://www.facebook.com/profile.php?id=61565942690033" target="_blank" rel="noopener noreferrer" style={{
+                color: `${C.cream}cc`, textDecoration: 'none',
+                fontSize: 'clamp(14px, 1.05vw, 17px)', fontWeight: 500,
+              }}>Facebook ↗</a>
               <span style={{color: `${C.cream}cc`, fontSize: 'clamp(14px, 1.05vw, 17px)', fontWeight: 500}}>
                 {tContact('location')}
               </span>

@@ -33,7 +33,7 @@ export const metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-image.png',
+        url: '/ogimage.png',
         width: 1200,
         height: 630,
         alt: 'Czech Horizons — Posouváme tvůj horizont poznání',
@@ -44,7 +44,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Czech Horizons — Posouváme tvůj horizont poznání',
     description: 'Spolek propojující ekologii, wellbeing a mezinárodní spolupráci skrze Erasmus+, dobrovolnické programy a lokální akce v Praze.',
-    images: ['/og-image.png'],
+    images: ['/ogimage.png'],
   },
   robots: {
     index: true,
