@@ -17,9 +17,9 @@ export const metadata = {
   description: 'Spolek propojující zdraví, životní prostředí a připravenost na krizi skrze Erasmus+, dobrovolnické programy a lokální akce v Praze.',
   keywords: ['Erasmus+', 'výměna mládeže', 'tréninkový kurz', 'dobrovolnictví', 'DiscoverEU', 'ESC', 'zdraví', 'životní prostředí', 'Praha', 'spolek', 'připravenost na krizi'],
   icons: {
-    icon: '/logo.png',
-    shortcut: '/logo.png',
-    apple: '/logo.png',
+    icon: '/logobarva.png',
+    shortcut: '/logobarva.png',
+    apple: '/logobarva.png',
   },
   authors: [{name: 'Czech Horizons'}],
   creator: 'Czech Horizons',
