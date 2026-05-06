@@ -3,6 +3,7 @@
 import {useState} from 'react'
 import {useTranslations} from 'next-intl'
 import {C} from './Colors'
+import {Link} from '@/i18n/navigation'
 
 export const COOKIE_KEY = 'ch_cookie_consent'
 
@@ -50,7 +51,10 @@ export default function CookieBanner() {
         fontSize: 'clamp(13px, 1vw, 15px)', lineHeight: 1.6,
         color: `${C.cream}bb`, margin: 0,
       }}>
-        {t('text')}
+        {t('text')}{' '}
+        <Link href="/zasady" style={{color: `${C.cream}66`, textDecoration: 'underline', fontSize: 'inherit'}}>
+          {t('privacy')}
+        </Link>
       </p>
 
       <div style={{display: 'flex', gap: 10, flexWrap: 'wrap', flexShrink: 0}}>

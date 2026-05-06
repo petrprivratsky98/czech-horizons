@@ -1,4 +1,5 @@
 import {getTranslations} from 'next-intl/server'
+import Image from 'next/image'
 import {C} from './Colors'
 import Logo from './Logo'
 import {Link} from '@/i18n/navigation'
@@ -71,13 +72,11 @@ export default async function Footer() {
               }}>info@czechhorizons.eu</a>
               <div style={{display: 'flex', gap: 10, marginTop: 4}}>
                 <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer" className="footer-social-link">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/ig.png" alt="Instagram" style={{width: 24, height: 24, borderRadius: 6, objectFit: 'cover'}} />
+                  <Image src="/ig.png" alt="Instagram" width={24} height={24} style={{borderRadius: 6, objectFit: 'cover'}} />
                   Instagram
                 </a>
                 <a href="https://www.facebook.com/profile.php?id=61565942690033" target="_blank" rel="noopener noreferrer" className="footer-social-link">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/fb.png" alt="Facebook" style={{width: 24, height: 24, borderRadius: 6, objectFit: 'cover'}} />
+                  <Image src="/fb.png" alt="Facebook" width={24} height={24} style={{borderRadius: 6, objectFit: 'cover'}} />
                   Facebook
                 </a>
               </div>

@@ -1,4 +1,5 @@
 import {getTranslations} from 'next-intl/server'
+import Image from 'next/image'
 import {C} from './Colors'
 import ContactForm from './ContactForm'
 
@@ -72,8 +73,7 @@ export default async function Contact() {
                 textDecoration: 'none', color: C.ink,
                 display: 'flex', alignItems: 'center', gap: 14,
               }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/ig.png" alt="Instagram" style={{width: 44, height: 44, borderRadius: 12, objectFit: 'cover', flexShrink: 0}} />
+                <Image src="/ig.png" alt="Instagram" width={44} height={44} style={{borderRadius: 12, objectFit: 'cover', flexShrink: 0}} />
                 <div>
                   <div style={{fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700, color: `${C.ink}66`, marginBottom: 2}}>{t('igLabel')}</div>
                   <div style={{fontSize: 'clamp(14px, 1.1vw, 17px)', fontWeight: 700, color: C.dark}}>@czech.horizons</div>

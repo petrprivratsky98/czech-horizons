@@ -1,5 +1,6 @@
 'use client'
 import {useState, useEffect} from 'react'
+import Image from 'next/image'
 import {C} from '@/app/components/Colors'
 import {TRUHLIKY} from './data'
 
@@ -1061,11 +1062,11 @@ export function BylinkoveZahradyClient({akce = []}) {
               Projekt realizuje <strong style={{color:C.ink}}>Czech Horizons z. s.</strong> za podpory <strong style={{color:C.ink}}>Evropského sboru solidarity</strong>.
             </p>
             <div style={{display:'flex',gap:'clamp(16px,2.5vw,32px)',alignItems:'center',flexWrap:'wrap'}}>
-              <img src="/logoeu.png" alt="Evropská unie" style={{height:52,objectFit:'contain',display:'block'}}/>
-              <img src="/logoesc.png" alt="Evropský sbor solidarity" style={{height:60,objectFit:'contain',display:'block'}}/>
-              <img src="/logodzs.png" alt="Dům zahraniční spolupráce" style={{height:48,objectFit:'contain',display:'block'}}/>
-              <img src="/czulogo.png" alt="Česká zemědělská univerzita" style={{height:44,objectFit:'contain',display:'block'}}/>
-              <img src="/logopraha6.png" alt="Praha 6" style={{height:44,objectFit:'contain',display:'block'}}/>
+              <Image src="/logoeu.png" alt="Evropská unie" width={160} height={52} style={{height:52,width:'auto',objectFit:'contain'}}/>
+              <Image src="/logoesc.png" alt="Evropský sbor solidarity" width={180} height={60} style={{height:60,width:'auto',objectFit:'contain'}}/>
+              <Image src="/logodzs.png" alt="Dům zahraniční spolupráce" width={200} height={48} style={{height:48,width:'auto',objectFit:'contain'}}/>
+              <Image src="/czulogo.png" alt="Česká zemědělská univerzita" width={160} height={44} style={{height:44,width:'auto',objectFit:'contain'}}/>
+              <Image src="/logopraha6.png" alt="Praha 6" width={120} height={44} style={{height:44,width:'auto',objectFit:'contain'}}/>
             </div>
             <p style={{fontSize:11,color:`${C.ink}55`,margin:'clamp(16px,2vw,24px) 0 0',lineHeight:1.6,maxWidth:700}}>
               Tento projekt byl podpořen z programu Evropský sbor solidarity Evropské unie. Vyjádřené názory jsou výlučně názory autorů a Evropská unie za ně nenese žádnou odpovědnost.
