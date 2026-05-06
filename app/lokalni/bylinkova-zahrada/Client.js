@@ -545,12 +545,12 @@ function HerbModal({herb, planterColor, onClose}) {
       onClick={e => e.target === e.currentTarget && onClose()}
       style={{position:'fixed',inset:0,zIndex:1000,background:'rgba(10,26,24,0.88)',backdropFilter:'blur(6px)',
         display:'flex',alignItems:'flex-end',justifyContent:'center',
-        padding:'80px clamp(16px,3vw,48px) clamp(16px,3vw,48px)'}}>
-      <div style={{background:C.cream,borderRadius:20,maxWidth:740,width:'100%',maxHeight:'calc(100vh - 100px)',
-        boxShadow:'0 32px 80px rgba(0,0,0,0.45)',display:'flex',flexDirection:'column',
+        padding:'clamp(16px,3vw,48px)'}}>
+      <div style={{background:C.cream,borderRadius:20,maxWidth:740,width:'100%',maxHeight:'80vh',
+        boxShadow:'0 32px 80px rgba(0,0,0,0.45)',display:'flex',flexDirection:'column',overflow:'hidden',
         animation:'herbFlyIn 0.4s cubic-bezier(0.16,1,0.3,1) both'}}>
-        {/* Sticky header — stays visible while content scrolls */}
-        <div style={{flexShrink:0,padding:'clamp(22px,3vw,34px) clamp(22px,3vw,34px) 0',display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:16}}>
+        {/* Header — outside scroll container, always visible */}
+        <div style={{flexShrink:0,padding:'clamp(22px,3vw,34px) clamp(22px,3vw,34px) 0',display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:16,background:C.cream,zIndex:1}}>
           <div style={{flex:1}}>
             <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.2em',color:C.teal,marginBottom:8}}>
               <span style={{color:C.orange}}>❋</span> bylinka
