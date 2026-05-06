@@ -1,5 +1,6 @@
 import {Poppins} from 'next/font/google'
 import {getLocale} from 'next-intl/server'
+import Analytics from './components/Analytics'
 import './globals.css'
 
 const poppins = Poppins({
@@ -70,6 +71,7 @@ export default async function RootLayout({children}) {
       </head>
       <body style={{fontFamily: 'Twemoji Country Flags, var(--font-poppins), sans-serif', margin: 0, padding: 0}}>
         {children}
+        <Analytics />
       </body>
     </html>
   )

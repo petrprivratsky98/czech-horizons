@@ -14,6 +14,9 @@ export default function CookieBanner() {
   const accept = () => {
     localStorage.setItem(COOKIE_KEY, 'all')
     setConsent('all')
+    if (typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', {analytics_storage: 'granted'})
+    }
   }
 
   const decline = () => {
