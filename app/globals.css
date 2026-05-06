@@ -81,6 +81,18 @@ body {
   .planter-o-6 { order: 6; }
 }
 
+.contact-card {
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.contact-card--email:hover {
+  border-color: rgba(232,130,61,0.4) !important;
+  box-shadow: 0 4px 16px rgba(232,130,61,0.1);
+}
+.contact-card--ig:hover {
+  border-color: rgba(15,36,32,0.18) !important;
+  box-shadow: 0 4px 16px rgba(15,36,32,0.06);
+}
+
 .footer-social-link {
   display: flex; align-items: center; gap: 8px;
   color: rgba(247,242,232,0.8); text-decoration: none;

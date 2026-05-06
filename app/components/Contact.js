@@ -47,16 +47,12 @@ export default async function Contact() {
             }}>{t('desc')}</p>
 
             <div style={{display: 'flex', flexDirection: 'column', gap: 10}}>
-              <a href="mailto:info@czechhorizons.eu" style={{
+              <a href="mailto:info@czechhorizons.eu" className="contact-card contact-card--email" style={{
                 padding: '16px 20px', borderRadius: 16,
                 background: C.cream, border: `1.5px solid ${C.ink}12`,
                 textDecoration: 'none', color: C.ink,
                 display: 'flex', alignItems: 'center', gap: 14,
-                transition: 'border-color 0.2s, box-shadow 0.2s',
-              }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = `${C.orange}60`; e.currentTarget.style.boxShadow = `0 4px 16px ${C.orange}18` }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = `${C.ink}12`; e.currentTarget.style.boxShadow = 'none' }}
-              >
+              }}>
                 <div style={{
                   width: 44, height: 44, borderRadius: 12,
                   background: `linear-gradient(135deg, ${C.orange}, ${C.yellow})`,
@@ -70,16 +66,12 @@ export default async function Contact() {
                 <span style={{marginLeft: 'auto', fontSize: 18, color: `${C.ink}30`}}>↗</span>
               </a>
 
-              <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer" style={{
+              <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer" className="contact-card contact-card--ig" style={{
                 padding: '16px 20px', borderRadius: 16,
                 background: C.cream, border: `1.5px solid ${C.ink}12`,
                 textDecoration: 'none', color: C.ink,
                 display: 'flex', alignItems: 'center', gap: 14,
-                transition: 'border-color 0.2s, box-shadow 0.2s',
-              }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = `${C.ink}25`; e.currentTarget.style.boxShadow = `0 4px 16px ${C.ink}08` }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = `${C.ink}12`; e.currentTarget.style.boxShadow = 'none' }}
-              >
+              }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/ig.png" alt="Instagram" style={{width: 44, height: 44, borderRadius: 12, objectFit: 'cover', flexShrink: 0}} />
                 <div>
