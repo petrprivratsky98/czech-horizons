@@ -32,7 +32,6 @@ export default function Nav() {
     {href: '/#projekty',  label: t('projects')},
     {href: '/#lokalni',   label: t('local')},
     {href: '/lokalni/bylinkova-zahrada', label: t('garden'), isLink: true},
-    {href: '/#realizovane', label: t('realized')},
     {href: '/#programy',  label: t('programs')},
     {href: '/#o-nas',     label: t('about')},
   ]
@@ -109,8 +108,6 @@ export default function Nav() {
           >
             <Image src="/ig.png" alt="Instagram" width={30} height={30} style={{
               borderRadius: 8, objectFit: 'cover',
-              filter: scrolled ? 'none' : 'brightness(0) invert(1)',
-              transition: 'filter 0.3s',
             }} />
           </a>
           <button
