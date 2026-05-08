@@ -237,7 +237,7 @@ function GlobeCanvas() {
 
       theta += 0.004
 
-      const R = Math.min(W, H) * 0.4
+      const R = Math.min(W, H) * 0.27
       const cx = W * 0.5, cy = H * 0.5
       const tiltX = (mouseRef.current.y - 0.5) * 0.55
       const tiltY = (mouseRef.current.x - 0.5) * 0.35
@@ -306,17 +306,25 @@ function GlobeCanvas() {
       ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2)
       ctx.strokeStyle = 'rgba(232,130,61,0.22)'; ctx.lineWidth = 1.5; ctx.stroke()
 
-      // Praha dot
-      const pr = project(50.08, 14.42)
-      if (pr.z > -R * 0.15) {
-        const op = Math.min(1, (pr.z + R * 0.15) / (R * 1.1))
-        const glw = ctx.createRadialGradient(pr.sx, pr.sy, 0, pr.sx, pr.sy, 22)
-        glw.addColorStop(0, `rgba(232,130,61,${op * 0.4})`)
-        glw.addColorStop(1, 'rgba(232,130,61,0)')
-        ctx.beginPath(); ctx.arc(pr.sx, pr.sy, 22, 0, Math.PI * 2)
-        ctx.fillStyle = glw; ctx.fill()
-        ctx.beginPath(); ctx.arc(pr.sx, pr.sy, 4.5, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(232,130,61,${op})`; ctx.fill()
+      // City dots on globe surface
+      for (const c of CITIES) {
+        const p = project(c.lat, c.lng)
+        if (p.z <= 0) continue
+        const op = Math.min(1, p.z / R * 2.2)
+
+        if (c.home) {
+          const pulse = Math.sin(Date.now() * 0.003) * 0.5 + 0.5
+          const glw = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, 14)
+          glw.addColorStop(0, `rgba(232,130,61,${op * (0.3 + pulse * 0.2)})`)
+          glw.addColorStop(1, 'rgba(232,130,61,0)')
+          ctx.beginPath(); ctx.arc(p.sx, p.sy, 14, 0, Math.PI * 2)
+          ctx.fillStyle = glw; ctx.fill()
+          ctx.beginPath(); ctx.arc(p.sx, p.sy, 3.5, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(232,130,61,${op})`; ctx.fill()
+        } else {
+          ctx.beginPath(); ctx.arc(p.sx, p.sy, 1.8, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(247,242,232,${op * 0.7})`; ctx.fill()
+        }
       }
 
       raf = requestAnimationFrame(draw)
