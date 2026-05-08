@@ -12,7 +12,7 @@ const poppins = Poppins({
 export const metadata = {
   metadataBase: new URL('https://www.czechhorizons.eu'),
   title: {
-    default: 'Czech Horizons — Posouváme tvůj horizont poznání',
+    default: 'Czech Horizons — Posouváme tvůj horizont',
     template: '%s | Czech Horizons',
   },
   description: 'Spolek propojující zdraví, životní prostředí a připravenost na krizi skrze Erasmus+, dobrovolnické programy a lokální akce v Praze.',
@@ -26,7 +26,7 @@ export const metadata = {
   creator: 'Czech Horizons',
   publisher: 'Czech Horizons',
   openGraph: {
-    title: 'Czech Horizons — Posouváme tvůj horizont poznání',
+    title: 'Czech Horizons — Posouváme tvůj horizont',
     description: 'Spolek propojující ekologii, wellbeing a mezinárodní spolupráci skrze Erasmus+, dobrovolnické programy a lokální akce v Praze.',
     url: 'https://www.czechhorizons.eu',
     siteName: 'Czech Horizons',
@@ -37,13 +37,13 @@ export const metadata = {
         url: '/ogimage.png',
         width: 1200,
         height: 630,
-        alt: 'Czech Horizons — Posouváme tvůj horizont poznání',
+        alt: 'Czech Horizons — Posouváme tvůj horizont',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Czech Horizons — Posouváme tvůj horizont poznání',
+    title: 'Czech Horizons — Posouváme tvůj horizont',
     description: 'Spolek propojující ekologii, wellbeing a mezinárodní spolupráci skrze Erasmus+, dobrovolnické programy a lokální akce v Praze.',
     images: ['/ogimage.png'],
   },

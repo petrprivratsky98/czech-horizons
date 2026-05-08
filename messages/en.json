@@ -18,7 +18,6 @@
     "h1_1": "We expand",
     "h1_2": "your",
     "h1_3": "horizon",
-    "h1_4": "of knowledge",
     "descPre": "An association connecting ",
     "health": "health",
     "descMid1": ", ",
@@ -113,7 +112,7 @@
     }
   },
   "worldMap": {
-    "label": "Where we've been",
+    "label": "005 — Where we've been",
     "h1": "Europe",
     "h2": "and beyond.",
     "desc": "Every completed project lights up the country we visited. Hover for details.",
@@ -124,7 +123,7 @@
     "reunionDist": "9,000 km from Prague"
   },
   "programs": {
-    "label": "005 — European programmes",
+    "label": "006 — European programmes",
     "h1": "How Europe",
     "h2": "can help you.",
     "desc": "Four EU-funded programmes that help young people grow, explore and do business.",
@@ -161,7 +160,7 @@
     ]
   },
   "about": {
-    "label": "006 — About us",
+    "label": "007 — About us",
     "h1": "We are a team",
     "h2": "with a mission.",
     "desc1": "Czech Horizons was founded in July 2025 in Prague. We connect three things that matter: ",
@@ -181,7 +180,7 @@
     ]
   },
   "contact": {
-    "label": "007 — Contact",
+    "label": "008 — Contact",
     "h1": "Got an",
     "h2": "idea?",
     "desc": "Want to join our projects, become part of the team, or just talk about how to turn an idea into real action? Write to us.",
@@ -213,7 +212,7 @@
     "orgLabel": "Organisation",
     "founded": "Founded 17 July 2025",
     "copyright": "All rights reserved.",
-    "tagline2": "Expanding your horizon of knowledge",
+    "tagline2": "Expanding your horizon",
     "links": {
       "events": "Events",
       "projects": "Current projects",

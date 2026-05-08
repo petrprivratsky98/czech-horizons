@@ -1023,33 +1023,88 @@ export function BylinkoveZahradyClient({akce = []}) {
           </section>
         )}
 
-        {/* ── Odkud bylinky máme ───────────────────────────────────────── */}
-        <section style={{background:C.cream,padding:'clamp(48px,6vw,80px) clamp(24px,5vw,80px)'}}>
+        {/* ── Zákulisí zahrádky ────────────────────────────────────────── */}
+        <section style={{background:C.cream,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
           <div style={{maxWidth:1400,margin:'0 auto'}}>
             <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
-              <span style={{color:C.orange}}>❋</span> Odkud bylinky máme
+              <span style={{color:C.orange}}>❋</span> 007 — Zákulisí zahrádky
             </div>
-            <h2 style={{fontSize:'clamp(28px,3.5vw,52px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.025em',margin:'0 0 clamp(28px,3.5vw,44px)',color:C.dark}}>
-              Bylinky s dobrým<br/>
-              <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>původem.</span>
+            <h2 style={{fontSize:'clamp(32px,4.5vw,68px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.03em',margin:'0 0 clamp(36px,5vw,64px)',color:C.dark}}>
+              Jak jsme ji<br/>
+              <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>postavili.</span>
             </h2>
-            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(240px,1fr))',gap:20}}>
-              {[
-                {emoji:'🌱', nazev:'Zahradnictví Spomyšl', popis:'Rodinné zahradnictví s bohatou nabídkou bylinkových sazenic pěstovaných s péčí a zkušenostmi.'},
-                {emoji:'🌿', nazev:'Zahradnictví Chládek', popis:'Osvědčený dodavatel kvalitních bylin, s nimiž spolupracujeme opakovaně a s radostí.'},
-                {emoji:'🔬', nazev:'Výzkumné skleníky ČZU', popis:'Česká zemědělská univerzita nám poskytuje vzácnější a méně běžné druhy bylin ze svých výzkumných sbírek.'},
-              ].map(({emoji, nazev, popis}, i) => (
-                <div key={i} style={{
-                  padding:'clamp(22px,2.2vw,30px)',
-                  borderRadius:16,
-                  background:C.creamDark,
-                  border:`1px solid ${C.ink}10`,
-                }}>
-                  <span style={{fontSize:28,display:'block',marginBottom:14}}>{emoji}</span>
-                  <div style={{fontSize:'clamp(15px,1.2vw,18px)',fontWeight:800,color:C.dark,marginBottom:8,lineHeight:1.2}}>{nazev}</div>
-                  <p style={{fontSize:'clamp(13px,0.95vw,15px)',lineHeight:1.65,color:C.ink,margin:0,opacity:0.68}}>{popis}</p>
-                </div>
-              ))}
+
+            {/* Technická část */}
+            <div style={{marginBottom:'clamp(48px,6vw,80px)'}}>
+              <div style={{fontSize:'clamp(12px,0.9vw,14px)',letterSpacing:'0.15em',textTransform:'uppercase',fontWeight:700,color:`${C.ink}55`,marginBottom:20}}>
+                Konstrukce a materiály
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(min(260px,100%),1fr))',gap:16}}>
+                {[
+                  {
+                    icon:'🪵',
+                    nazev:'Smrkové truhlíky',
+                    popis:'Truhlíky jsme vyrobili sami ze smrkového dřeva. Povrch byl následně opálen a natřen — dřevo tak získalo přirozené estetické zpracování a je odolnější vůči vlhkosti.',
+                    barva: C.orange,
+                  },
+                  {
+                    icon:'🌍',
+                    nazev:'Zemina z Jeny',
+                    popis:'Jako základ jsme použili standardní mix z kompostárny Jena. Organická zemina bohatá na živiny zajišťuje bylinkám dobré podmínky pro růst bez umělých hnojiv.',
+                    barva: C.teal,
+                  },
+                  {
+                    icon:'🧶',
+                    nazev:'Vlněná mulčovací deka',
+                    popis:'Místo plastové mulčovací folie jsme zvolili vlněnou deku — plast z folie totiž časem proniká do půdy. Vlna zadržuje vlhkost, potlačuje plevel a je biologicky odbouratelná.',
+                    barva: C.green,
+                  },
+                  {
+                    icon:'💧',
+                    nazev:'Zavlažovací nádoby Olla',
+                    popis:'V záhonech je celkem 8 keramických nádob Olla (5 l), zakopané přímo v zemině. Voda se skrze porézní stěny uvolňuje pozvolna přímo ke kořenům — úsporně a přesně tam, kde je třeba.',
+                    barva: C.yellow,
+                  },
+                ].map(({icon, nazev, popis, barva}, i) => (
+                  <div key={i} style={{
+                    padding:'clamp(20px,2vw,28px)',
+                    borderRadius:16,
+                    background:`${barva}08`,
+                    border:`1.5px solid ${barva}20`,
+                  }}>
+                    <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:12}}>
+                      <span style={{fontSize:24}}>{icon}</span>
+                      <div style={{fontSize:'clamp(13px,1.05vw,15px)',fontWeight:800,color:barva,textTransform:'uppercase',letterSpacing:'0.08em'}}>{nazev}</div>
+                    </div>
+                    <p style={{fontSize:'clamp(13px,0.95vw,15px)',lineHeight:1.7,color:`${C.ink}bb`,margin:0}}>{popis}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Zdroje bylin */}
+            <div style={{paddingTop:'clamp(36px,4vw,52px)',borderTop:`1.5px solid ${C.ink}10`}}>
+              <div style={{fontSize:'clamp(12px,0.9vw,14px)',letterSpacing:'0.15em',textTransform:'uppercase',fontWeight:700,color:`${C.ink}55`,marginBottom:20}}>
+                Odkud bylinky máme
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(min(260px,100%),1fr))',gap:16}}>
+                {[
+                  {emoji:'🌱', nazev:'Zahradnictví Spomyšl', popis:'Rodinné zahradnictví s bohatou nabídkou bylinkových sazenic pěstovaných s péčí a zkušenostmi.'},
+                  {emoji:'🌿', nazev:'Zahradnictví Chládek', popis:'Osvědčený dodavatel kvalitních bylin, s nimiž spolupracujeme opakovaně a s radostí.'},
+                  {emoji:'🔬', nazev:'Výzkumné skleníky ČZU', popis:'Česká zemědělská univerzita nám poskytuje vzácnější a méně běžné druhy bylin ze svých výzkumných sbírek.'},
+                ].map(({emoji, nazev, popis}, i) => (
+                  <div key={i} style={{
+                    padding:'clamp(20px,2vw,28px)',
+                    borderRadius:16,
+                    background:C.creamDark,
+                    border:`1px solid ${C.ink}10`,
+                  }}>
+                    <span style={{fontSize:26,display:'block',marginBottom:12}}>{emoji}</span>
+                    <div style={{fontSize:'clamp(14px,1.1vw,17px)',fontWeight:800,color:C.dark,marginBottom:8,lineHeight:1.2}}>{nazev}</div>
+                    <p style={{fontSize:'clamp(13px,0.95vw,15px)',lineHeight:1.65,color:C.ink,margin:0,opacity:0.68}}>{popis}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>

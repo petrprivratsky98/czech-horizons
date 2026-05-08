@@ -74,18 +74,18 @@ export default function Hero() {
           </div>
 
           <h1 style={{
-            fontSize: 'clamp(52px, 7.5vw, 140px)', fontWeight: 800, lineHeight: 0.95,
+            fontSize: 'clamp(38px, 10vw, 140px)', fontWeight: 800, lineHeight: 0.95,
             letterSpacing: '-0.035em', margin: '0 0 clamp(28px, 3vw, 48px)',
-            color: C.cream, wordBreak: 'break-word', textShadow: '0 4px 32px rgba(0,0,0,0.4)',
+            color: C.cream, textShadow: '0 4px 32px rgba(0,0,0,0.4)',
           }}>
-            <span style={{display: 'block'}}>{t('h1_1')}</span>
-            <span style={{display: 'block', color: C.cream, fontWeight: 800, letterSpacing: '-0.035em'}}>{t('h1_2')}</span>
+            <span style={{display: 'block', whiteSpace: 'nowrap'}}>{t('h1_1')}</span>
+            <span style={{display: 'block', whiteSpace: 'nowrap', color: C.cream, fontWeight: 800, letterSpacing: '-0.035em'}}>{t('h1_2')}</span>
             <span style={{
-              display: 'block', fontSize: '1.15em', color: C.orange,
+              display: 'block', whiteSpace: 'nowrap', fontSize: '1.15em', color: C.orange,
               fontWeight: 300, fontStyle: 'italic', letterSpacing: '-0.03em',
               lineHeight: 0.9, marginTop: '0.05em',
             }}>
-              {t('h1_3')}<br />{t('h1_4')}<span style={{color: C.yellow}}>.</span>
+              {t('h1_3')}<span style={{color: C.yellow}}>.</span>
             </span>
           </h1>
 
