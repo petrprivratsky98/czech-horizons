@@ -15,6 +15,8 @@ export default function Nav() {
 
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [projectsHover, setProjectsHover] = useState(false)
+  const [projectsOpen, setProjectsOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -28,13 +30,24 @@ export default function Nav() {
   }, [menuOpen])
 
   const NAV_LINKS = [
-    {href: '/#eventy',    label: t('events')},
-    {href: '/#projekty',  label: t('projects')},
-    {href: '/#lokalni',   label: t('local')},
-    {href: '/lokalni/bylinkova-zahrada', label: t('garden'), isLink: true},
-    {href: '/#programy',  label: t('programs')},
-    {href: '/#o-nas',     label: t('about')},
+    {href: '/#eventy',   label: t('events')},
+    {href: '/#programy', label: t('programs')},
+    {href: '/#o-nas',    label: t('about')},
   ]
+
+  const PROJECT_LINKS = [
+    {href: '/#projekty',                   label: t('current')},
+    {href: '/#lokalni',                    label: t('local')},
+    {href: '/#realizovane',                label: t('realized')},
+    {href: '/lokalni/bylinkova-zahrada',   label: t('garden'), isLink: true},
+  ]
+
+  const dropdownLinkStyle = {
+    display: 'block', padding: '10px 20px',
+    fontSize: 12, fontWeight: 700, letterSpacing: '0.08em',
+    textTransform: 'uppercase', color: C.cream,
+    textDecoration: 'none', whiteSpace: 'nowrap',
+  }
 
   const linkStyle = {
     fontSize: 14,
@@ -94,10 +107,40 @@ export default function Nav() {
 
         {/* Desktop nav links */}
         <div className="nav-desktop">
-          {NAV_LINKS.map(({href, label, isLink}) =>
-            isLink
-              ? <Link key={href} href={href} style={linkStyle}>{label}</Link>
-              : <a key={href} href={href} style={linkStyle}>{label}</a>
+          <a href={NAV_LINKS[0].href} style={linkStyle}>{NAV_LINKS[0].label}</a>
+
+          {/* Projekty dropdown */}
+          <div style={{position: 'relative'}}
+            onMouseEnter={() => setProjectsHover(true)}
+            onMouseLeave={() => setProjectsHover(false)}
+          >
+            <button style={{
+              ...linkStyle, background: 'none', border: 'none', padding: 0,
+              cursor: 'pointer', fontFamily: 'inherit',
+              display: 'flex', alignItems: 'center', gap: 5,
+            }}>
+              {t('projects')} <span style={{fontSize: 9, opacity: 0.6}}>▾</span>
+            </button>
+            {projectsHover && (
+              <div style={{
+                position: 'absolute', top: 'calc(100% + 14px)', left: '50%',
+                transform: 'translateX(-50%)',
+                background: `${C.ink}f2`, backdropFilter: 'blur(16px)',
+                borderRadius: 14, padding: '6px 0', minWidth: 200,
+                boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+                border: '1px solid rgba(247,242,232,0.1)', zIndex: 600,
+              }}>
+                {PROJECT_LINKS.map(({href, label, isLink}) =>
+                  isLink
+                    ? <Link key={href} href={href} style={dropdownLinkStyle}>{label}</Link>
+                    : <a key={href} href={href} style={dropdownLinkStyle}>{label}</a>
+                )}
+              </div>
+            )}
+          </div>
+
+          {NAV_LINKS.slice(1).map(({href, label}) =>
+            <a key={href} href={href} style={linkStyle}>{label}</a>
           )}
           <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer" style={{
             display: 'flex', alignItems: 'center',
@@ -164,18 +207,47 @@ export default function Nav() {
       {/* Mobile menu overlay */}
       <div className={`nav-mobile-overlay${menuOpen ? ' open' : ''}`}>
         <div style={{display:'flex',flexDirection:'column',gap:4,flex:1}}>
-          {NAV_LINKS.map(({href, label, isLink}) =>
-            isLink
-              ? <Link key={href} href={href} onClick={() => setMenuOpen(false)} style={{
-                  fontSize:'clamp(30px,8vw,52px)',fontWeight:800,color:C.cream,
-                  textDecoration:'none',lineHeight:1.3,letterSpacing:'-0.02em',
-                  padding:'8px 0',borderBottom:`1px solid ${C.cream}12`,
-                }}>{label}</Link>
-              : <a key={href} href={href} onClick={() => setMenuOpen(false)} style={{
-                  fontSize:'clamp(30px,8vw,52px)',fontWeight:800,color:C.cream,
-                  textDecoration:'none',lineHeight:1.3,letterSpacing:'-0.02em',
-                  padding:'8px 0',borderBottom:`1px solid ${C.cream}12`,
-                }}>{label}</a>
+          <a href={NAV_LINKS[0].href} onClick={() => setMenuOpen(false)} style={{
+            fontSize:'clamp(30px,8vw,52px)',fontWeight:800,color:C.cream,
+            textDecoration:'none',lineHeight:1.3,letterSpacing:'-0.02em',
+            padding:'8px 0',borderBottom:`1px solid ${C.cream}12`,
+          }}>{NAV_LINKS[0].label}</a>
+
+          {/* Projekty expandable */}
+          <div style={{borderBottom:`1px solid ${C.cream}12`}}>
+            <button onClick={() => setProjectsOpen(o => !o)} style={{
+              width:'100%',textAlign:'left',background:'none',border:'none',cursor:'pointer',
+              padding:'8px 0',display:'flex',alignItems:'center',justifyContent:'space-between',
+              fontSize:'clamp(30px,8vw,52px)',fontWeight:800,color:C.cream,
+              letterSpacing:'-0.02em',lineHeight:1.3,fontFamily:'inherit',
+            }}>
+              {t('projects')}
+              <span style={{fontSize:'clamp(16px,3vw,24px)',opacity:0.5,transition:'transform 0.25s',
+                transform: projectsOpen ? 'rotate(180deg)' : 'none'}}>▾</span>
+            </button>
+            {projectsOpen && (
+              <div style={{display:'flex',flexDirection:'column',gap:2,paddingBottom:12,paddingLeft:16}}>
+                {PROJECT_LINKS.map(({href, label, isLink}) =>
+                  isLink
+                    ? <Link key={href} href={href} onClick={() => setMenuOpen(false)} style={{
+                        fontSize:'clamp(18px,4vw,28px)',fontWeight:700,color:`${C.cream}bb`,
+                        textDecoration:'none',padding:'4px 0',letterSpacing:'-0.01em',
+                      }}>{label}</Link>
+                    : <a key={href} href={href} onClick={() => setMenuOpen(false)} style={{
+                        fontSize:'clamp(18px,4vw,28px)',fontWeight:700,color:`${C.cream}bb`,
+                        textDecoration:'none',padding:'4px 0',letterSpacing:'-0.01em',
+                      }}>{label}</a>
+                )}
+              </div>
+            )}
+          </div>
+
+          {NAV_LINKS.slice(1).map(({href, label}) =>
+            <a key={href} href={href} onClick={() => setMenuOpen(false)} style={{
+              fontSize:'clamp(30px,8vw,52px)',fontWeight:800,color:C.cream,
+              textDecoration:'none',lineHeight:1.3,letterSpacing:'-0.02em',
+              padding:'8px 0',borderBottom:`1px solid ${C.cream}12`,
+            }}>{label}</a>
           )}
         </div>
         <div style={{display:'flex', gap:16, marginTop:32, alignItems:'center', flexWrap:'wrap'}}>
