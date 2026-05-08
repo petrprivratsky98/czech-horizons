@@ -1065,6 +1065,18 @@ export function BylinkoveZahradyClient({akce = []}) {
                     popis:'V záhonech je celkem 8 keramických nádob Olla (5 l), zakopané přímo v zemině. Voda se skrze porézní stěny uvolňuje pozvolna přímo ke kořenům — úsporně a přesně tam, kde je třeba.',
                     barva: C.yellow,
                   },
+                  {
+                    icon:'🍂',
+                    nazev:'Spodní vrstva od sousedů',
+                    popis:'Spodní třetina každého truhlíku je vyplněná listím, trávou a štěpkou od sousedů z Hanspaulky. Organický materiál postupně kompostuje, uvolňuje živiny a pomáhá zadržovat vodu.',
+                    barva: C.green,
+                  },
+                  {
+                    icon:'🛡️',
+                    nazev:'Nopová fólie',
+                    popis:'Vnitřní stěny truhlíků jsou po celém obvodu vyloženy nopovou fólií. Ta odděluje zeminu od dřeva, chrání truhlík před vlhkostí a prodlužuje jeho životnost.',
+                    barva: C.teal,
+                  },
                 ].map(({icon, nazev, popis, barva}, i) => (
                   <div key={i} style={{
                     padding:'clamp(20px,2vw,28px)',
