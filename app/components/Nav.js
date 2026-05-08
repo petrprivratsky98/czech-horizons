@@ -30,16 +30,16 @@ export default function Nav() {
   }, [menuOpen])
 
   const NAV_LINKS = [
-    {href: '/#eventy',   label: t('events')},
-    {href: '/#programy', label: t('programs')},
-    {href: '/#o-nas',    label: t('about')},
+    {href: '/#eventy',                   label: t('events')},
+    {href: '/lokalni/bylinkova-zahrada', label: t('garden'), isLink: true},
+    {href: '/#programy',                 label: t('programs')},
+    {href: '/#o-nas',                    label: t('about')},
   ]
 
   const PROJECT_LINKS = [
-    {href: '/#projekty',                   label: t('current')},
-    {href: '/#lokalni',                    label: t('local')},
-    {href: '/#realizovane',                label: t('realized')},
-    {href: '/lokalni/bylinkova-zahrada',   label: t('garden'), isLink: true},
+    {href: '/#projekty',    label: t('current')},
+    {href: '/#lokalni',     label: t('local')},
+    {href: '/#realizovane', label: t('realized')},
   ]
 
   const dropdownLinkStyle = {
@@ -139,8 +139,10 @@ export default function Nav() {
             )}
           </div>
 
-          {NAV_LINKS.slice(1).map(({href, label}) =>
-            <a key={href} href={href} style={linkStyle}>{label}</a>
+          {NAV_LINKS.slice(1).map(({href, label, isLink}) =>
+            isLink
+              ? <Link key={href} href={href} style={linkStyle}>{label}</Link>
+              : <a key={href} href={href} style={linkStyle}>{label}</a>
           )}
           <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer" style={{
             display: 'flex', alignItems: 'center',
@@ -242,12 +244,18 @@ export default function Nav() {
             )}
           </div>
 
-          {NAV_LINKS.slice(1).map(({href, label}) =>
-            <a key={href} href={href} onClick={() => setMenuOpen(false)} style={{
-              fontSize:'clamp(30px,8vw,52px)',fontWeight:800,color:C.cream,
-              textDecoration:'none',lineHeight:1.3,letterSpacing:'-0.02em',
-              padding:'8px 0',borderBottom:`1px solid ${C.cream}12`,
-            }}>{label}</a>
+          {NAV_LINKS.slice(1).map(({href, label, isLink}) =>
+            isLink
+              ? <Link key={href} href={href} onClick={() => setMenuOpen(false)} style={{
+                  fontSize:'clamp(30px,8vw,52px)',fontWeight:800,color:C.cream,
+                  textDecoration:'none',lineHeight:1.3,letterSpacing:'-0.02em',
+                  padding:'8px 0',borderBottom:`1px solid ${C.cream}12`,
+                }}>{label}</Link>
+              : <a key={href} href={href} onClick={() => setMenuOpen(false)} style={{
+                  fontSize:'clamp(30px,8vw,52px)',fontWeight:800,color:C.cream,
+                  textDecoration:'none',lineHeight:1.3,letterSpacing:'-0.02em',
+                  padding:'8px 0',borderBottom:`1px solid ${C.cream}12`,
+                }}>{label}</a>
           )}
         </div>
         <div style={{display:'flex', gap:16, marginTop:32, alignItems:'center', flexWrap:'wrap'}}>
