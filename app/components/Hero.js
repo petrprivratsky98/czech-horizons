@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react'
 import {useTranslations} from 'next-intl'
 import {C} from './Colors'
 import Mountains from './Mountains'
-import Compass from './Compass'
+import GlobeCanvas from './GlobeCanvas'
 
 export default function Hero() {
   const t = useTranslations('hero')
@@ -58,11 +58,11 @@ export default function Hero() {
 
       <div style={{position: 'relative', zIndex: 10, maxWidth: 1400, margin: '0 auto', width: '100%'}}>
         <div style={{
-          position: 'absolute', right: '-2%', top: '50%',
-          width: 'clamp(340px, 38vw, 640px)', height: 'clamp(340px, 38vw, 640px)',
-          transform: 'translateY(-50%)', zIndex: 11, pointerEvents: 'none',
+          position: 'absolute', top: 0, right: '-2%',
+          width: '60%', height: '100%',
+          zIndex: 11, pointerEvents: 'none',
         }}>
-          <Compass scrollY={scrollY} mouseX={mouse.x} mouseY={mouse.y} />
+          <GlobeCanvas />
         </div>
 
         <div style={{maxWidth: 'min(1100px, 65%)', paddingTop: 40, position: 'relative', zIndex: 12}}>

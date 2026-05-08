@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { C } from '../../components/Colors'
-import { CAPITALS } from './capitals'
+import { CAPITALS } from '../../components/capitals'
 
 const DEG = Math.PI / 180
 
