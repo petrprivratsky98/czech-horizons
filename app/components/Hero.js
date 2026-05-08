@@ -24,9 +24,9 @@ export default function Hero() {
 
   return (
     <section style={{
-      minHeight: '100vh', position: 'relative', overflow: 'hidden',
+      position: 'relative', overflow: 'hidden',
       background: C.cream,
-      padding: 'clamp(100px, 12vw, 160px) clamp(24px, 5vw, 80px) clamp(60px, 8vw, 120px)',
+      padding: 'clamp(100px, 12vw, 160px) clamp(24px, 5vw, 80px) clamp(80px, 10vw, 140px)',
     }}>
       <div style={{
         position: 'absolute', inset: 0,
