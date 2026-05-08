@@ -295,7 +295,14 @@ function GlobeCanvas() {
     if (!canvas) return
 
     const dpr = window.devicePixelRatio || 1
-    let raf, theta = 0
+    let raf, theta = 0, geoLines = null
+
+    Promise.all([
+      import('world-atlas/countries-110m.json'),
+      import('topojson-client'),
+    ]).then(([{ default: topo }, { mesh }]) => {
+      geoLines = mesh(topo, topo.objects.countries).coordinates
+    })
 
     const draw = () => {
       const W = canvas.offsetWidth, H = canvas.offsetHeight
@@ -333,7 +340,7 @@ function GlobeCanvas() {
           const a = pts[i], b = pts[i + 1]
           const avgZ = (a.z + b.z) * 0.5
           if (avgZ < -R * 0.12) continue
-          const alpha = avgZ > 0 ? 0.07 + (avgZ / R) * 0.35 : 0.035
+          const alpha = avgZ > 0 ? 0.025 + (avgZ / R) * 0.08 : 0.015
           ctx.beginPath()
           ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy)
           ctx.strokeStyle = `rgba(247,242,232,${alpha})`
@@ -370,8 +377,25 @@ function GlobeCanvas() {
         const avgZ = (a.z + b.z) * 0.5
         if (avgZ < 0) continue
         ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy)
-        ctx.strokeStyle = `rgba(45,138,122,${0.1 + (avgZ / R) * 0.25})`
-        ctx.lineWidth = 1; ctx.stroke()
+        ctx.strokeStyle = `rgba(45,138,122,${0.04 + (avgZ / R) * 0.1})`
+        ctx.lineWidth = 0.8; ctx.stroke()
+      }
+
+      // Country borders
+      if (geoLines) {
+        ctx.beginPath()
+        ctx.lineWidth = 0.5
+        for (const line of geoLines) {
+          for (let i = 0; i < line.length - 1; i++) {
+            if (Math.abs(line[i + 1][0] - line[i][0]) > 180) continue
+            const a = project(line[i][1], line[i][0])
+            const b = project(line[i + 1][1], line[i + 1][0])
+            if (a.z <= 0 || b.z <= 0) continue
+            ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy)
+          }
+        }
+        ctx.strokeStyle = 'rgba(247,242,232,0.2)'
+        ctx.stroke()
       }
 
       // Edge circle
