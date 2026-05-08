@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { C } from '../../components/Colors'
+import { CAPITALS } from './capitals'
 
 const DEG = Math.PI / 180
 
@@ -44,77 +45,6 @@ const CITIES = [
   { lat: 35.17, lng: 33.38 },               // Nikósia
 ]
 
-const WORLD_CITIES = [
-  ...CITIES,
-  // Americas
-  { lat: 40.71, lng: -74.01 },   // New York
-  { lat: 34.05, lng: -118.24 },  // Los Angeles
-  { lat: 41.88, lng: -87.63 },   // Chicago
-  { lat: 43.65, lng: -79.38 },   // Toronto
-  { lat: 49.25, lng: -123.12 },  // Vancouver
-  { lat: 45.50, lng: -73.57 },   // Montreal
-  { lat: 38.91, lng: -77.04 },   // Washington DC
-  { lat: 25.77, lng: -80.19 },   // Miami
-  { lat: 19.43, lng: -99.13 },   // Mexico City
-  { lat: 23.13, lng: -82.38 },   // Havana
-  { lat: 4.71,  lng: -74.07 },   // Bogotá
-  { lat: 10.48, lng: -66.88 },   // Caracas
-  { lat: -12.05,lng: -77.04 },   // Lima
-  { lat: -23.55,lng: -46.63 },   // São Paulo
-  { lat: -22.90,lng: -43.17 },   // Rio de Janeiro
-  { lat: -34.60,lng: -58.38 },   // Buenos Aires
-  { lat: -33.45,lng: -70.67 },   // Santiago
-  // Middle East & Central Asia
-  { lat: 41.01, lng: 28.95 },    // Istanbul
-  { lat: 35.69, lng: 51.39 },    // Teherán
-  { lat: 33.34, lng: 44.40 },    // Bagdád
-  { lat: 24.69, lng: 46.72 },    // Rijád
-  { lat: 25.20, lng: 55.27 },    // Dubaj
-  { lat: 41.30, lng: 69.24 },    // Taškent
-  { lat: 43.26, lng: 76.95 },    // Almaty
-  { lat: 55.75, lng: 37.62 },    // Moskva
-  { lat: 59.93, lng: 30.32 },    // St. Petěrburg
-  // South & Southeast Asia
-  { lat: 24.86, lng: 67.01 },    // Karáčí
-  { lat: 28.63, lng: 77.22 },    // Dillí
-  { lat: 19.08, lng: 72.88 },    // Bombaj
-  { lat: 22.57, lng: 88.36 },    // Kalkata
-  { lat: 23.72, lng: 90.41 },    // Dháka
-  { lat: 27.71, lng: 85.31 },    // Káthmándú
-  { lat: 13.75, lng: 100.50 },   // Bangkok
-  { lat: 3.14,  lng: 101.69 },   // Kuala Lumpur
-  { lat: 1.35,  lng: 103.82 },   // Singapur
-  { lat: -6.21, lng: 106.85 },   // Jakarta
-  { lat: 14.60, lng: 121.00 },   // Manila
-  // East Asia
-  { lat: 22.32, lng: 114.17 },   // Hongkong
-  { lat: 23.13, lng: 113.26 },   // Guangzhou
-  { lat: 31.23, lng: 121.47 },   // Šanghaj
-  { lat: 39.91, lng: 116.39 },   // Peking
-  { lat: 37.57, lng: 126.98 },   // Soul
-  { lat: 35.68, lng: 139.69 },   // Tokio
-  { lat: 34.69, lng: 135.50 },   // Ósaka
-  { lat: 25.04, lng: 121.51 },   // Tchaj-pej
-  // Africa
-  { lat: 33.59, lng: -7.61 },    // Casablanca
-  { lat: 30.06, lng: 31.25 },    // Káhira
-  { lat: 15.55, lng: 32.53 },    // Chartúm
-  { lat: 9.03,  lng: 38.74 },    // Addis Abeba
-  { lat: 6.45,  lng: 3.40 },     // Lagos
-  { lat: 5.56,  lng: -0.20 },    // Accra
-  { lat: 5.35,  lng: -4.00 },    // Abidžan
-  { lat: -1.29, lng: 36.82 },    // Nairobi
-  { lat: -4.32, lng: 15.32 },    // Kinshasa
-  { lat: -6.79, lng: 39.21 },    // Dar es Salaam
-  { lat: -26.20,lng: 28.04 },    // Johannesburg
-  { lat: -33.93,lng: 18.42 },    // Kapské Město
-  // Oceania
-  { lat: -33.87,lng: 151.21 },   // Sydney
-  { lat: -37.81,lng: 144.96 },   // Melbourne
-  { lat: -27.47,lng: 153.02 },   // Brisbane
-  { lat: -31.95,lng: 115.86 },   // Perth
-  { lat: -36.86,lng: 174.77 },   // Auckland
-]
 
 const LNG_MIN = -25, LNG_MAX = 42, LAT_MIN = 28, LAT_MAX = 70
 const MAP_W = LNG_MAX - LNG_MIN, MAP_H = LAT_MAX - LAT_MIN
@@ -403,7 +333,7 @@ function GlobeCanvas() {
       ctx.strokeStyle = 'rgba(232,130,61,0.22)'; ctx.lineWidth = 1.5; ctx.stroke()
 
       // City dots on globe surface
-      for (const c of WORLD_CITIES) {
+      for (const c of CAPITALS) {
         const p = project(c.lat, c.lng)
         if (p.z <= 0) continue
         const op = Math.min(1, p.z / R * 2.2)
