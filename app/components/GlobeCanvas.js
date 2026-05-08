@@ -35,7 +35,7 @@ export default function GlobeCanvas() {
 
       theta += 0.004
 
-      const R = Math.min(W, H) * 0.27
+      const R = Math.min(W, H) * 0.42
       const cx = W * 0.5, cy = H * 0.5
       const tiltX = (mouseRef.current.y - 0.5) * 0.55
       const tiltY = (mouseRef.current.x - 0.5) * 0.35
