@@ -50,6 +50,7 @@ export default function Nav() {
   }
 
   const otherLocale = locale === 'cs' ? 'en' : 'cs'
+  const FLAG = { cs: '🇨🇿', en: '🇬🇧' }
 
   return (
     <>
@@ -115,20 +116,18 @@ export default function Nav() {
           <button
             onClick={() => router.replace(pathname, {locale: otherLocale})}
             style={{
-              fontSize: 13,
-              fontWeight: 700,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
+              fontSize: 22,
+              lineHeight: 1,
               color: scrolled ? C.ink : C.cream,
               background: 'transparent',
               border: `1.5px solid ${scrolled ? C.ink : C.cream}`,
-              padding: '8px 16px',
+              padding: '6px 10px',
               borderRadius: 100,
               cursor: 'pointer',
               transition: 'all 0.3s',
               opacity: 0.7,
             }}
-          >{t('langSwitch')}</button>
+          >{FLAG[otherLocale]}</button>
           <Link href="/#kontakt" style={{
             fontSize: 14,
             fontWeight: 700,
@@ -192,12 +191,11 @@ export default function Nav() {
           <button
             onClick={() => { setMenuOpen(false); router.replace(pathname, {locale: otherLocale}) }}
             style={{
-              padding:'18px 28px',borderRadius:100,
+              padding:'14px 20px',borderRadius:100,
               background:'transparent', border:`2px solid ${C.cream}40`,
-              color:C.cream,fontSize:16,fontWeight:800,letterSpacing:'0.08em',
-              textTransform:'uppercase',cursor:'pointer',
+              fontSize:32,lineHeight:1,cursor:'pointer',
             }}
-          >{t('langSwitch')}</button>
+          >{FLAG[otherLocale]}</button>
           <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer">
             <Image src="/ig.png" alt="Instagram" width={44} height={44} style={{borderRadius: 12, objectFit: 'cover'}} />
           </a>
