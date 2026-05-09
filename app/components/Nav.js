@@ -123,18 +123,22 @@ export default function Nav() {
             </button>
             {projectsHover && (
               <div style={{
-                position: 'absolute', top: 'calc(100% + 14px)', left: '50%',
+                position: 'absolute', top: '100%', left: '50%',
                 transform: 'translateX(-50%)',
-                background: `${C.ink}f2`, backdropFilter: 'blur(16px)',
-                borderRadius: 14, padding: '6px 0', minWidth: 200,
-                boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(247,242,232,0.1)', zIndex: 600,
+                paddingTop: 14, zIndex: 600,
               }}>
-                {PROJECT_LINKS.map(({href, label, isLink}) =>
-                  isLink
-                    ? <Link key={href} href={href} style={dropdownLinkStyle}>{label}</Link>
-                    : <a key={href} href={href} style={dropdownLinkStyle}>{label}</a>
-                )}
+                <div style={{
+                  background: `${C.ink}f2`, backdropFilter: 'blur(16px)',
+                  borderRadius: 14, padding: '6px 0', minWidth: 200,
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+                  border: '1px solid rgba(247,242,232,0.1)',
+                }}>
+                  {PROJECT_LINKS.map(({href, label, isLink}) =>
+                    isLink
+                      ? <Link key={href} href={href} style={dropdownLinkStyle}>{label}</Link>
+                      : <a key={href} href={href} style={dropdownLinkStyle}>{label}</a>
+                  )}
+                </div>
               </div>
             )}
           </div>
