@@ -1,26 +1,28 @@
 'use client'
 import {useState, useEffect} from 'react'
+import {useLocale} from 'next-intl'
 import Image from 'next/image'
 import {C} from '@/app/components/Colors'
-import {TRUHLIKY} from './data'
+import {TRUHLIKY as TRUHLIKY_CS} from './data'
+import {TRUHLIKY as TRUHLIKY_EN} from './data-en'
 
-// ─── Herb shape classifier ─────────────────────────────────────────────────────
+// ─── Herb shape classifier (uses Latin names — works in any language) ──────────
 
-function herbShape(nazev) {
-  const n = nazev.toLowerCase()
-  if (/levandule/.test(n)) return 'lavender'
-  if (/rozmarýn/.test(n)) return 'rosemary'
-  if (/šalvěj/.test(n)) return 'sage'
-  if (/petržel|kerblík|koriandr|mařinka/.test(n)) return 'parsley'
-  if (/kopr|fenykl/.test(n)) return 'fennel'
-  if (/máta|meduňka/.test(n)) return 'mint'
-  if (/tymián|mateřídouška|santolína/.test(n)) return 'thyme'
-  if (/pažitka/.test(n)) return 'chives'
-  if (/netřesk/.test(n)) return 'rosette'
-  if (/libeček|celer/.test(n)) return 'lovage'
-  if (/šťovík|třezalka|ostropestřec|angínovník/.test(n)) return 'upright'
-  if (/yzop|šanta/.test(n)) return 'hyssop'
-  if (/pelyněk/.test(n)) return 'artemisia'
+function herbShape(latinsky) {
+  const l = (latinsky || '').toLowerCase()
+  if (/lavandula/.test(l)) return 'lavender'
+  if (/rosmarinus|salvia rosmarinus/.test(l)) return 'rosemary'
+  if (/salvia/.test(l)) return 'sage'
+  if (/petroselinum|anthriscus|coriandrum|galium/.test(l)) return 'parsley'
+  if (/anethum|foeniculum/.test(l)) return 'fennel'
+  if (/mentha|melissa/.test(l)) return 'mint'
+  if (/thymus|santolina/.test(l)) return 'thyme'
+  if (/allium schoenoprasum/.test(l)) return 'chives'
+  if (/sempervivum/.test(l)) return 'rosette'
+  if (/levisticum|apium/.test(l)) return 'lovage'
+  if (/rumex|hypericum|silybum|sideritis/.test(l)) return 'upright'
+  if (/hyssopus|nepeta/.test(l)) return 'hyssop'
+  if (/artemisia/.test(l)) return 'artemisia'
   return 'bushy'
 }
 
@@ -222,8 +224,8 @@ function HerbShape({type, color, h = 36, seed = 0}) {
 
 function IconSun({text}) {
   const t = (text || '').toLowerCase()
-  const isShade = /^stín/.test(t)
-  const isPartial = /polostín/.test(t)
+  const isShade = /^stín|^shade/.test(t)
+  const isPartial = /polostín|partial shade/.test(t)
 
   if (isShade) return (
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -260,7 +262,8 @@ function IconSun({text}) {
 }
 
 function IconWater({text}) {
-  const low = /nízká/.test(text), high = /vyšší/.test(text)
+  const t = (text || '').toLowerCase()
+  const low = /nízká|low watering/.test(t), high = /vyšší|high watering/.test(t)
   const n = low ? 1 : high ? 3 : 2
   return (
     <svg width="28" height="28" viewBox="0 0 20 20" fill="none">
@@ -273,7 +276,7 @@ function IconWater({text}) {
 }
 
 function IconFrost({text}) {
-  const hardy = /^ano/.test(text)
+  const hardy = /^ano|^yes/.test(text)
   return (
     <svg width="28" height="28" viewBox="0 0 20 20" fill="none">
       {hardy ? (
@@ -315,7 +318,7 @@ function IconBee({active}) {
 }
 
 function IconLifespan({text}) {
-  const annual = /jednoletka/.test(text), biennial = /dvouletka/.test(text)
+  const annual = /jednoletka|\bannual\b/.test(text), biennial = /dvouletka|biennial/.test(text)
   return (
     <svg width="28" height="28" viewBox="0 0 20 20" fill="none">
       {annual && <text x="5" y="15" fontSize="13" fontWeight="800" fill="#e8823d">1</text>}
@@ -348,7 +351,7 @@ const HERB_H = [44, 58, 40, 64, 50, 38, 60, 46, 54]
 // User wants: bot-left=1, top-left=2, bot-mid=3, top-mid=4, bot-right=5, top-right=6
 const DISPLAY_NUMBERS = [2, 4, 6, 1, 3, 5]
 
-function PlanterBox({truhlík, index, onClick, className}) {
+function PlanterBox({truhlík, index, onClick, className, T}) {
   const [hovered, setHovered] = useState(false)
   const herbs = truhlík.bylinky.slice(0, 9)
 
@@ -411,7 +414,7 @@ function PlanterBox({truhlík, index, onClick, className}) {
               transform:'translateX(-50%)',
               zIndex:1,
             }}>
-              <HerbShape type={herbShape(herb.nazev)} color={truhlík.barvaHex} h={HERB_H[i] ?? 44} seed={i}/>
+              <HerbShape type={herbShape(herb.latinsky)} color={truhlík.barvaHex} h={HERB_H[i] ?? 44} seed={i}/>
             </div>
           ))}
         </div>
@@ -442,7 +445,7 @@ function PlanterBox({truhlík, index, onClick, className}) {
               {truhlík.nazev}
             </div>
             <div style={{fontSize:11,color:'rgba(255,255,255,0.4)',marginTop:4,fontWeight:600,letterSpacing:'0.04em'}}>
-              {truhlík.bylinky.length} bylin
+              {T.herbs(truhlík.bylinky.length)}
             </div>
           </div>
           <div style={{
@@ -495,7 +498,7 @@ function HerbCard({herb, accentColor, index, onClick}) {
 
 // ─── Planter detail view ───────────────────────────────────────────────────────
 
-function PlanterView({truhlík, onHerbClick, onBack}) {
+function PlanterView({truhlík, onHerbClick, onBack, T}) {
   return (
     <div style={{maxWidth:1400,margin:'0 auto',padding:'clamp(32px,4vw,56px) clamp(24px,5vw,80px)'}}>
       <div style={{display:'flex',alignItems:'center',gap:20,marginBottom:'clamp(32px,4vw,52px)',flexWrap:'wrap'}}>
@@ -505,13 +508,13 @@ function PlanterView({truhlík, onHerbClick, onBack}) {
           borderRadius:100,padding:'10px 22px',color:C.cream,
           fontSize:13,fontWeight:700,cursor:'pointer',letterSpacing:'0.08em',textTransform:'uppercase',
           transition:'background 0.2s',flexShrink:0,
-        }}>← Zpět na truhlíky</button>
+        }}>{T.backToPlanters}</button>
         <div style={{display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
           <div style={{width:10,height:10,borderRadius:'50%',background:truhlík.barvaHex,boxShadow:`0 0 14px ${truhlík.barvaHex}`,flexShrink:0}}/>
           <h2 style={{fontSize:'clamp(22px,2.5vw,42px)',fontWeight:800,color:C.cream,margin:0,letterSpacing:'-0.025em',lineHeight:1.05}}>
             {truhlík.nazev}
             <span style={{fontWeight:300,fontStyle:'italic',color:truhlík.barvaHex,marginLeft:12,fontSize:'clamp(16px,1.8vw,28px)'}}>
-              — {truhlík.bylinky.length} bylin
+              — {T.herbs(truhlík.bylinky.length)}
             </span>
           </h2>
         </div>
@@ -527,17 +530,17 @@ function PlanterView({truhlík, onHerbClick, onBack}) {
 
 // ─── Herb modal ────────────────────────────────────────────────────────────────
 
-function PropRow({label, value}) {
+function PropRow({label, value, T}) {
   if (value === null || value === undefined) return null
   return (
     <div style={{display:'flex',gap:12,padding:'8px 0',borderBottom:`1px solid ${C.creamDark}`}}>
       <span style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:C.teal,flexShrink:0,width:96,paddingTop:1}}>{label}</span>
-      <span style={{fontSize:14,color:C.ink,lineHeight:1.5}}>{value === true ? 'ano' : value === false ? 'ne' : value}</span>
+      <span style={{fontSize:14,color:C.ink,lineHeight:1.5}}>{value === true ? T.yes : value === false ? T.no : value}</span>
     </div>
   )
 }
 
-function HerbModal({herb, planterColor, onClose}) {
+function HerbModal({herb, planterColor, onClose, T}) {
   const paras = herb.popis ? herb.popis.split('\n\n') : []
   return (
     <div role="dialog" aria-modal="true" aria-label={herb.nazev}
@@ -552,7 +555,7 @@ function HerbModal({herb, planterColor, onClose}) {
         <div style={{flexShrink:0,padding:'clamp(22px,3vw,34px) clamp(22px,3vw,34px) 0',display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:16,background:C.cream,zIndex:1}}>
           <div style={{flex:1}}>
             <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.2em',color:C.teal,marginBottom:8}}>
-              <span style={{color:C.orange}}>❋</span> bylinka
+              <span style={{color:C.orange}}>❋</span> {T.herb}
             </div>
             <h2 style={{fontSize:'clamp(24px,2.8vw,42px)',fontWeight:800,color:C.dark,margin:'0 0 4px',letterSpacing:'-0.03em',lineHeight:1.05}}>
               {herb.nazev}
@@ -562,7 +565,7 @@ function HerbModal({herb, planterColor, onClose}) {
               {herb.synonymum && <span style={{opacity:0.7}}> · syn. {herb.synonymum}</span>}
             </div>
           </div>
-          <button onClick={onClose} aria-label="Zavřít" style={{flexShrink:0,width:44,height:44,borderRadius:100,
+          <button onClick={onClose} aria-label={T.closeLabel} style={{flexShrink:0,width:44,height:44,borderRadius:100,
             border:`1px solid ${C.creamDark}`,background:C.creamDark,cursor:'pointer',fontSize:22,color:C.dark,
             display:'flex',alignItems:'center',justifyContent:'center',lineHeight:1,transition:'background 0.2s',
             touchAction:'manipulation'}}>×</button>
@@ -575,30 +578,30 @@ function HerbModal({herb, planterColor, onClose}) {
             <div style={{height:2,flex:1,minWidth:40,background:`linear-gradient(to right, ${planterColor}, transparent)`,borderRadius:1,marginLeft:6}}/>
           </div>
           <div style={{padding:'0 clamp(22px,3vw,34px)'}}>
-            <PropRow label="Světlo" value={herb.svetlo}/>
-            <PropRow label="Voda" value={herb.voda}/>
-            <PropRow label="Sklizeň" value={herb.sklizen}/>
-            <PropRow label="Životnost" value={herb.zivotnost}/>
-            <PropRow label="Mráz" value={herb.mrazuvzdornost}/>
-            <PropRow label="Opylovači" value={herb.opylovaci}/>
-            <PropRow label="Sbírá se" value={herb.coSeSbira}/>
+            <PropRow label={T.light}      value={herb.svetlo}           T={T}/>
+            <PropRow label={T.water}      value={herb.voda}             T={T}/>
+            <PropRow label={T.harvest}    value={herb.sklizen}          T={T}/>
+            <PropRow label={T.lifespan}   value={herb.zivotnost}        T={T}/>
+            <PropRow label={T.frost}      value={herb.mrazuvzdornost}   T={T}/>
+            <PropRow label={T.pollinators} value={herb.opylovaci}       T={T}/>
+            <PropRow label={T.collect}    value={herb.coSeSbira}        T={T}/>
           </div>
           {paras[0] && (
             <div style={{padding:'clamp(16px,2vw,22px) clamp(22px,3vw,34px) 0'}}>
-              <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.teal,marginBottom:8}}>K čemu se používá</div>
+              <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.teal,marginBottom:8}}>{T.usedFor}</div>
               <p style={{fontSize:'clamp(13px,1vw,15px)',lineHeight:1.75,color:C.ink,margin:0,opacity:0.82}}>{paras[0]}</p>
             </div>
           )}
           {paras[1] && (
             <div style={{padding:'clamp(16px,2vw,22px) clamp(22px,3vw,34px) 0',marginTop:4}}>
-              <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.teal,marginBottom:8}}>Jak ji pěstovat</div>
+              <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.teal,marginBottom:8}}>{T.howToGrow}</div>
               <p style={{fontSize:'clamp(13px,1vw,15px)',lineHeight:1.75,color:C.ink,margin:0,opacity:0.82}}>{paras[1]}</p>
             </div>
           )}
           {herb.upozorneni && (
             <div style={{margin:'clamp(18px,2.5vw,26px) clamp(22px,3vw,34px) 0',padding:'14px 18px',
               background:C.orange+'10',borderLeft:`3px solid ${C.orange}`,borderRadius:'0 10px 10px 0'}}>
-              <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.orange,marginBottom:6}}>Upozornění / zajímavost</div>
+              <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:C.orange,marginBottom:6}}>{T.noteLabel}</div>
               <p style={{fontSize:'clamp(12px,0.9vw,14px)',lineHeight:1.65,color:C.ink,margin:0,opacity:0.82}}>{herb.upozorneni}</p>
             </div>
           )}
@@ -610,7 +613,7 @@ function HerbModal({herb, planterColor, onClose}) {
 
 // ─── Contact form ──────────────────────────────────────────────────────────────
 
-function ContactForm() {
+function ContactForm({T}) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [msg, setMsg] = useState('')
@@ -624,7 +627,7 @@ function ContactForm() {
         method: 'POST',
         headers: {'Content-Type':'application/json','Accept':'application/json'},
         body: JSON.stringify({
-          _subject: `Bylinkové zahrady – zpráva od ${name}`,
+          _subject: T.emailSubject(name),
           jmeno: name,
           email,
           zprava: msg,
@@ -640,8 +643,8 @@ function ContactForm() {
   if (status === 'done') return (
     <div style={{padding:'clamp(32px,4vw,56px)',textAlign:'center',border:`1.5px solid ${C.green}40`,borderRadius:20,background:`${C.green}08`}}>
       <div style={{fontSize:'clamp(36px,4vw,64px)',marginBottom:16}}>🌿</div>
-      <h3 style={{fontSize:'clamp(22px,2.2vw,36px)',fontWeight:800,color:C.cream,margin:'0 0 12px',letterSpacing:'-0.02em'}}>Díky, ozveme se!</h3>
-      <p style={{fontSize:'clamp(15px,1.1vw,18px)',color:`${C.cream}99`,margin:0}}>Vaši zprávu jsme obdrželi.</p>
+      <h3 style={{fontSize:'clamp(22px,2.2vw,36px)',fontWeight:800,color:C.cream,margin:'0 0 12px',letterSpacing:'-0.02em'}}>{T.successTitle}</h3>
+      <p style={{fontSize:'clamp(15px,1.1vw,18px)',color:`${C.cream}99`,margin:0}}>{T.successDesc}</p>
     </div>
   )
 
@@ -649,30 +652,30 @@ function ContactForm() {
     <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:16}}>
       <div style={{display:'flex',flexDirection:'column',gap:6}}>
         <label style={{fontSize:12,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:`${C.cream}66`}}>
-          Vaše jméno *
+          {T.nameLabel}
         </label>
         <input type="text" required value={name} onChange={e => setName(e.target.value)}
-          placeholder="Jan Novák"
+          placeholder={T.namePlaceholder}
           style={{padding:'12px 16px',borderRadius:10,border:`1.5px solid rgba(255,255,255,0.12)`,
             background:'rgba(255,255,255,0.06)',color:C.cream,fontSize:15,outline:'none',
             transition:'border-color 0.2s'}}/>
       </div>
       <div style={{display:'flex',flexDirection:'column',gap:6}}>
         <label style={{fontSize:12,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:`${C.cream}66`}}>
-          Váš e-mail *
+          {T.emailLabel}
         </label>
         <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
-          placeholder="vas@email.cz"
+          placeholder={T.emailPlaceholder}
           style={{padding:'12px 16px',borderRadius:10,border:`1.5px solid rgba(255,255,255,0.12)`,
             background:'rgba(255,255,255,0.06)',color:C.cream,fontSize:15,outline:'none',
             transition:'border-color 0.2s'}}/>
       </div>
       <div style={{display:'flex',flexDirection:'column',gap:6}}>
         <label style={{fontSize:12,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:`${C.cream}66`}}>
-          Zpráva *
+          {T.msgLabel}
         </label>
         <textarea required value={msg} onChange={e => setMsg(e.target.value)} rows={4}
-          placeholder="Napište nám..."
+          placeholder={T.msgPlaceholder}
           style={{padding:'12px 16px',borderRadius:10,border:`1.5px solid rgba(255,255,255,0.12)`,
             background:'rgba(255,255,255,0.06)',color:C.cream,fontSize:15,outline:'none',resize:'vertical',
             transition:'border-color 0.2s',fontFamily:'inherit'}}/>
@@ -683,13 +686,13 @@ function ContactForm() {
         color:C.dark,fontSize:14,fontWeight:800,cursor: status==='sending' ? 'default' : 'pointer',
         letterSpacing:'0.06em',textTransform:'uppercase',transition:'background 0.2s',
       }}>
-        {status==='sending' ? 'Odesílám…' : 'Odeslat zprávu'}
+        {status==='sending' ? T.sending : T.send}
       </button>
       {status==='error' && (
         <div style={{fontSize:13,color:`${C.cream}bb`,margin:0,lineHeight:1.6}}>
-          Odeslání se nezdařilo. Napište nám přímo na{' '}
+          {T.errorMsg}{' '}
           <a href="mailto:info@czechhorizons.eu" style={{color:C.green,textDecoration:'underline'}}>
-            info@czech-horizons.cz
+            info@czechhorizons.eu
           </a>
         </div>
       )}
@@ -700,6 +703,170 @@ function ContactForm() {
 // ─── Main page export ──────────────────────────────────────────────────────────
 
 export function BylinkoveZahradyClient({akce = []}) {
+  const locale = useLocale()
+  const isEN = locale === 'en'
+  const TRUHLIKY = isEN ? TRUHLIKY_EN : TRUHLIKY_CS
+
+  const T = isEN ? {
+    yes: 'yes', no: 'no',
+    herbs: (n) => `${n} herb${n === 1 ? '' : 's'}`,
+    backToPlanters: '← Back to planters',
+    herb: 'Herb', closeLabel: 'Close',
+    usedFor: 'What it\'s used for', howToGrow: 'How to grow it',
+    noteLabel: 'Note / Did you know',
+    light: 'Light', water: 'Water', harvest: 'Harvest', lifespan: 'Lifespan',
+    frost: 'Frost', pollinators: 'Pollinators', collect: 'What to pick',
+    nameLabel: 'Your name *', namePlaceholder: 'Jane Smith',
+    emailLabel: 'Your e-mail *', emailPlaceholder: 'your@email.com',
+    msgLabel: 'Message *', msgPlaceholder: 'Write to us…',
+    sending: 'Sending…', send: 'Send message',
+    errorMsg: 'Failed to send. Write to us directly at',
+    emailSubject: (n) => `Herb Garden – message from ${n}`,
+    successTitle: 'Thanks, we\'ll be in touch!', successDesc: 'We received your message.',
+    heroLabel: 'Local project — Prague 6, Hanspaulka',
+    heroH1a: 'Community', heroH1b: 'herb garden.',
+    heroStat1: 'planters', heroStat2: 'herb species',
+    heroDesc: 'Six herb planters full of scents, flavours and stories — freely accessible to anyone passing by.',
+    heroExploreCta: 'Explore the garden ↓', heroFindUs: '📍 Find us',
+    gardenLabel: '001 — Planters',
+    howToLabel: '002 — How to use the garden',
+    howToH2a: 'Come, smell', howToH2b: 'the herbs.',
+    howToDesc: 'The garden is open every day. The herbs are here for everyone — the curious, the cook, or those who just want a moment to pause.',
+    howToCards: [
+      {icon:'🌿', title:'Smell them',      text:'Feel free to look closely and take a sniff.'},
+      {icon:'✂️', title:'Pick some',       text:'Take a few leaves home for your kitchen.'},
+      {icon:'😋', title:'Taste them',      text:'Try the flavour of a fresh herb straight from the garden.'},
+      {icon:'🌱', title:'Pick gently',     text:'Please pick carefully — a few leaves, not whole plants.'},
+      {icon:'🌾', title:'Leave the roots', text:'Leave the plants in the soil; take only what grows above ground.'},
+      {icon:'🙏', title:'Take with care',  text:'Take only as much as you will actually use.'},
+      {icon:'💧', title:'Water helps',     text:'If you see a dry planter, a glass of water will do it good.'},
+    ],
+    mapLabel: '003 — Find us',
+    mapH2a: 'The park behind', mapH2b: 'Tesco.',
+    mapAddrLabel: 'Address',
+    mapAddr1: 'The park behind Tesco, Hanspaulka', mapAddr2: 'Prague 6 — Dejvice',
+    mapGpsLabel: 'GPS coordinates',
+    whyLabel: '004 — Why we created the garden',
+    whyH2a: 'A small space', whyH2b: 'with great meaning.',
+    whyP1: 'We created the herb garden to give Hanspaulka a little place where people can stop, smell the herbs, learn something new, and maybe take a few leaves home.',
+    whyP2: 'It\'s not only about growing plants. We want to support neighbourhood life, show that even a small public space can have meaning, and bring people closer to herbs they know from the kitchen but rarely see growing in front of them.',
+    whyCards: [
+      {barva:C.green,  nadpis:'Community pilot',    text:'The garden is a pilot step. We want to find out whether it makes sense to develop similar community and green activities in Hanspaulka.'},
+      {barva:C.teal,   nadpis:'Neighbourhood ties', text:'The project aims to strengthen local connections, bring different generations together, and test interest in a larger community garden.'},
+      {barva:C.orange, nadpis:'Herb education',     text:'We want to show how various herbs look, how they grow, and how they can be incorporated into everyday cooking.'},
+    ],
+    involvedLabel: '005 — Get involved',
+    involvedH2a: 'Want to', involvedH2b: 'help?',
+    involvedPoints: [
+      'Write to us if you\'d like to help with the garden',
+      'Send us a recipe using a herb from our garden',
+      'Let us know what you\'d like to see in the garden next',
+    ],
+    eventsLabel: '006 — Project events',
+    eventsPast: 'Past', eventsUpcoming: 'Upcoming',
+    eventsCount: (n) => `${n} event${n === 1 ? '' : 's'}`,
+    behindLabel: '007 — Behind the scenes',
+    behindH2a: 'How we', behindH2b: 'built it.',
+    constructionLabel: 'Construction and materials',
+    constructionCards: [
+      {icon:'🪵', nazev:'Spruce planters',        popis:'We built the planters ourselves from spruce wood. The surface was then charred and painted — giving it a natural aesthetic finish and making it more resistant to moisture.', barva:C.orange},
+      {icon:'🌍', nazev:'Soil from Jena',          popis:'As the base we used a standard mix from the Jena compost facility. This organic, nutrient-rich soil gives the herbs good growing conditions without artificial fertilisers.', barva:C.teal},
+      {icon:'🧶', nazev:'Wool mulch blanket',      popis:'Instead of a plastic mulch film we chose a wool blanket — plastic from film gradually leaches into the soil over time. Wool retains moisture, suppresses weeds, and is biodegradable.', barva:C.green},
+      {icon:'💧', nazev:'Olla irrigation pots',   popis:'The beds contain 8 ceramic Olla pots (5 l each), buried directly in the soil. Water seeps slowly through the porous walls directly to the roots — efficiently and exactly where needed.', barva:C.yellow},
+      {icon:'🍂', nazev:'Base layer from neighbours', popis:'The bottom third of each planter is filled with leaves, grass and wood chips from Hanspaulka neighbours. The organic material slowly composts, releases nutrients, and helps retain moisture.', barva:C.green},
+      {icon:'🛡️', nazev:'Drainage membrane',      popis:'The inside walls of the planters are lined around the whole perimeter with a drainage membrane. It separates the soil from the wood, protects the planter from moisture, and extends its lifespan.', barva:C.teal},
+    ],
+    sourcesLabel: 'Where we source the herbs',
+    sourceCards: [
+      {emoji:'🌱', nazev:'Spomyšl Nursery',         popis:'A family nursery with a wide selection of herb seedlings grown with care and expertise.'},
+      {emoji:'🌿', nazev:'Chládek Nursery',          popis:'A trusted supplier of quality herbs, with whom we work repeatedly and gladly.'},
+      {emoji:'🔬', nazev:'ČZU Research Greenhouses', popis:'The Czech University of Life Sciences provides us with rarer and less common herb varieties from their research collections.'},
+    ],
+    euTextPre: 'This project is being implemented by', euOrgName: 'Czech Horizons z. s.',
+    euTextMid: 'with support from the', euProgName: 'European Solidarity Corps',
+    euDisclaimer: 'This project is supported by the European Solidarity Corps programme of the European Union. The views expressed are solely those of the authors and the European Union bears no responsibility for them.',
+    months: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
+  } : {
+    yes: 'ano', no: 'ne',
+    herbs: (n) => `${n} bylin`,
+    backToPlanters: '← Zpět na truhlíky',
+    herb: 'bylinka', closeLabel: 'Zavřít',
+    usedFor: 'K čemu se používá', howToGrow: 'Jak ji pěstovat',
+    noteLabel: 'Upozornění / zajímavost',
+    light: 'Světlo', water: 'Voda', harvest: 'Sklizeň', lifespan: 'Životnost',
+    frost: 'Mráz', pollinators: 'Opylovači', collect: 'Sbírá se',
+    nameLabel: 'Vaše jméno *', namePlaceholder: 'Jan Novák',
+    emailLabel: 'Váš e-mail *', emailPlaceholder: 'vas@email.cz',
+    msgLabel: 'Zpráva *', msgPlaceholder: 'Napište nám…',
+    sending: 'Odesílám…', send: 'Odeslat zprávu',
+    errorMsg: 'Odeslání se nezdařilo. Napište nám přímo na',
+    emailSubject: (n) => `Bylinkové zahrady – zpráva od ${n}`,
+    successTitle: 'Díky, ozveme se!', successDesc: 'Vaši zprávu jsme obdrželi.',
+    heroLabel: 'Lokální projekt — Praha 6, Hanspaulka',
+    heroH1a: 'Sousedská', heroH1b: 'bylinková zahrádka.',
+    heroStat1: 'truhlíků', heroStat2: 'druhů bylin',
+    heroDesc: 'Šest bylinkových truhlíků plných vůní, chutí a příběhů — volně přístupných každému, kdo jde kolem.',
+    heroExploreCta: 'Prozkoumat zahrádku ↓', heroFindUs: '📍 Kde nás najdete',
+    gardenLabel: '001 — Záhon',
+    howToLabel: '002 — Jak zahradu používat',
+    howToH2a: 'Přijďte,', howToH2b: 'přivoňte.',
+    howToDesc: 'Zahrádka je volně přístupná každý den. Bylinky jsou tady pro všechny — pro zvědavce, kuchaře i ty, kteří si chtějí jen odpočinout.',
+    howToCards: [
+      {icon:'🌿', title:'Přivoňte si',    text:'Bylinky si klidně prohlédněte a přivoňte si k nim.'},
+      {icon:'✂️', title:'Utrhněte si',    text:'Urhněte si pár lístků a vezměte je domů do kuchyně.'},
+      {icon:'😋', title:'Ochutnejte',     text:'Zkuste chuť čerstvé bylinky přímo ze zahrádky.'},
+      {icon:'🌱', title:'Trhejte šetrně', text:'Trhejte prosím šetrně, pár lístků, ne celé rostliny.'},
+      {icon:'🌾', title:'Nechte kořeny',  text:'Nechte rostliny v zemi, trhejte jen to, co roste nad zemí.'},
+      {icon:'🙏', title:'Berte s mírou',  text:'Berte jen tolik, kolik opravdu využijete.'},
+      {icon:'💧', title:'Zálivka pomůže', text:'Pokud vidíte suchý truhlík, pomůže mu sklenka vody.'},
+    ],
+    mapLabel: '003 — Kde nás najdete',
+    mapH2a: 'Parčík za', mapH2b: 'Tescem.',
+    mapAddrLabel: 'Adresa',
+    mapAddr1: 'Parčík za Tescem na Hanspaulce', mapAddr2: 'Praha 6 — Dejvice',
+    mapGpsLabel: 'GPS souřadnice',
+    whyLabel: '004 — Proč jsme zahrádku vytvořili',
+    whyH2a: 'Malé místo', whyH2b: 's velkým smyslem.',
+    whyP1: 'Bylinkové zahrady jsme vytvořili proto, aby na Hanspaulce vzniklo malé místo, kde se lidé mohou zastavit, přivonět si k bylinkám, něco se dozvědět a třeba si i pár lístků odnést domů.',
+    whyP2: 'Nejde jen o pěstování. Chceme podpořit sousedský život, ukázat, že i malý veřejný prostor může mít smysl, a přiblížit lidem bylinky, které z kuchyně dobře znají, ale málokdy je vidí růst přímo před sebou.',
+    whyCards: [
+      {barva:C.green,  nadpis:'Komunitní pilot',    text:'Zahrádka je pilotní krok. Chceme zjistit, jestli má na Hanspaulce smysl rozvíjet podobné komunitní a zelené aktivity i dál.'},
+      {barva:C.teal,   nadpis:'Sousedské vztahy',   text:'Projekt má posílit sousedské vazby, propojit různé generace a ověřit zájem o větší komunitní zahradu.'},
+      {barva:C.orange, nadpis:'Edukace o bylinkách', text:'Chceme ukázat, jak různé bylinky vypadají, jak rostou a jak je lze zapojit do každodenní kuchyně.'},
+    ],
+    involvedLabel: '005 — Zapojte se',
+    involvedH2a: 'Chcete', involvedH2b: 'pomoct?',
+    involvedPoints: [
+      'Napište nám, pokud chcete s zahrádkou pomoct',
+      'Pošlete nám recept s bylinkou z naší zahrádky',
+      'Dejte nám vědět, co byste v zahradě chtěli příště',
+    ],
+    eventsLabel: '006 — Akce v rámci projektu',
+    eventsPast: 'Proběhlo', eventsUpcoming: 'Nadcházející',
+    eventsCount: (n) => `${n} ${n === 1 ? 'akce' : n < 5 ? 'akce' : 'akcí'}`,
+    behindLabel: '007 — Zákulisí zahrádky',
+    behindH2a: 'Jak jsme ji', behindH2b: 'postavili.',
+    constructionLabel: 'Konstrukce a materiály',
+    constructionCards: [
+      {icon:'🪵', nazev:'Smrkové truhlíky',        popis:'Truhlíky jsme vyrobili sami ze smrkového dřeva. Povrch byl následně opálen a natřen — dřevo tak získalo přirozené estetické zpracování a je odolnější vůči vlhkosti.', barva:C.orange},
+      {icon:'🌍', nazev:'Zemina z Jeny',            popis:'Jako základ jsme použili standardní mix z kompostárny Jena. Organická zemina bohatá na živiny zajišťuje bylinkám dobré podmínky pro růst bez umělých hnojiv.', barva:C.teal},
+      {icon:'🧶', nazev:'Vlněná mulčovací deka',    popis:'Místo plastové mulčovací folie jsme zvolili vlněnou deku — plast z folie totiž časem proniká do půdy. Vlna zadržuje vlhkost, potlačuje plevel a je biologicky odbouratelná.', barva:C.green},
+      {icon:'💧', nazev:'Zavlažovací nádoby Olla',  popis:'V záhonech je celkem 8 keramických nádob Olla (5 l), zakopané přímo v zemině. Voda se skrze porézní stěny uvolňuje pozvolna přímo ke kořenům — úsporně a přesně tam, kde je třeba.', barva:C.yellow},
+      {icon:'🍂', nazev:'Spodní vrstva od sousedů', popis:'Spodní třetina každého truhlíku je vyplněná listím, trávou a štěpkou od sousedů z Hanspaulky. Organický materiál postupně kompostuje, uvolňuje živiny a pomáhá zadržovat vodu.', barva:C.green},
+      {icon:'🛡️', nazev:'Nopová fólie',             popis:'Vnitřní stěny truhlíků jsou po celém obvodu vyloženy nopovou fólií. Ta odděluje zeminu od dřeva, chrání truhlík před vlhkostí a prodlužuje jeho životnost.', barva:C.teal},
+    ],
+    sourcesLabel: 'Odkud bylinky máme',
+    sourceCards: [
+      {emoji:'🌱', nazev:'Zahradnictví Spomyšl', popis:'Rodinné zahradnictví s bohatou nabídkou bylinkových sazenic pěstovaných s péčí a zkušenostmi.'},
+      {emoji:'🌿', nazev:'Zahradnictví Chládek', popis:'Osvědčený dodavatel kvalitních bylin, s nimiž spolupracujeme opakovaně a s radostí.'},
+      {emoji:'🔬', nazev:'Výzkumné skleníky ČZU', popis:'Česká zemědělská univerzita nám poskytuje vzácnější a méně běžné druhy bylin ze svých výzkumných sbírek.'},
+    ],
+    euTextPre: 'Projekt realizuje', euOrgName: 'Czech Horizons z. s.',
+    euTextMid: 'za podpory', euProgName: 'Evropského sboru solidarity',
+    euDisclaimer: 'Tento projekt byl podpořen z programu Evropský sbor solidarity Evropské unie. Vyjádřené názory jsou výlučně názory autorů a Evropská unie za ně nenese žádnou odpovědnost.',
+    months: ['LED','ÚNO','BŘE','DUB','KVĚ','ČVN','ČVC','SRP','ZÁŘ','ŘÍJ','LIS','PRO'],
+  }
+
   const [view, setView] = useState('overview')
   const [selectedIdx, setSelectedIdx] = useState(null)
   const [activeHerb, setActiveHerb] = useState(null)
@@ -736,7 +903,7 @@ export function BylinkoveZahradyClient({akce = []}) {
   const formatDate = (dateStr) => {
     if (!dateStr) return {}
     const d = new Date(dateStr)
-    const m = ['LED','ÚN','BŘE','DUB','KVĚ','ČVN','ČVC','SRP','ZÁŘ','ŘÍJ','LIS','PRO'][d.getMonth()]
+    const m = T.months[d.getMonth()]
     return {den: d.getDate(), mesic: m, rok: d.getFullYear()}
   }
 
@@ -757,35 +924,35 @@ export function BylinkoveZahradyClient({akce = []}) {
         <section style={{padding:'clamp(120px,14vw,200px) clamp(24px,5vw,80px) clamp(80px,10vw,120px)',background:C.cream}}>
           <div style={{maxWidth:1400,margin:'0 auto'}}>
             <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:32,color:C.teal}}>
-              <span style={{color:C.orange}}>❋</span> Lokální projekt — Praha 6, Hanspaulka
+              <span style={{color:C.orange}}>❋</span> {T.heroLabel}
             </div>
             <h1 style={{fontSize:'clamp(44px,6.5vw,112px)',fontWeight:800,lineHeight:0.9,letterSpacing:'-0.03em',margin:'0 0 clamp(20px,2.5vw,32px)',color:C.dark}}>
-              Sousedská<br/>
-              <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>bylinková zahrádka.</span>
+              {T.heroH1a}<br/>
+              <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>{T.heroH1b}</span>
             </h1>
 
             {/* Stats */}
             <div style={{display:'flex',gap:'clamp(20px,3vw,48px)',alignItems:'flex-end',marginBottom:'clamp(24px,3vw,40px)',flexWrap:'wrap'}}>
               <div>
                 <div style={{fontSize:'clamp(44px,5.5vw,76px)',fontWeight:800,lineHeight:0.9,color:C.orange}}>6</div>
-                <div style={{fontSize:'clamp(11px,0.85vw,14px)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:`${C.ink}55`,marginTop:8}}>truhlíků</div>
+                <div style={{fontSize:'clamp(11px,0.85vw,14px)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:`${C.ink}55`,marginTop:8}}>{T.heroStat1}</div>
               </div>
               <div style={{width:1,height:52,background:`${C.ink}18`,marginBottom:4,flexShrink:0}}/>
               <div>
                 <div style={{fontSize:'clamp(44px,5.5vw,76px)',fontWeight:800,lineHeight:0.9,color:C.green}}>50+</div>
-                <div style={{fontSize:'clamp(11px,0.85vw,14px)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:`${C.ink}55`,marginTop:8}}>druhů bylin</div>
+                <div style={{fontSize:'clamp(11px,0.85vw,14px)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.15em',color:`${C.ink}55`,marginTop:8}}>{T.heroStat2}</div>
               </div>
             </div>
 
             <p style={{fontSize:'clamp(16px,1.2vw,21px)',lineHeight:1.65,color:C.ink,maxWidth:540,opacity:0.75,margin:'0 0 clamp(24px,3vw,40px)'}}>
-              Šest bylinkových truhlíků plných vůní, chutí a příběhů — volně přístupných každému, kdo jde kolem.
+              {T.heroDesc}
             </p>
             <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
               <a href="#zahon" style={{display:'inline-flex',alignItems:'center',gap:8,padding:'14px 28px',borderRadius:100,background:C.dark,color:C.cream,fontSize:14,fontWeight:800,textDecoration:'none',letterSpacing:'0.06em',textTransform:'uppercase'}}>
-                Prozkoumat zahrádku ↓
+                {T.heroExploreCta}
               </a>
               <a href="#mapa" style={{display:'inline-flex',alignItems:'center',gap:8,padding:'14px 28px',borderRadius:100,border:`1.5px solid ${C.ink}25`,color:C.ink,fontSize:14,fontWeight:700,textDecoration:'none',letterSpacing:'0.04em',opacity:0.75}}>
-                📍 Kde nás najdete
+                {T.heroFindUs}
               </a>
             </div>
           </div>
@@ -796,46 +963,38 @@ export function BylinkoveZahradyClient({akce = []}) {
           {view === 'overview' && (
             <div style={{maxWidth:1400,margin:'0 auto'}}>
               <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:'clamp(36px,5vw,64px)',color:C.teal}}>
-                <span style={{color:C.orange}}>❋</span> 001 — Záhon
+                <span style={{color:C.orange}}>❋</span> {T.gardenLabel}
               </div>
               <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(min(clamp(180px,28vw,380px),100%),1fr))',gap:'clamp(16px,2vw,32px)'}}>
                 {TRUHLIKY.map((t, i) => (
-                  <PlanterBox key={t.id} truhlík={t} index={i} onClick={() => handlePlanterClick(i)} className={`planter-o-${DISPLAY_NUMBERS[i]}`}/>
+                  <PlanterBox key={t.id} truhlík={t} index={i} onClick={() => handlePlanterClick(i)} className={`planter-o-${DISPLAY_NUMBERS[i]}`} T={T}/>
                 ))}
               </div>
             </div>
           )}
           {view === 'planter' && selectedTruhlík && (
-            <PlanterView truhlík={selectedTruhlík} onHerbClick={setActiveHerb} onBack={handleBack}/>
+            <PlanterView truhlík={selectedTruhlík} onHerbClick={setActiveHerb} onBack={handleBack} T={T}/>
           )}
           <div style={{height:28,background:'linear-gradient(to bottom, transparent, rgba(0,0,0,0.32))',marginTop: view==='overview' ? 'clamp(40px,5vw,72px)' : 'clamp(24px,3vw,40px)'}}/>
         </section>
 
-        {/* ── Přijďte, přivoňte ────────────────────────────────────────── */}
+        {/* ── How to use ───────────────────────────────────────────────── */}
         <section style={{background:C.creamDark,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
           <div style={{maxWidth:1400,margin:'0 auto'}}>
             <div style={{marginBottom:'clamp(36px,5vw,56px)'}}>
               <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:16,color:C.teal}}>
-                <span style={{color:C.orange}}>❋</span> 002 — Jak zahradu používat
+                <span style={{color:C.orange}}>❋</span> {T.howToLabel}
               </div>
               <h2 style={{fontSize:'clamp(36px,5vw,72px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.03em',margin:'0 0 clamp(16px,2vw,24px)',color:C.dark}}>
-                Přijďte, přivoňte<span style={{color:C.orange}}>.</span>
+                {T.howToH2a} <span style={{color:C.orange}}>{T.howToH2b}</span>
               </h2>
               <p style={{fontSize:'clamp(16px,1.2vw,20px)',lineHeight:1.65,color:`${C.ink}bb`,margin:0,maxWidth:600}}>
-                Zahrádka je volně přístupná každý den. Bylinky jsou tady pro všechny — pro zvědavce, kuchaře i ty, kteří si chtějí jen odpočinout.
+                {T.howToDesc}
               </p>
             </div>
 
             <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(clamp(180px,22vw,260px),1fr))',gap:12}}>
-              {[
-                {icon:'🌿', title:'Přivoňte si',    text:'Bylinky si klidně prohlédněte a přivoňte si k nim.'},
-                {icon:'✂️', title:'Utrhněte si',    text:'Urhněte si pár lístků a vezměte je domů do kuchyně.'},
-                {icon:'😋', title:'Ochutnejte',     text:'Zkuste chuť čerstvé bylinky přímo ze zahrádky.'},
-                {icon:'🌱', title:'Trhejte šetrně', text:'Trhejte prosím šetrně, pár lístků, ne celé rostliny.'},
-                {icon:'🌾', title:'Nechte kořeny',  text:'Nechte rostliny v zemi, trhejte jen to, co roste nad zemí.'},
-                {icon:'🙏', title:'Berte s mírou',  text:'Berte jen tolik, kolik opravdu využijete.'},
-                {icon:'💧', title:'Zálivka pomůže', text:'Pokud vidíte suchý truhlík, pomůže mu sklenka vody.'},
-              ].map(({icon, title, text}, i) => (
+              {T.howToCards.map(({icon, title, text}, i) => (
                 <div key={i} style={{
                   padding:'clamp(18px,1.8vw,24px)',
                   background:C.cream,
@@ -851,32 +1010,32 @@ export function BylinkoveZahradyClient({akce = []}) {
           </div>
         </section>
 
-        {/* ── Kde nás najdete ───────────────────────────────────────────── */}
+        {/* ── Map ──────────────────────────────────────────────────────── */}
         <section id="mapa" style={{background:C.dark,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
           <div className="grid-2col" style={{maxWidth:1400,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'clamp(40px,6vw,80px)',alignItems:'start'}}>
             <div>
               <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
-                <span style={{color:C.orange}}>❋</span> 003 — Kde nás najdete
+                <span style={{color:C.orange}}>❋</span> {T.mapLabel}
               </div>
               <h2 style={{fontSize:'clamp(36px,4.5vw,68px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.03em',margin:'0 0 28px',color:C.cream}}>
-                Parčík za<br/>
-                <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>Tescem.</span>
+                {T.mapH2a}<br/>
+                <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>{T.mapH2b}</span>
               </h2>
               <div style={{display:'flex',flexDirection:'column',gap:16,marginBottom:32}}>
                 <div style={{display:'flex',gap:14,alignItems:'flex-start',padding:'18px 20px',background:`${C.cream}08`,border:`1px solid ${C.cream}12`,borderRadius:14}}>
                   <span style={{fontSize:20,flexShrink:0}}>📍</span>
                   <div>
-                    <div style={{fontSize:12,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:`${C.cream}55`,marginBottom:4}}>Adresa</div>
+                    <div style={{fontSize:12,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:`${C.cream}55`,marginBottom:4}}>{T.mapAddrLabel}</div>
                     <div style={{fontSize:'clamp(15px,1.2vw,18px)',color:C.cream,fontWeight:600,lineHeight:1.4}}>
-                      Parčík za Tescem na Hanspaulce<br/>
-                      <span style={{fontWeight:400,opacity:0.65,fontSize:'0.88em'}}>Praha 6 — Dejvice</span>
+                      {T.mapAddr1}<br/>
+                      <span style={{fontWeight:400,opacity:0.65,fontSize:'0.88em'}}>{T.mapAddr2}</span>
                     </div>
                   </div>
                 </div>
                 <div style={{display:'flex',gap:14,alignItems:'flex-start',padding:'18px 20px',background:`${C.cream}08`,border:`1px solid ${C.cream}12`,borderRadius:14}}>
                   <span style={{fontSize:20,flexShrink:0}}>🧭</span>
                   <div>
-                    <div style={{fontSize:12,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:`${C.cream}55`,marginBottom:4}}>GPS souřadnice</div>
+                    <div style={{fontSize:12,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:`${C.cream}55`,marginBottom:4}}>{T.mapGpsLabel}</div>
                     <div style={{fontSize:'clamp(14px,1.1vw,16px)',color:`${C.cream}cc`,fontFamily:'monospace',lineHeight:1.6}}>
                       50°06′14.7″N<br/>14°22′18.2″E
                     </div>
@@ -901,7 +1060,7 @@ export function BylinkoveZahradyClient({akce = []}) {
 
             <div style={{borderRadius:20,overflow:'hidden',border:`2px solid ${C.cream}12`,boxShadow:'0 16px 48px rgba(0,0,0,0.35)',aspectRatio:'1/1',background:C.dark}}>
               <iframe
-                title="Mapa - Sousedská bylinková zahrádka"
+                title="Herb Garden map"
                 src="https://www.openstreetmap.org/export/embed.html?bbox=14.368722%2C50.102083%2C14.374722%2C50.106083&layer=mapnik&marker=50.104083%2C14.371722"
                 width="100%" height="100%"
                 style={{border:'none',display:'block'}}
@@ -911,31 +1070,27 @@ export function BylinkoveZahradyClient({akce = []}) {
           </div>
         </section>
 
-        {/* ── Proč jsme zahrádku vytvořili ─────────────────────────────── */}
+        {/* ── Why ──────────────────────────────────────────────────────── */}
         <section style={{background:C.cream,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
           <div style={{maxWidth:1400,margin:'0 auto'}}>
             <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
-              <span style={{color:C.orange}}>❋</span> 004 — Proč jsme zahrádku vytvořili
+              <span style={{color:C.orange}}>❋</span> {T.whyLabel}
             </div>
             <div className="grid-asymmetric" style={{display:'grid',gridTemplateColumns:'clamp(300px,50%,600px) 1fr',gap:'clamp(40px,6vw,100px)',alignItems:'start'}}>
               <div>
                 <h2 style={{fontSize:'clamp(36px,5vw,72px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.03em',margin:'0 0 clamp(24px,3vw,36px)',color:C.dark}}>
-                  Malé místo<br/>
-                  <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>s velkým smyslem.</span>
+                  {T.whyH2a}<br/>
+                  <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>{T.whyH2b}</span>
                 </h2>
                 <p style={{fontSize:'clamp(16px,1.2vw,20px)',lineHeight:1.7,color:`${C.ink}bb`,margin:'0 0 20px'}}>
-                  Bylinkové zahrady jsme vytvořili proto, aby na Hanspaulce vzniklo malé místo, kde se lidé mohou zastavit, přivonět si k bylinkám, něco se dozvědět a třeba si i pár lístků odnést domů.
+                  {T.whyP1}
                 </p>
                 <p style={{fontSize:'clamp(16px,1.2vw,20px)',lineHeight:1.7,color:`${C.ink}bb`,margin:0}}>
-                  Nejde jen o pěstování. Chceme podpořit sousedský život, ukázat, že i malý veřejný prostor může mít smysl, a přiblížit lidem bylinky, které z kuchyně dobře znají, ale málokdy je vidí růst přímo před sebou.
+                  {T.whyP2}
                 </p>
               </div>
               <div style={{display:'flex',flexDirection:'column',gap:20}}>
-                {[
-                  {barva:C.green, nadpis:'Komunitní pilot', text:'Zahrádka je pilotní krok. Chceme zjistit, jestli má na Hanspaulce smysl rozvíjet podobné komunitní a zelené aktivity i dál.'},
-                  {barva:C.teal, nadpis:'Sousedské vztahy', text:'Projekt má posílit sousedské vazby, propojit různé generace a ověřit zájem o větší komunitní zahradu.'},
-                  {barva:C.orange, nadpis:'Edukace o bylinkách', text:'Chceme ukázat, jak různé bylinky vypadají, jak rostou a jak je lze zapojit do každodenní kuchyně.'},
-                ].map(({barva, nadpis, text}, i) => (
+                {T.whyCards.map(({barva, nadpis, text}, i) => (
                   <div key={i} style={{padding:'clamp(20px,2vw,28px)',borderRadius:16,border:`1.5px solid ${barva}20`,background:`${barva}08`}}>
                     <div style={{display:'flex',gap:10,alignItems:'center',marginBottom:10}}>
                       <div style={{width:8,height:8,borderRadius:'50%',background:barva,boxShadow:`0 0 8px ${barva}`,flexShrink:0}}/>
@@ -949,23 +1104,19 @@ export function BylinkoveZahradyClient({akce = []}) {
           </div>
         </section>
 
-        {/* ── Zapojte se ────────────────────────────────────────────────── */}
+        {/* ── Get involved ─────────────────────────────────────────────── */}
         <section style={{background:C.dark,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
           <div className="grid-2col" style={{maxWidth:1400,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'clamp(40px,6vw,80px)',alignItems:'start'}}>
             <div>
               <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
-                <span style={{color:C.orange}}>❋</span> 005 — Zapojte se
+                <span style={{color:C.orange}}>❋</span> {T.involvedLabel}
               </div>
               <h2 style={{fontSize:'clamp(36px,5vw,72px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.03em',margin:'0 0 24px',color:C.cream}}>
-                Chcete<br/>
-                <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>pomoct?</span>
+                {T.involvedH2a}<br/>
+                <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>{T.involvedH2b}</span>
               </h2>
               <div style={{display:'flex',flexDirection:'column',gap:12}}>
-                {[
-                  'Napište nám, pokud chcete s zahrádkou pomoct',
-                  'Pošlete nám recept s bylinkou z naší zahrádky',
-                  'Dejte nám vědět, co byste v zahradě chtěli příště',
-                ].map((item, i) => (
+                {T.involvedPoints.map((item, i) => (
                   <div key={i} style={{display:'flex',gap:12,alignItems:'flex-start'}}>
                     <div style={{width:6,height:6,borderRadius:'50%',background:C.green,flexShrink:0,marginTop:7,boxShadow:`0 0 6px ${C.green}`}}/>
                     <p style={{fontSize:'clamp(15px,1.1vw,18px)',lineHeight:1.6,color:`${C.cream}cc`,margin:0}}>{item}</p>
@@ -974,21 +1125,21 @@ export function BylinkoveZahradyClient({akce = []}) {
               </div>
             </div>
             <div>
-              <ContactForm/>
+              <ContactForm T={T}/>
             </div>
           </div>
         </section>
 
-        {/* ── Akce ──────────────────────────────────────────────────────── */}
+        {/* ── Events ───────────────────────────────────────────────────── */}
         {akce.length > 0 && (
           <section style={{background:C.dark,padding:'0 clamp(24px,5vw,80px) clamp(60px,8vw,100px)'}}>
             <div style={{maxWidth:1400,margin:'0 auto'}}>
               <div style={{height:1,background:`${C.cream}12`,marginBottom:'clamp(40px,5vw,72px)'}}/>
               <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.yellow}}>
-                <span style={{color:C.orange}}>❋</span> 006 — Akce v rámci projektu
+                <span style={{color:C.orange}}>❋</span> {T.eventsLabel}
               </div>
               <h2 style={{fontSize:'clamp(32px,4.5vw,68px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.03em',margin:'0 0 clamp(32px,4vw,56px)',color:C.cream}}>
-                {akce.length} {akce.length === 1 ? 'akce' : akce.length < 5 ? 'akce' : 'akcí'}<span style={{color:C.orange}}>.</span>
+                {T.eventsCount(akce.length)}<span style={{color:C.orange}}>.</span>
               </h2>
               <div style={{display:'flex',flexDirection:'column',gap:12}}>
                 {akce.map((a, i) => {
@@ -1013,7 +1164,7 @@ export function BylinkoveZahradyClient({akce = []}) {
                       </div>
                       <div style={{fontSize:11,letterSpacing:'0.1em',textTransform:'uppercase',fontWeight:700,
                         color: probehl ? `${C.cream}55` : C.green}}>
-                        {probehl ? 'Proběhlo' : 'Nadcházející'}
+                        {probehl ? T.eventsPast : T.eventsUpcoming}
                       </div>
                     </div>
                   )
@@ -1023,61 +1174,23 @@ export function BylinkoveZahradyClient({akce = []}) {
           </section>
         )}
 
-        {/* ── Zákulisí zahrádky ────────────────────────────────────────── */}
+        {/* ── Behind the scenes ────────────────────────────────────────── */}
         <section style={{background:C.cream,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
           <div style={{maxWidth:1400,margin:'0 auto'}}>
             <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
-              <span style={{color:C.orange}}>❋</span> 007 — Zákulisí zahrádky
+              <span style={{color:C.orange}}>❋</span> {T.behindLabel}
             </div>
             <h2 style={{fontSize:'clamp(32px,4.5vw,68px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.03em',margin:'0 0 clamp(36px,5vw,64px)',color:C.dark}}>
-              Jak jsme ji<br/>
-              <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>postavili.</span>
+              {T.behindH2a}<br/>
+              <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>{T.behindH2b}</span>
             </h2>
 
-            {/* Technická část */}
             <div style={{marginBottom:'clamp(48px,6vw,80px)'}}>
               <div style={{fontSize:'clamp(12px,0.9vw,14px)',letterSpacing:'0.15em',textTransform:'uppercase',fontWeight:700,color:`${C.ink}55`,marginBottom:20}}>
-                Konstrukce a materiály
+                {T.constructionLabel}
               </div>
               <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(min(260px,100%),1fr))',gap:16}}>
-                {[
-                  {
-                    icon:'🪵',
-                    nazev:'Smrkové truhlíky',
-                    popis:'Truhlíky jsme vyrobili sami ze smrkového dřeva. Povrch byl následně opálen a natřen — dřevo tak získalo přirozené estetické zpracování a je odolnější vůči vlhkosti.',
-                    barva: C.orange,
-                  },
-                  {
-                    icon:'🌍',
-                    nazev:'Zemina z Jeny',
-                    popis:'Jako základ jsme použili standardní mix z kompostárny Jena. Organická zemina bohatá na živiny zajišťuje bylinkám dobré podmínky pro růst bez umělých hnojiv.',
-                    barva: C.teal,
-                  },
-                  {
-                    icon:'🧶',
-                    nazev:'Vlněná mulčovací deka',
-                    popis:'Místo plastové mulčovací folie jsme zvolili vlněnou deku — plast z folie totiž časem proniká do půdy. Vlna zadržuje vlhkost, potlačuje plevel a je biologicky odbouratelná.',
-                    barva: C.green,
-                  },
-                  {
-                    icon:'💧',
-                    nazev:'Zavlažovací nádoby Olla',
-                    popis:'V záhonech je celkem 8 keramických nádob Olla (5 l), zakopané přímo v zemině. Voda se skrze porézní stěny uvolňuje pozvolna přímo ke kořenům — úsporně a přesně tam, kde je třeba.',
-                    barva: C.yellow,
-                  },
-                  {
-                    icon:'🍂',
-                    nazev:'Spodní vrstva od sousedů',
-                    popis:'Spodní třetina každého truhlíku je vyplněná listím, trávou a štěpkou od sousedů z Hanspaulky. Organický materiál postupně kompostuje, uvolňuje živiny a pomáhá zadržovat vodu.',
-                    barva: C.green,
-                  },
-                  {
-                    icon:'🛡️',
-                    nazev:'Nopová fólie',
-                    popis:'Vnitřní stěny truhlíků jsou po celém obvodu vyloženy nopovou fólií. Ta odděluje zeminu od dřeva, chrání truhlík před vlhkostí a prodlužuje jeho životnost.',
-                    barva: C.teal,
-                  },
-                ].map(({icon, nazev, popis, barva}, i) => (
+                {T.constructionCards.map(({icon, nazev, popis, barva}, i) => (
                   <div key={i} style={{
                     padding:'clamp(20px,2vw,28px)',
                     borderRadius:16,
@@ -1094,17 +1207,12 @@ export function BylinkoveZahradyClient({akce = []}) {
               </div>
             </div>
 
-            {/* Zdroje bylin */}
             <div style={{paddingTop:'clamp(36px,4vw,52px)',borderTop:`1.5px solid ${C.ink}10`}}>
               <div style={{fontSize:'clamp(12px,0.9vw,14px)',letterSpacing:'0.15em',textTransform:'uppercase',fontWeight:700,color:`${C.ink}55`,marginBottom:20}}>
-                Odkud bylinky máme
+                {T.sourcesLabel}
               </div>
               <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(min(260px,100%),1fr))',gap:16}}>
-                {[
-                  {emoji:'🌱', nazev:'Zahradnictví Spomyšl', popis:'Rodinné zahradnictví s bohatou nabídkou bylinkových sazenic pěstovaných s péčí a zkušenostmi.'},
-                  {emoji:'🌿', nazev:'Zahradnictví Chládek', popis:'Osvědčený dodavatel kvalitních bylin, s nimiž spolupracujeme opakovaně a s radostí.'},
-                  {emoji:'🔬', nazev:'Výzkumné skleníky ČZU', popis:'Česká zemědělská univerzita nám poskytuje vzácnější a méně běžné druhy bylin ze svých výzkumných sbírek.'},
-                ].map(({emoji, nazev, popis}, i) => (
+                {T.sourceCards.map(({emoji, nazev, popis}, i) => (
                   <div key={i} style={{
                     padding:'clamp(20px,2vw,28px)',
                     borderRadius:16,
@@ -1121,22 +1229,22 @@ export function BylinkoveZahradyClient({akce = []}) {
           </div>
         </section>
 
-        {/* ── Acknowledgements / EU-ESC ─────────────────────────────────── */}
+        {/* ── EU acknowledgements ───────────────────────────────────────── */}
         <section style={{background:C.creamDark,padding:'clamp(40px,5vw,72px) clamp(24px,5vw,80px)'}}>
           <div style={{maxWidth:1400,margin:'0 auto'}}>
             <div style={{height:1,background:`${C.ink}15`,marginBottom:'clamp(28px,3.5vw,48px)'}}/>
             <p style={{fontSize:'clamp(13px,1vw,16px)',color:`${C.ink}88`,margin:'0 0 clamp(24px,3vw,36px)',lineHeight:1.65}}>
-              Projekt realizuje <strong style={{color:C.ink}}>Czech Horizons z. s.</strong> za podpory <strong style={{color:C.ink}}>Evropského sboru solidarity</strong>.
+              {T.euTextPre} <strong style={{color:C.ink}}>{T.euOrgName}</strong> {T.euTextMid} <strong style={{color:C.ink}}>{T.euProgName}</strong>.
             </p>
             <div style={{display:'flex',gap:'clamp(16px,2.5vw,32px)',alignItems:'center',flexWrap:'wrap'}}>
-              <Image src="/logoeu.png" alt="Evropská unie" width={160} height={52} style={{height:52,width:'auto',objectFit:'contain'}}/>
-              <Image src="/logoesc.png" alt="Evropský sbor solidarity" width={180} height={60} style={{height:60,width:'auto',objectFit:'contain'}}/>
-              <Image src="/logodzs.png" alt="Dům zahraniční spolupráce" width={200} height={48} style={{height:48,width:'auto',objectFit:'contain'}}/>
-              <Image src="/czulogo.png" alt="Česká zemědělská univerzita" width={160} height={44} style={{height:44,width:'auto',objectFit:'contain'}}/>
+              <Image src="/logoeu.png" alt="European Union" width={160} height={52} style={{height:52,width:'auto',objectFit:'contain'}}/>
+              <Image src="/logoesc.png" alt="European Solidarity Corps" width={180} height={60} style={{height:60,width:'auto',objectFit:'contain'}}/>
+              <Image src="/logodzs.png" alt="DZS" width={200} height={48} style={{height:48,width:'auto',objectFit:'contain'}}/>
+              <Image src="/czulogo.png" alt="Czech University of Life Sciences" width={160} height={44} style={{height:44,width:'auto',objectFit:'contain'}}/>
               <Image src="/logopraha6.png" alt="Praha 6" width={120} height={44} style={{height:44,width:'auto',objectFit:'contain'}}/>
             </div>
             <p style={{fontSize:11,color:`${C.ink}55`,margin:'clamp(16px,2vw,24px) 0 0',lineHeight:1.6,maxWidth:700}}>
-              Tento projekt byl podpořen z programu Evropský sbor solidarity Evropské unie. Vyjádřené názory jsou výlučně názory autorů a Evropská unie za ně nenese žádnou odpovědnost.
+              {T.euDisclaimer}
             </p>
           </div>
         </section>
@@ -1144,7 +1252,7 @@ export function BylinkoveZahradyClient({akce = []}) {
       </main>
 
       {activeHerb && (
-        <HerbModal herb={activeHerb} planterColor={selectedTruhlík?.barvaHex ?? C.green} onClose={() => setActiveHerb(null)}/>
+        <HerbModal herb={activeHerb} planterColor={selectedTruhlík?.barvaHex ?? C.green} onClose={() => setActiveHerb(null)} T={T}/>
       )}
     </>
   )
