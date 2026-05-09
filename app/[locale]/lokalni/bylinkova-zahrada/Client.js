@@ -1185,7 +1185,7 @@ export function BylinkoveZahradyClient({akce = []}) {
               <div style={{fontSize:'clamp(12px,0.9vw,14px)',letterSpacing:'0.15em',textTransform:'uppercase',fontWeight:700,color:`${C.ink}55`,marginBottom:20}}>
                 {T.constructionLabel}
               </div>
-              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(min(260px,100%),1fr))',gap:16}}>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(min(200px,100%),1fr))',gap:16}}>
                 {T.constructionCards.map(({icon, nazev, popis, barva}, i) => (
                   <div key={i} style={{
                     padding:'clamp(20px,2vw,28px)',
