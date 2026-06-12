@@ -1,6 +1,6 @@
 {
   "nav": {
-    "tagline": "Rozšiř svůj obzor",
+    "tagline": "Posouváme tvůj horizont",
     "events": "Eventy",
     "projects": "Projekty",
     "current": "Aktuálně volné",
@@ -73,7 +73,7 @@
     "ageRange": "{from}–{to} let",
     "ageFrom": "{from}+ let",
     "ageTo": "do {to} let",
-    "participants": "{n} účastníků",
+    "participants": "{n, plural, one {# účastník} few {# účastníci} other {# účastníků}}",
     "groupLeaders": "{n} + {gl} group leader",
     "groupLeadersPlural": "{n} + {gl} group leaderů",
     "apply": "Přihláška ↗",
@@ -206,7 +206,7 @@
     }
   },
   "footer": {
-    "tagline": "Rozšiř svůj obzor",
+    "tagline": "Posouváme tvůj horizont",
     "desc": "Propojujeme ekologii, wellbeing a mezinárodní spolupráci skrze Erasmus+, dobrovolnické programy a lokální akce.",
     "navLabel": "Rozcestník",
     "contactLabel": "Kontakt",

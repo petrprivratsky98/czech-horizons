@@ -206,12 +206,12 @@ export default async function LocalProjects() {
                           paddingTop: 24, paddingBottom: 24, borderTop: `1.5px dashed ${C.ink}25`,
                           marginBottom: 'auto',
                         }}>
-                          {p.statPocetAkci && (
+                          {(p.pocetAkciPocitano ?? p.statPocetAkci) ? (
                             <div>
                               <div style={{fontSize: 'clamp(12px, 0.9vw, 15px)', color: C.teal, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 5, fontWeight: 700}}>{t('events')}</div>
-                              <div style={{fontWeight: 800, fontSize: 'clamp(28px, 2.5vw, 44px)', color: C.green, lineHeight: 1}}>{p.statPocetAkci}</div>
+                              <div style={{fontWeight: 800, fontSize: 'clamp(28px, 2.5vw, 44px)', color: C.green, lineHeight: 1}}>{p.pocetAkciPocitano ?? p.statPocetAkci}</div>
                             </div>
-                          )}
+                          ) : null}
                           {p.statPocetUcastniku && (
                             <div>
                               <div style={{fontSize: 'clamp(12px, 0.9vw, 15px)', color: C.teal, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 5, fontWeight: 700}}>{t('participants')}</div>

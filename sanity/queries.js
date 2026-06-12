@@ -1,5 +1,5 @@
-// Všechny aktuální projekty (nejnovější nahoře)
-export const aktualniProjektyQuery = `*[_type == "aktualniProjekt"] | order(_createdAt desc) {
+// Aktuální projekty s otevřenými přihláškami (deadline musí být dnes nebo v budoucnu)
+export const aktualniProjektyQuery = `*[_type == "aktualniProjekt" && (!defined(deadlinePrihlasky) || deadlinePrihlasky >= $today)] | order(_createdAt desc) {
   _id,
   nazev,
   nazev_en,
@@ -51,6 +51,7 @@ export const lokalniProjektyQuery = `*[_type == "lokalniProjekt"] | order(_creat
   statPocetAkci,
   statPocetUcastniku,
   status,
+  "pocetAkciPocitano": count(akce),
   "akce": akce[]-> {
     _id,
     nazev,
@@ -59,8 +60,8 @@ export const lokalniProjektyQuery = `*[_type == "lokalniProjekt"] | order(_creat
   }
 }`
 
-// Nadcházející akce (eventy v kalendáři)
-export const nadchazejiciAkceQuery = `*[_type == "akce" && status == "nadchazejici"] | order(datum asc) {
+// Nadcházející akce — jen budoucí (datum >= dnes) s přihláškami otevřenými
+export const nadchazejiciAkceQuery = `*[_type == "akce" && status == "nadchazejici" && dateTime(datum) >= dateTime(now())] | order(datum asc) {
   _id,
   nazev,
   nazev_en,

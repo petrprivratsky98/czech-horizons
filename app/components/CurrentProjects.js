@@ -1,5 +1,5 @@
 export const revalidate = 10
-import {getTranslations} from 'next-intl/server'
+import {getTranslations, getLocale} from 'next-intl/server'
 import {C} from './Colors'
 import {client} from '@/sanity/client'
 import {aktualniProjektyQuery} from '@/sanity/queries'
@@ -19,9 +19,13 @@ const ZEME_VLAJKY = {
 }
 
 export default async function CurrentProjects() {
-  const t = await getTranslations('currentProjects')
-  const tCountries = await getTranslations('countries')
-  const projekty = await client.fetch(aktualniProjektyQuery)
+  const [t, tCountries, locale] = await Promise.all([
+    getTranslations('currentProjects'),
+    getTranslations('countries'),
+    getLocale(),
+  ])
+  const today = new Date().toISOString().split('T')[0]
+  const projekty = await client.fetch(aktualniProjektyQuery, {today})
 
   return (
     <section id="projekty" style={{
@@ -48,8 +52,17 @@ export default async function CurrentProjects() {
           <div style={{
             padding: 'clamp(40px, 6vw, 80px)', textAlign: 'center',
             border: `1.5px dashed ${C.cream}30`, borderRadius: 20,
-            color: `${C.cream}88`, fontSize: 'clamp(15px, 1.2vw, 20px)',
-          }}>{t('empty')}</div>
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24,
+          }}>
+            <p style={{color: `${C.cream}88`, fontSize: 'clamp(15px, 1.2vw, 20px)', margin: 0}}>{t('empty')}</p>
+            <a href="https://www.instagram.com/czech.horizons/" target="_blank" rel="noopener noreferrer" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              padding: '14px 28px', borderRadius: 100,
+              background: `${C.cream}15`, border: `1.5px solid ${C.cream}30`,
+              color: C.cream, fontSize: 13, fontWeight: 700,
+              letterSpacing: '0.08em', textTransform: 'uppercase', textDecoration: 'none',
+            }}>Instagram ↗</a>
+          </div>
         ) : (
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(clamp(300px, 40vw, 520px), 100%), 1fr))', gap: 'clamp(20px, 2vw, 32px)'}}>
             {projekty.map((p, i) => {
@@ -183,12 +196,12 @@ export default async function CurrentProjects() {
                       </div>
                     )}
                     <h3 style={{fontSize: 'clamp(28px, 2.4vw, 44px)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.02em', margin: '0 0 18px', color: C.dark}}>
-                      {p.nazev_en || p.nazev}
+                      {locale === 'en' ? (p.nazev_en || p.nazev) : (p.nazev || p.nazev_en)}
                     </h3>
 
-                    {(p.popis_en || p.popis) && (
+                    {(p.popis || p.popis_en) && (
                       <p style={{fontSize: 'clamp(15px, 1.15vw, 19px)', lineHeight: 1.65, color: `${C.ink}cc`, margin: '0 0 28px'}}>
-                        {p.popis_en || p.popis}
+                        {locale === 'en' ? (p.popis_en || p.popis) : (p.popis || p.popis_en)}
                       </p>
                     )}
 

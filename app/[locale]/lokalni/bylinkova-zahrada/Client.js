@@ -811,7 +811,7 @@ export function BylinkoveZahradyClient({akce = []}) {
     howToDesc: 'Zahrádka je volně přístupná každý den. Bylinky jsou tady pro všechny — pro zvědavce, kuchaře i ty, kteří si chtějí jen odpočinout.',
     howToCards: [
       {icon:'🌿', title:'Přivoňte a ochutnejte', text:'Přivoňte si k bylinkám a klidně jednu ochutnejte přímo ze zahrádky.'},
-      {icon:'✂️', title:'Utrhněte si',            text:'Urhněte si pár lístků a vezměte je domů do kuchyně.'},
+      {icon:'✂️', title:'Utrhněte si',            text:'Utrhněte si pár lístků a vezměte je domů do kuchyně.'},
       {icon:'🌱', title:'Trhejte šetrně',         text:'Trhejte jen pár lístků, ne celé rostliny. Nechte kořeny v zemi.'},
       {icon:'🙏', title:'Buďte ohleduplní',       text:'Nechte i pro ostatní — berte jen tolik, kolik opravdu využijete.'},
       {icon:'💧', title:'Zálivka pomůže',         text:'Pokud vidíte suchý truhlík, pomůže mu sklenka vody.'},
@@ -833,7 +833,7 @@ export function BylinkoveZahradyClient({akce = []}) {
     involvedLabel: '005 — Zapojte se',
     involvedH2a: 'Chcete', involvedH2b: 'pomoct?',
     involvedPoints: [
-      'Napište nám, pokud chcete s zahrádkou pomoct',
+      'Napište nám, pokud chcete se zahrádkou pomoct',
       'Pošlete nám recept s bylinkou z naší zahrádky',
       'Dejte nám vědět, co byste v zahradě chtěli příště',
     ],
