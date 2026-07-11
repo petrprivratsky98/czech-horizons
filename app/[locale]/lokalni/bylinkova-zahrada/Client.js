@@ -753,17 +753,27 @@ export function BylinkoveZahradyClient({akce = []}) {
       {barva:C.teal,   nadpis:'Neighbourhood ties', text:'The project aims to strengthen local connections, bring different generations together, and test interest in a larger community garden.'},
       {barva:C.orange, nadpis:'Herb education',     text:'We want to show how various herbs look, how they grow, and how they can be incorporated into everyday cooking.'},
     ],
-    involvedLabel: '005 — Get involved',
+    supportLabel: '005 — Support the garden',
+    supportH2a: 'Help us keep', supportH2b: 'the garden growing.',
+    supportP1: 'If the herb garden makes you happy, you can support it with any voluntary amount by QR payment or bank transfer.',
+    supportP2: 'The contribution is fully voluntary. It is not required for using the garden, but we will be very grateful for it. It helps us keep the garden cared for, replenished and ready for everyone who stops by.',
+    supportUseTitle: 'What the support is used for',
+    supportUseText: 'The money goes primarily and directly into the material upkeep of the garden: soil, seedlings, small tools, watering supplies, planter repairs and seasonal replenishment.',
+    supportQrAlt: 'QR payment for supporting the herb garden',
+    supportQrLabel: 'QR payment',
+    supportAccountLabel: 'Bank account',
+    supportAccountNumber: '2002976495 / 2010',
+    involvedLabel: '006 — Get involved',
     involvedH2a: 'Want to', involvedH2b: 'help?',
     involvedPoints: [
       'Write to us if you\'d like to help with the garden',
       'Send us a recipe using a herb from our garden',
       'Let us know what you\'d like to see in the garden next',
     ],
-    eventsLabel: '006 — Project events',
+    eventsLabel: '007 — Project events',
     eventsPast: 'Past', eventsUpcoming: 'Upcoming',
     eventsCount: (n) => `${n} event${n === 1 ? '' : 's'}`,
-    behindLabel: '007 — Behind the scenes',
+    behindLabel: '008 — Behind the scenes',
     behindH2a: 'How we', behindH2b: 'built it.',
     constructionLabel: 'Construction and materials',
     constructionCards: [
@@ -830,17 +840,27 @@ export function BylinkoveZahradyClient({akce = []}) {
       {barva:C.teal,   nadpis:'Sousedské vztahy',   text:'Projekt má posílit sousedské vazby, propojit různé generace a ověřit zájem o větší komunitní zahradu.'},
       {barva:C.orange, nadpis:'Edukace o bylinkách', text:'Chceme ukázat, jak různé bylinky vypadají, jak rostou a jak je lze zapojit do každodenní kuchyně.'},
     ],
-    involvedLabel: '005 — Zapojte se',
+    supportLabel: '005 — Podpořte zahrádku',
+    supportH2a: 'Pomozte nám', supportH2b: 'zahrádku udržovat.',
+    supportP1: 'Pokud vám bylinková zahrádka dělá radost, můžete ji podpořit libovolnou částkou přes QR kód nebo převodem na účet.',
+    supportP2: 'Příspěvek je úplně dobrovolný. Pro používání zahrádky není potřeba, ale budeme za něj moc rádi. Pomůže nám udržovat zahrádku opečovanou, doplněnou a připravenou pro každého, kdo se u ní zastaví.',
+    supportUseTitle: 'Na co příspěvek půjde',
+    supportUseText: 'Podpora směřuje primárně a čistě na materiální chod zahrádky: zeminu, sazenice, drobné nářadí, věci k zalévání, opravy truhlíků a průběžné doplňování během sezóny.',
+    supportQrAlt: 'QR platba na podporu bylinkové zahrádky',
+    supportQrLabel: 'QR platba',
+    supportAccountLabel: 'Číslo účtu',
+    supportAccountNumber: '2002976495 / 2010',
+    involvedLabel: '006 — Zapojte se',
     involvedH2a: 'Chcete', involvedH2b: 'pomoct?',
     involvedPoints: [
       'Napište nám, pokud chcete se zahrádkou pomoct',
       'Pošlete nám recept s bylinkou z naší zahrádky',
       'Dejte nám vědět, co byste v zahradě chtěli příště',
     ],
-    eventsLabel: '006 — Akce v rámci projektu',
+    eventsLabel: '007 — Akce v rámci projektu',
     eventsPast: 'Proběhlo', eventsUpcoming: 'Nadcházející',
     eventsCount: (n) => `${n} ${n === 1 ? 'akce' : n < 5 ? 'akce' : 'akcí'}`,
-    behindLabel: '007 — Zákulisí zahrádky',
+    behindLabel: '008 — Zákulisí zahrádky',
     behindH2a: 'Jak jsme ji', behindH2b: 'postavili.',
     constructionLabel: 'Konstrukce a materiály',
     constructionCards: [
@@ -1095,6 +1115,57 @@ export function BylinkoveZahradyClient({akce = []}) {
                     <p style={{fontSize:'clamp(14px,1.1vw,17px)',lineHeight:1.65,color:`${C.ink}bb`,margin:0}}>{text}</p>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Support the garden ───────────────────────────────────────── */}
+        <section style={{background:C.creamDark,padding:'clamp(60px,8vw,100px) clamp(24px,5vw,80px)'}}>
+          <div className="grid-2col" style={{maxWidth:1400,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 0.8fr',gap:'clamp(40px,6vw,80px)',alignItems:'center'}}>
+            <div>
+              <div style={{fontSize:'clamp(11px,0.85vw,14px)',letterSpacing:'0.2em',textTransform:'uppercase',fontWeight:700,marginBottom:20,color:C.teal}}>
+                <span style={{color:C.orange}}>❋</span> {T.supportLabel}
+              </div>
+              <h2 style={{fontSize:'clamp(36px,5vw,72px)',fontWeight:800,lineHeight:0.95,letterSpacing:'-0.03em',margin:'0 0 clamp(24px,3vw,36px)',color:C.dark}}>
+                {T.supportH2a}<br/>
+                <span style={{fontWeight:300,fontStyle:'italic',color:C.green}}>{T.supportH2b}</span>
+              </h2>
+              <p style={{fontSize:'clamp(16px,1.2vw,20px)',lineHeight:1.7,color:`${C.ink}bb`,margin:'0 0 18px',maxWidth:680}}>
+                {T.supportP1}
+              </p>
+              <p style={{fontSize:'clamp(16px,1.2vw,20px)',lineHeight:1.7,color:`${C.ink}bb`,margin:'0 0 24px',maxWidth:680}}>
+                {T.supportP2}
+              </p>
+              <div style={{padding:'clamp(20px,2vw,28px)',borderRadius:18,background:C.cream,border:`1.5px solid ${C.green}24`,maxWidth:680}}>
+                <div style={{fontSize:13,fontWeight:800,textTransform:'uppercase',letterSpacing:'0.1em',color:C.green,marginBottom:10}}>
+                  {T.supportUseTitle}
+                </div>
+                <p style={{fontSize:'clamp(14px,1.05vw,17px)',lineHeight:1.7,color:`${C.ink}bb`,margin:0}}>
+                  {T.supportUseText}
+                </p>
+              </div>
+            </div>
+
+            <div style={{padding:'clamp(22px,3vw,36px)',borderRadius:24,background:C.cream,boxShadow:'0 24px 80px rgba(15,36,32,0.10)',border:`1.5px solid ${C.ink}10`}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:16,marginBottom:18,flexWrap:'wrap'}}>
+                <div style={{fontSize:13,fontWeight:800,textTransform:'uppercase',letterSpacing:'0.12em',color:C.orange}}>
+                  {T.supportQrLabel}
+                </div>
+                <div style={{fontSize:13,fontWeight:800,color:C.green,background:`${C.green}14`,padding:'8px 14px',borderRadius:100}}>
+                  {T.supportAccountNumber}
+                </div>
+              </div>
+              <div style={{position:'relative',width:'100%',maxWidth:360,margin:'0 auto 20px',aspectRatio:'1/1',borderRadius:18,overflow:'hidden',background:'#fff',border:`1px solid ${C.ink}10`}}>
+                <Image src="/zahradka-qr-platba.jpg" alt={T.supportQrAlt} fill sizes="(max-width: 768px) 80vw, 360px" priority unoptimized style={{objectFit:'contain',padding:12}}/>
+              </div>
+              <div style={{padding:'16px 18px',borderRadius:16,background:C.creamDark,border:`1px solid ${C.ink}10`}}>
+                <div style={{fontSize:12,fontWeight:800,textTransform:'uppercase',letterSpacing:'0.12em',color:`${C.ink}66`,marginBottom:6}}>
+                  {T.supportAccountLabel}
+                </div>
+                <div style={{fontSize:'clamp(20px,2vw,30px)',fontWeight:800,color:C.dark,letterSpacing:'0.02em'}}>
+                  {T.supportAccountNumber}
+                </div>
               </div>
             </div>
           </div>
